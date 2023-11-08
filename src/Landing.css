@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Overpass');
+
+body {
+  background-color: #232323;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.landing-page.text {
+  position: fixed;
+  min-height: 100px;
+  width: 450px;
+  color: aliceblue;
+  margin-left: 10%;
+  margin-top: -5;
+  margin-bottom: -10;
+  display: inline-block;
+  padding: 0px;
+}
+
+.logisticslogo {
+  position: fixed;
+  margin-left: 75%;
+  top: 75%;
+  width: 150px;
+  height: auto;
+  margin-bottom: -5;
+  display: inline-block;
+  padding: 0px;
+}
+
+.background-pic {
+  position: fixed;
+
+  height: 100vh;
+  top: 0;
+}
+
+.backgroundlogo {
+  position: relative;
+  transform: translate(0px, -20px);
+  width: 70%;
+  top: 0;
+  height: auto;
+  object-position: 10%;
+}
+
+.background-black {
+  position: absolute;
+  top: 0;
+  background-color: #010302;
+  height: 100vh;
+  /* Replace 'your-line-color' with the desired line color */
+  width: 70%;
+  opacity: 60%;
+  z-index: 1;
+
+}
+
+.courierbote {
+  position: fixed;
+  margin-left: 80%;
+  margin-top: -3%;
+  margin-bottom: -10;
+  font-size: 30px;
+  color: #FFFFFF;
+  font-weight: 100;
+  font-family: 'Overpass';
+}
+
+.courierbotelogo {
+  position: fixed;
+  width: 180px;
+  height: auto;
+  margin-left: -7%;
+  margin-top: 34%;
+
+
+}
+
+.vertical-line {
+  /* background-color: #e97236; */
+  background: linear-gradient(to right, #D6410B, #e95f1a);
+  /* Replace 'your-line-color' with the desired line color */
+  width: 30%;
+  /* Adjust the width of the line as needed */
+  height: 100vh;
+  /* Set the height to 100% of the viewport height */
+  position: relative;
+  /* top: 0; */
+  left: 70%;
+  filter: brightness(0.85);
+  /* Adjust the position to place the line at 60% of the viewport width */
+  /* z-index: 1; */
+}
+
+/* Define your two colors */
+
+.content {
+  text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  color: white;
+  /* Text color for readability */
+}

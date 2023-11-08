@@ -1,42 +1,239 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Styles for Shipping Calculator */
+.label {
+	font-family: "Arial";
+	font-size: small;
+	color: white;
 }
 
 .card {
-  padding: 2em;
+	/* background-image: url("https://drive.google.com/uc?export=view&id=10Cch0Zj-iTCh04WznizSz_VTHhRgu8OR"); */
+	/* background: linear-gradient(to bottom right, #5b5b5b, #1a1a1a); */
+	/* filter: brightness(0.8); */
+	/* background-size: 400px ; */
+	/* background-position-x: ; */
+	min-height: 320px;
+	max-height: 75vh;
+	overflow-y:scroll;
+	background-color:rgba(35, 35, 35, .9);
+	border-radius: 10px;
+	box-shadow: 15px 15px 10px 5px rgba(0, 0, 0, 0.2);
+	padding: 20px;
+	margin-bottom: 20px;
+	transform: scale(1);
+	transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-ms-border-radius: 10px;
+	-o-border-radius: 10px;
+}
+/* Animation for card hover */
+.card:hover {
+	transform: scale(1.05);
+	/* transition: transform 0.6s; */
 }
 
-.read-the-docs {
-  color: #888;
+.card::-webkit-scrollbar {
+	width: 5px;  
+            /* width of the entire scrollbar */
+	margin-right: 10px;
+  }
+  
+  .card::-webkit-scrollbar-track {
+
+	margin-block: 15px;
+	background: transparent;        /* color of the tracking area */
+  }
+  
+  .card::-webkit-scrollbar-thumb {
+	background-color: rgb(99, 98, 98);    /* color of the scroll thumb */
+	border-radius: 20px;       /* roundness of the scroll thumb */
+	height: 50px;
+	width: 10px;
+
+	border: none;  /* creates padding around scroll thumb */
+  }
+
+.card-minimize-btn {
+	position: absolute;
+
+	top: 5px;
+	right: 5px;
+	/* width: 30px; */
+	/* height: 30px; */
+	background: transparent;
+	/* Background color set to grey */
+	border: none;
+	cursor: pointer;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	/* Adjust the font size as needed */
+	color: rgb(99, 98, 98);
+}
+.card-minimize-btn:hover{
+	color: rgb(129, 129, 129);
+}
+.card-minimize-btn::before {
+	content: "\2716";
+}
+
+.btn-group {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+
+}
+
+.btn-option {
+	flex: 1;
+	font-weight: bold;
+	padding: 10px;
+	border: none;
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 80%;
+	color: white;
+	transition: background-color 0.3s;
+
+}
+
+.btn-new {
+	flex: .5;
+	background-color: transparent;
+	font-weight: 550;
+	color: white;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	text-decoration: none;
+	/* Remove default underline */
+	display: inline-block;
+
+}
+
+.btn-new.active {
+	/* border-bottom: 2.5px solid #007bff; */
+	text-decoration: underline solid white 2px;
+
+
+
+}
+
+.btn-option.domestic {
+	border-top-left-radius: 50px;
+	border-bottom-left-radius: 50px;
+
+
+}
+
+.btn-option.international {
+	border-top-right-radius: 50px;
+	border-bottom-right-radius: 50px;
+
+}
+
+
+.btn-option.active {
+	background-color: #e97236;
+	color: #fff;
+}
+
+.selected {
+	opacity: 80%;
+	background-color: #e97236;
+	color: grey;
+}
+
+.field {
+	display: flex;
+	/* margin-bottom: 1px; */
+}
+
+.input {
+	flex: 1;
+	/* width: 65%; */
+	background-color: white;
+	padding: 10px;
+	margin: 5px;
+	border: none;
+	border-radius: 10px;
+}
+.input:focus {
+    outline: none; /* Remove the default outline */
+    border: none;  /* Remove the border */
+}
+
+.select {
+	flex: 1;
+	display: flex;
+}
+
+.select select {
+	flex: 2;
+	padding: 10px;
+	border: 0px solid #ccc;
+	border-radius: 10px;
+	background-color: white;
+	color: gray;
+}
+
+.item-ty {
+	margin-bottom: 10px;
+	font-family: "Arial";
+	font-size: small;
+	color: #353935;
+}
+
+.radio {
+	color: white;
+}
+
+.radio input[type="radio"] {
+	margin-right: 5px;
+	cursor: pointer;
+
+}
+
+.btn-primary {
+	display: flex;
+	/* justify-content: space-between; */
+	margin: auto;
+	background-color: #e97236;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+
+.btn-primary:hover {
+	background-color: #ed5a10;
+}
+
+/* Animation for button hover */
+.btn-option:hover {
+	background-color: #ccc;
+}
+
+
+.international {
+	text-align: center;
+	/* display: block; */
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+	/* margin-top:50px ; */
+	/* color: red; */
+}
+
+.price{
+	display: flex;
+align-items: center;
+justify-content: center;
+padding-top: 10px;
+padding-bottom: 10px;
 }
