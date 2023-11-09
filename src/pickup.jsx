@@ -112,7 +112,7 @@ const handleOk=()=>{
             };
             const getFinalPrice = async () => {
                 try {
-                    const response = await axios.post('http://localhost:80/api/landing/indianpostfinalrate', requestData,);
+                    const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/indianpostfinalrate', requestData,);
                     setCourierBotePrice(response.data.data.courierBote_price);
                     setPackingCharge(response.data.data.packing_charge);
                     setPickupCharge(response.data.data.pickup_charge);
@@ -137,7 +137,7 @@ const handleOk=()=>{
             };
             const getFinalPrice = async () => {
                 try {
-                    const response = await axios.post('http://localhost:80/api/landing/doortodoorrate', requestData,);
+                    const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/doortodoorrate', requestData,);
                     setPickupCharge(response.data.result.PickupPrice);
                     setTotalPrice(response.data.result.TotalPrice);
                     setPickupAddress(`${pickupName}\n ${pickupAddr1}\n ${pickupAddr2}\n ${pickupCity}\n ${pickupPincode}\n ${pickupState}`);
@@ -178,7 +178,7 @@ const handleOk=()=>{
         };
         const sentOtp = async () => {
             try {
-                const response = await axios.post('http://localhost:80/api/landing/otpSent', requestData,
+                const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/otpSent', requestData,
 
                 );
                 console.log(response.data);
@@ -215,7 +215,7 @@ const handleOk=()=>{
         };
         const verifyOtp = async () => {
             try {
-                const response = await axios.post('http://localhost:80/api/landing/verifyotp', requestData,
+                const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/verifyotp', requestData,
 
                 );
                 console.log("##verify data", response);
@@ -275,7 +275,7 @@ const handleOk=()=>{
         }
         const confirmOrder = async () => {
             try {
-                const response = await axios.post('http://localhost:80/api/landing/orderconfirmation', requestData,
+                const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/orderconfirmation', requestData,
 
                 );
                 console.log("##verify_data", response.status);
