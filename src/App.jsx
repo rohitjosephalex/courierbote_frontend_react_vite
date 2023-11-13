@@ -63,7 +63,7 @@ function ShippingCalculator() {
 			};
 			const getPrice = async () => {
 				try {
-					const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/indianpostrate', requestData,
+					const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
 
 					);
 					console.log(response.data.data.CourierBotePrice);
@@ -85,7 +85,7 @@ function ShippingCalculator() {
 			};
 			const getPrice = async () => {
 				try {
-					const response = await axios.post('http://courierbotenodeserver-env.eba-ksi4mky6.us-east-1.elasticbeanstalk.com/api/landing/doortodoorrate', requestData,
+					const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,
 
 					);
 					console.log(response.data.result.TotalPrice);
