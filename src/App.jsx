@@ -45,65 +45,87 @@ function ShippingCalculator() {
 
 
 	const handleCalculate = () => {
-		setButtonLoading(true);
-		// Perform calculation logic here
-		let newWeight = 0;
-		if (weightUnit === "kg") {
-			newWeight = weight * 1000;
-		}
-		else {
-			newWeight = weight;
-
-		}
-		if (selectedPosrD2dButton === 'Indian Post') {
-			const requestData = {
-				pickupPincode: pickupPincode,
-				destiantionPincode: dropPincode,
-				weight: newWeight,
-			};
-			const getPrice = async () => {
-				try {
-					const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
-
-					);
-					console.log(response.data.data.CourierBotePrice);
-					setResult(response.data.data.CourierBotePrice);
-					setIsBookingVisible(true);
-					setButtonLoading(false);
-				}
-				catch (error) {
-					console.error('Error fetching data from Indian post:', error);
-				}
+		
+// console.log('button clicked')
+			// console.log('true inputs');
+			setButtonLoading(true);
+			// Perform calculation logic here
+			let newWeight = 0;
+			if (weightUnit === "kg") {
+				newWeight = weight * 1000;
 			}
-			getPrice();
-		}
-		else if (selectedPosrD2dButton === 'd2d') {
-			console.log('Door to door')
-			const requestData = {
-				pickupPincode: pickupPincode,
-				destiantionPincode: dropPincode,
-			};
-			const getPrice = async () => {
-				try {
-					const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,
+			else {
+				newWeight = weight;
 
-					);
-					console.log(response.data.result.TotalPrice);
-					setResult(response.data.result.TotalPrice);
-					setIsBookingVisible(true);
-				}
-				catch (error) {
-					console.error('Error fetching data from Indian post:', error);
-				}
 			}
-			getPrice();
+			if (selectedPosrD2dButton === 'Indian Post') {
+				const validateInputs = () => {
+					if (!pickupPincode || !dropPincode || !weight || !shipmentType) {
+						alert("Please fill in all required fields.");
+						return false;
+					}
+					return true;
+				};
+				if(validateInputs()===true){
+				const requestData = {
+					pickupPincode: pickupPincode,
+					destiantionPincode: dropPincode,
+					weight: newWeight,
+				};
+				const getPrice = async () => {
+					try {
+						const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
+
+						);
+						console.log(response.data.data.CourierBotePrice);
+						setResult(response.data.data.CourierBotePrice);
+						setIsBookingVisible(true);
+						setButtonLoading(false);
+					}
+					catch (error) {
+						console.error('Error fetching data from Indian post:', error);
+					}
+				}
+				getPrice();
+			}
+			}
+			else if (selectedPosrD2dButton === 'd2d') {
+			
+
+				console.log('Door to door')
+				const validateInputs = () => {
+					if (!pickupPincode || !dropPincode ) {
+						alert("Please fill in all required fields.");
+						return false;
+					}
+					return true;
+				};
+				if(validateInputs()===true){
+				const requestData = {
+					pickupPincode: pickupPincode,
+					destiantionPincode: dropPincode,
+				};
+				const getPrice = async () => {
+					try {
+						const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,
+
+						);
+						console.log(response.data.result.TotalPrice);
+						setResult(response.data.result.TotalPrice);
+						setIsBookingVisible(true);
+					}
+					catch (error) {
+						console.error('Error fetching data from Indian post:', error);
+					}
+				}
+				getPrice();
+
+
+			// const calculatedResult = `Calculated result: ${shipmentType}, ${pickupPincode}, ${dropPincode}, ${weight}, ${newWeight}`;
+			// console.log(calculatedResult)
+			// setResult(250);
 		}
-
-		// const calculatedResult = `Calculated result: ${shipmentType}, ${pickupPincode}, ${dropPincode}, ${weight}, ${newWeight}`;
-		// console.log(calculatedResult)
-		// setResult(250);
-
-
+		}
 	};
 
 	const handlePickup = () => {
@@ -153,9 +175,12 @@ function ShippingCalculator() {
 												<label className='label'>Delivery Pincode:</label>
 												<input
 													className='input'
+													maxLength="6"
 													type='text'
 													id='pickup-pincode'
 													placeholder='Pickup Pincode'
+													inputMode="numeric"
+													pattern="[0-9]*"
 													value={pickupPincode}
 													onChange={(e) => setPickupPincode(e.target.value)}
 												/>
@@ -165,6 +190,8 @@ function ShippingCalculator() {
 												<input
 
 													className='input'
+													maxLength="6"
+													pattern="[0-9]*" 
 													type='text'
 													id='drop-pincode'
 													placeholder='Drop Pincode'
@@ -232,14 +259,17 @@ function ShippingCalculator() {
 									<button
 										id='calculate-button'
 										className='btn btn-primary'
-										onClick={handleCalculate}>
+										disabled={buttonLoading}
+										onClick={handleCalculate}
+										style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
+										>
 										{!buttonLoading ? 'Calculate' : 'loading...'}
 									</button>
 
 									{isBookingVisible && (<div>
 										<div className='price' id='result'>
 											<div>Rate=₹</div>{result}
-											</div>
+										</div>
 										<button
 											id='pickup-button'
 											className='btn btn-primary'
@@ -295,7 +325,7 @@ function ShippingCalculator() {
 									{isBookingVisible && (<div>
 										<div className='price' id='result'>
 											<div>Rate=₹</div>{result}
-											</div>
+										</div>
 										<button
 											id='pickup-button'
 											className='btn btn-primary'
@@ -307,7 +337,7 @@ function ShippingCalculator() {
 							</div>}
 						{courierType === "international" && <div className="international section">Coming Soon</div>}
 					</div>)}
-					{isPickupCard && (<Pickup pickupPin={pickupPincode} deliveryPin={dropPincode} deliverypart={postOrD2d} rate={result}  initialCard={changeToInitialCard} />
+					{isPickupCard && (<Pickup pickupPin={pickupPincode} deliveryPin={dropPincode} deliverypart={postOrD2d} rate={result} initialCard={changeToInitialCard} />
 					)}
 					{isPickupCard && (<button className="card-minimize-btn" onClick=
 						{() => { setIsPickupCard(false); setBigShippingCalculator('Small'); setIsInitialCard(true) }}></button>

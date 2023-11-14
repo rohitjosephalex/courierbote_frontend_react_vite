@@ -21,22 +21,22 @@ function LandingPage() {
 				<div className="vertical-line" ></div>
 
 				<div className="landing_style" >
-					<div className="landing-page text" style={{ display: 'flex' }}>
-						<span style={{ display: 'grid', fontSize: '40px' }}>
-							<h2 style={{ margin: '10px' }}>
+					<div className="landing-page text">
+						<span className="landing-page-Text" >
+							<h2 >
 							Serving   
 							</h2>
-							<h2 style={{ display: 'inline', margin: '10px' }}>
+							<h2 >
 							with  Care 
 							</h2>
-							<h2 style={{ margin: '10px' }}>
+							<h2 >
 							Always
 							</h2>
 							<p style={{ color: 'grey' }}>Express Transit</p>
-							< img src={courierBoteWhiteText} alt="logo" className="courierbotelogo" />
-							<img src={logistics} alt="new" className="logisticslogo" />
+						
 						</span>
-
+						< img src={courierBoteWhiteText} alt="logo" className="courierbotelogo" />
+							<img src={logistics} alt="new" className="logisticslogo" />
 					</div>
 
 					<div>
