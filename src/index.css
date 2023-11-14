@@ -36,11 +36,17 @@
 
 @media (max-width:450px) {
 	.shipping-calculator {
-		width: 310px;
+		width: 90vw;
 		margin-left: auto;
 		margin-right: 20px;
 		margin-top: 2%;
 		/* margin-top: 45vh; */
+	}
+	.shipping-calculator.big {
+		position: relative;
+		width: 90vw;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 }

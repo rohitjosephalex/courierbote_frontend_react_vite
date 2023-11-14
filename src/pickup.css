@@ -474,3 +474,39 @@ label {
 				}
 			  }
 			  
+
+@media (max-width:450px){
+	.inputfields.address {
+		display: flex;	
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+	}	
+	.inputfields .productdetails {
+		/* gap: 300px; */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: flex-start;
+	
+	}
+
+	.order-elements.address,
+	.order-elements.size {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	
+	}
+	.billing-details {
+		width: 50vw;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+	.order-elements.add{
+		color: red;
+	}
+	}

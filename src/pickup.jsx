@@ -411,7 +411,7 @@ const handleOk=()=>{
                     <h4 className="heading indian-post">Indian Post</h4>
 
                     <div className='inputfields'>
-                        <div className="inputfields address" style={{ display: 'flex' }}>
+                        <div className="inputfields address" >
                             <div className='Pickup-Adress'>
                                 <h5>Pickup Adress</h5>
                                 <input
@@ -704,11 +704,11 @@ const handleOk=()=>{
                             <h3>Order Summary </h3>
                             <div className="order-elements-grp" >
                                 <div className="order-elements address">
-                                    <div className="order-elements" >
+                                    <div className="order-elements add" >
                                         <p>Pickup Address:</p>
                                         <p >{pickupName}<br />{pickupAddr1}<br />{pickupAddr2}<br />{pickupCity}<br />{pickupPincode}<br />{pickupState}</p>
                                     </div>
-                                    <div className="order-elements">
+                                    <div className="order-elements add">
                                         <p>Delivery Address:</p>
                                         <p >{deliveryName}<br />{deliveryAddrL1}<br />{deliveryAddrL2}<br />{deliveryCity}<br />{deliveryPincode}<br />{deliveryState}</p>
                                     </div>

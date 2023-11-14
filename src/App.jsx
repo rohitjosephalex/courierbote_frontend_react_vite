@@ -11,7 +11,7 @@ function ShippingCalculator() {
 	const [pickupPincode, setPickupPincode] = useState("");
 	const [dropPincode, setDropPincode] = useState("");
 	const [weight, setWeight] = useState("");
-	const [weightUnit, setWeightUnit] = useState("G");
+	const [weightUnit, setWeightUnit] = useState("gm");
 
 	const [description, setdescription] = useState("");
 	const [isBookingVisible, setIsBookingVisible] = useState(false);
@@ -61,8 +61,15 @@ function ShippingCalculator() {
 			if (selectedPosrD2dButton === 'Indian Post') {
 				const validateInputs = () => {
 					if (!pickupPincode || !dropPincode || !weight || !shipmentType) {
-						alert("Please fill in all required fields.");
+						alert("Please fill in all required fields");
+						setButtonLoading(false);
 						return false;
+					}
+					else if( weightUnit=='gm' && weight<50){
+						alert("Min weight should be 50 grams");
+						setButtonLoading(false);
+						return false;
+						
 					}
 					return true;
 				};
@@ -213,6 +220,7 @@ function ShippingCalculator() {
 														className='input'
 														type='number'
 														id='weight'
+														
 														placeholder='Weight'
 														value={weight}
 														onChange={(e) => setWeight(e.target.value)}
