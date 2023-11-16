@@ -5,8 +5,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import indianPost from './assets/India Post LOGO.jpg';
-
-function Pickup({ pickupPin, deliveryPin, deliverypart, rate,initialCard }) {
+import courierBoteWhiteText from './assets/courierbote logo white transparent.png';
+function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
     // pickupPin = "691306";
     // deliveryPin = "686666";
     // deliverypart = "Indian Post"
@@ -15,6 +15,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate,initialCard }) {
     // const [rate, setRate] = useState('50');
     const [pickupName, setPickupName] = useState("");
     const [pickupPhoneNumber, setPickupPhoneNumber] = useState("");
+    const [pickupEmail, setPickupEmail] = useState("");
     const [pickupAddr1, setPickupAddr1] = useState("");
     const [pickupAddr2, setPickupAddr2] = useState("");
     const [pickupAddress, setPickupAddress] = useState("");
@@ -58,7 +59,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate,initialCard }) {
     const [totalPrice, setTotalPrice] = useState('');
     const [orderConfirmation, setOrderConfirmation] = useState(false);
     const [paymentType, setPaymentType] = useState("");
-	const [buttonLoading, setButtonLoading] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
 
     const categories = [
@@ -74,14 +75,14 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate,initialCard }) {
         "Office Supplies",
         "Other"
     ];
-const handleOk=()=>{
+    const handleOk = () => {
 
 
 
-    initialCard();
+        initialCard();
 
-    
-}
+
+    }
     const handleCategoryChange = (e) => {
         const selectedCategory = e.target.value;
         setSelectedCategory(selectedCategory);
@@ -270,7 +271,7 @@ const handleOk=()=>{
             weight: `${newWeight}`,
             lbh: `${length}x${width}x${height}`,
             paymentMode: `${paymentType}`,
-            paymentAmount: ``,
+            paymentAmount: `Pickup Charge: ${pickupCharge} Packing Charge ${packingCharge} Courier Charge ${courierBotePrice} Total Charge ${totalPrice}`,
 
         }
         const confirmOrder = async () => {
@@ -332,7 +333,8 @@ const handleOk=()=>{
                     </div>
                     <div className="pickup-details route-elements">
                         <h5>Delivery Partner</h5>
-                        <p>{deliverypart}</p>
+                        {deliverypart==='Indian Post'&&<p>Indian Post</p>}
+                        {deliverypart==='d2d'&&<p>courierBote</p>}
                     </div>
                     <div className="pickup-details route-elements">
                         <h5>Rate</h5>
@@ -414,6 +416,7 @@ const handleOk=()=>{
                         <div className="inputfields address" >
                             <div className='Pickup-Adress'>
                                 <h5>Pickup Adress</h5>
+                                <label htmlFor='name'>Name:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -422,7 +425,7 @@ const handleOk=()=>{
                                     value={pickupName}
                                     onChange={(e) => setPickupName(e.target.value)}
                                 />
-
+                                <label htmlFor='addrL1'>Address Line 1:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -431,6 +434,7 @@ const handleOk=()=>{
                                     value={pickupAddr1}
                                     onChange={(e) => setPickupAddr1(e.target.value)}
                                 />
+                                <label htmlFor='addrL2'>Address Line 2:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -439,6 +443,7 @@ const handleOk=()=>{
                                     value={pickupAddr2}
                                     onChange={(e) => setPickupAddr2(e.target.value)}
                                 />
+                                <label htmlFor='PhoneNumber'>Phone Number:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -447,36 +452,62 @@ const handleOk=()=>{
                                     value={pickupPhoneNumber}
                                     onChange={(e) => setPickupPhoneNumber(e.target.value)}
                                 />
-                                <div >
-                                    <input
-                                        className='input'
-                                        type='text'
-                                        id='city'
-                                        placeholder='city'
-                                        value={pickupCity}
-                                        onChange={(e) => setPickupCity(e.target.value)}
-                                    />
-                                    <input
-                                        className='input'
-                                        type='number'
-                                        id='pincode'
-                                        placeholder='pincode'
-                                        value={pickupPincode}
-                                        onChange={(e) => setPickupPincode(e.target.value)}
-                                    />
-                                    <input
-                                        className='input'
-                                        type='text'
-                                        id='state'
-                                        placeholder='State'
-                                        value={pickupState}
-                                        onChange={(e) => setPickupState(e.target.value)}
 
-                                    />
+                                <div  >
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='Email'>Email:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='Email'
+                                                placeholder='Email'
+                                                value={pickupEmail}
+                                                onChange={(e) => setPickupEmail(e.target.value)}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='city'>City:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='city'
+                                                placeholder='city'
+                                                value={pickupCity}
+                                                onChange={(e) => setPickupCity(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='pincode'>Pincode:</label>
+                                            <input
+                                                className='input'
+                                                type='number'
+                                                id='pincode'
+                                                placeholder='pincode'
+                                                value={pickupPincode}
+                                                onChange={(e) => setPickupPincode(e.target.value)}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='state'>State:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='state'
+                                                placeholder='State'
+                                                value={pickupState}
+                                                onChange={(e) => setPickupState(e.target.value)}
+
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className='Delivery-Address'>
                                 <h5>Delivery Address</h5>
+                                <label htmlFor="name">Name:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -485,7 +516,7 @@ const handleOk=()=>{
                                     value={deliveryName}
                                     onChange={(e) => setDeliveryName(e.target.value)}
                                 />
-
+                                <label htmlFor="Address Line 1"> Address Line 1:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -494,6 +525,7 @@ const handleOk=()=>{
                                     value={deliveryAddrL1}
                                     onChange={(e) => setDeliveryAddrL1(e.target.value)}
                                 />
+                                <label htmlFor="Address Line 2"> Address Line 2:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -502,6 +534,7 @@ const handleOk=()=>{
                                     value={deliveryAddrL2}
                                     onChange={(e) => setDeliveryAddrL2(e.target.value)}
                                 />
+                                <label htmlFor="Phone Number">Phone Number:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -511,30 +544,43 @@ const handleOk=()=>{
                                     onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
                                 />
                                 <div className="cityStatePin" >
-                                    <input
-                                        className='input'
-                                        type='text'
-                                        id='city'
-                                        placeholder='city'
-                                        value={deliveryCity}
-                                        onChange={(e) => setDeliveryCity(e.target.value)}
-                                    />
-                                    <input
-                                        className='input'
-                                        type='number'
-                                        id='pincode'
-                                        placeholder='pincode'
-                                        value={deliveryPincode}
-                                        onChange={(e) => setDeliveryPincode(e.target.value)}
-                                    />
-                                    <input
-                                        className='input'
-                                        type='text'
-                                        id='state'
-                                        placeholder='State'
-                                        value={deliveryState}
-                                        onChange={(e) => setDeliveryState(e.target.value)}
-                                    />
+
+                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <label htmlFor="City">City:</label>
+                                        <input
+                                            className='input'
+                                            type='text'
+                                            id='city'
+                                            placeholder='city'
+                                            value={deliveryCity}
+                                            onChange={(e) => setDeliveryCity(e.target.value)}
+                                        />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor="Pincode">Pincode:</label>
+                                            <input
+                                                className='input'
+                                                type='number'
+                                                id='pincode'
+                                                placeholder='pincode'
+                                                value={deliveryPincode}
+                                                onChange={(e) => setDeliveryPincode(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor="State">State:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='state'
+                                                placeholder='State'
+                                                value={deliveryState}
+                                                onChange={(e) => setDeliveryState(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -552,6 +598,7 @@ const handleOk=()=>{
                                     />
                                     Use my pickup address
                                 </label>
+                                <label htmlFor="">Name:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -560,6 +607,7 @@ const handleOk=()=>{
                                     value={billingName}
                                     onChange={(e) => setBillingName(e.target.value)}
                                 />
+                                <label htmlFor="">Address:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -568,6 +616,7 @@ const handleOk=()=>{
                                     value={billingAddr}
                                     onChange={(e) => setBillingAddr(e.target.value)}
                                 />
+                                <label htmlFor="">Phone Number:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -576,9 +625,11 @@ const handleOk=()=>{
                                     value={billingPhoneNumber}
                                     onChange={(e) => setBillingPhoneNumber(e.target.value)}
                                 />
+
                             </div>
                             <div className='product-dimension' >
                                 <h5>Product Dimension</h5>
+                                <label htmlFor="">Height</label>
                                 <input
                                     className='input'
                                     type='number'
@@ -587,6 +638,7 @@ const handleOk=()=>{
                                     value={height}
                                     onChange={(e) => setHeight(e.target.value)}
                                 />
+                                <label htmlFor="">Length:</label>
                                 <input
                                     className='input'
                                     type='number'
@@ -595,6 +647,7 @@ const handleOk=()=>{
                                     value={length}
                                     onChange={(e) => setLength(e.target.value)}
                                 />
+                                <label htmlFor="">Width:</label>
                                 <input
                                     className='input'
                                     type='number'
@@ -603,8 +656,8 @@ const handleOk=()=>{
                                     value={width}
                                     onChange={(e) => setWidth(e.target.value)}
                                 />
-                                <div style={{ display: 'flex' }}>
-
+                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                    <label htmlFor="">Weight:</label>
                                     <input
                                         className='input'
                                         type='number'
@@ -636,6 +689,7 @@ const handleOk=()=>{
                                     />
                                     Is packing needed
                                 </label>
+                                <label htmlFor="">Item Name:</label>
                                 <input
                                     className='input'
                                     type='text'
@@ -647,7 +701,7 @@ const handleOk=()=>{
 
 
 
-
+                                <label htmlFor="">Item Category:</label>
                                 <select className='input' value={selectedCategory} onChange={handleCategoryChange}>
                                     <option value="" disabled hidden>Select Item category</option>
                                     {categories.map((category, index) => (
@@ -665,7 +719,7 @@ const handleOk=()=>{
                                         placeholder="Enter other category"
                                     />
                                 )}
-
+                                <label htmlFor="">Item Value:</label>
                                 <input
                                     className='input'
                                     type='number'
@@ -693,7 +747,288 @@ const handleOk=()=>{
             {
                 // DIV to add the door to door option
                 pickupInfo === "d2d" && (<div className="pickup info">
-                    D2D
+                    <div className='pickupbooking'>
+                    <img className="logo courierBote" src={courierBoteWhiteText} alt="CourierBote logo" />
+                    <h4 className="heading indian-post">Door To Door</h4>
+
+                    <div className='inputfields'>
+                        <div className="inputfields address" >
+                            <div className='Pickup-Adress'>
+                                <h5>Pickup Adress</h5>
+                                <label htmlFor='name'>Name:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='name'
+                                    placeholder='Name'
+                                    value={pickupName}
+                                    onChange={(e) => setPickupName(e.target.value)}
+                                />
+                                <label htmlFor='addrL1'>Address Line 1:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='addrL1'
+                                    placeholder='Adress Line 1'
+                                    value={pickupAddr1}
+                                    onChange={(e) => setPickupAddr1(e.target.value)}
+                                />
+                                <label htmlFor='addrL2'>Address Line 2:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='addrL2'
+                                    placeholder='Address Line 2'
+                                    value={pickupAddr2}
+                                    onChange={(e) => setPickupAddr2(e.target.value)}
+                                />
+                                <label htmlFor='PhoneNumber'>Phone Number:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='PhoneNumber'
+                                    placeholder='Phone Number'
+                                    value={pickupPhoneNumber}
+                                    onChange={(e) => setPickupPhoneNumber(e.target.value)}
+                                />
+
+                                <div  >
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='Email'>Email:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='Email'
+                                                placeholder='Email'
+                                                value={pickupEmail}
+                                                onChange={(e) => setPickupEmail(e.target.value)}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='city'>City:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='city'
+                                                placeholder='city'
+                                                value={pickupCity}
+                                                onChange={(e) => setPickupCity(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='pincode'>Pincode:</label>
+                                            <input
+                                                className='input'
+                                                type='number'
+                                                id='pincode'
+                                                placeholder='pincode'
+                                                value={pickupPincode}
+                                                onChange={(e) => setPickupPincode(e.target.value)}
+                                            />
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor='state'>State:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='state'
+                                                placeholder='State'
+                                                value={pickupState}
+                                                onChange={(e) => setPickupState(e.target.value)}
+
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='Delivery-Address'>
+                                <h5>Delivery Address</h5>
+                                <label htmlFor="name">Name:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='name'
+                                    placeholder='Name'
+                                    value={deliveryName}
+                                    onChange={(e) => setDeliveryName(e.target.value)}
+                                />
+                                <label htmlFor="Address Line 1"> Address Line 1:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='addL1'
+                                    placeholder='Adress Line 1'
+                                    value={deliveryAddrL1}
+                                    onChange={(e) => setDeliveryAddrL1(e.target.value)}
+                                />
+                                <label htmlFor="Address Line 2"> Address Line 2:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='addL2'
+                                    placeholder='Adress Line 2'
+                                    value={deliveryAddrL2}
+                                    onChange={(e) => setDeliveryAddrL2(e.target.value)}
+                                />
+                                <label htmlFor="Phone Number">Phone Number:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='phoneNumber'
+                                    placeholder='Phone Number'
+                                    value={deliveryPhoneNumber}
+                                    onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
+                                />
+                                <div className="cityStatePin" >
+
+                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <label htmlFor="City">City:</label>
+                                        <input
+                                            className='input'
+                                            type='text'
+                                            id='city'
+                                            placeholder='city'
+                                            value={deliveryCity}
+                                            onChange={(e) => setDeliveryCity(e.target.value)}
+                                        />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor="Pincode">Pincode:</label>
+                                            <input
+                                                className='input'
+                                                type='number'
+                                                id='pincode'
+                                                placeholder='pincode'
+                                                value={deliveryPincode}
+                                                onChange={(e) => setDeliveryPincode(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <label htmlFor="State">State:</label>
+                                            <input
+                                                className='input'
+                                                type='text'
+                                                id='state'
+                                                placeholder='State'
+                                                value={deliveryState}
+                                                onChange={(e) => setDeliveryState(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div className="inputfields productdetails" >
+                            <div className='Billing-Address'>
+                                <h5>Billing Address</h5>
+                                <label className='checkbox'>
+                                    <input
+                                        type='checkbox'
+                                        name='shipment-type'
+                                        value='Document'
+                                        checked={isBillingChecked}
+                                        onChange={(e) => setBillingAddress(e.target.checked)}
+                                    />
+                                    Use my pickup address
+                                </label>
+                                <label htmlFor="">Name:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='name'
+                                    placeholder='Name'
+                                    value={billingName}
+                                    onChange={(e) => setBillingName(e.target.value)}
+                                />
+                                <label htmlFor="">Address:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='address'
+                                    placeholder='Address'
+                                    value={billingAddr}
+                                    onChange={(e) => setBillingAddr(e.target.value)}
+                                />
+                                <label htmlFor="">Phone Number:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='phoneNumber'
+                                    placeholder='PhoneNumber'
+                                    value={billingPhoneNumber}
+                                    onChange={(e) => setBillingPhoneNumber(e.target.value)}
+                                />
+
+                            </div>
+                            <div className="about-item">
+                                <h5>About the item</h5>
+                                <label className='checkbox'>
+                                    <input
+                                        type='checkbox'
+                                        name='shipment-type'
+                                        value='Document'
+                                        checked={isPackingNeeded}
+                                        onChange={(e) => setIsPackingNeeded(e.target.checked)}
+                                    />
+                                    Is packing needed
+                                </label>
+                                <label htmlFor="">Item Name:</label>
+                                <input
+                                    className='input'
+                                    type='text'
+                                    id='height'
+                                    placeholder='Item Description'
+                                    value={itemDescription}
+                                    onChange={(e) => setItemDescriptiont(e.target.value)}
+                                />
+
+
+
+                                <label htmlFor="">Item Category:</label>
+                                <select className='input' value={selectedCategory} onChange={handleCategoryChange}>
+                                    <option value="" disabled hidden>Select Item category</option>
+                                    {categories.map((category, index) => (
+                                        <option key={index} value={category}>
+                                            {category}
+                                        </option>
+                                    ))}
+                                </select>
+                                {selectedCategory === "Other" && (
+                                    <input
+                                        className='input'
+                                        type="text"
+                                        value={otherCategoryInput}
+                                        onChange={(e) => setOtherCategoryInput(e.target.value)}
+                                        placeholder="Enter other category"
+                                    />
+                                )}
+                                <label htmlFor="">Item Value:</label>
+                                <input
+                                    className='input'
+                                    type='number'
+                                    id='pincode'
+                                    placeholder='Estimated value'
+                                    value={itemValue}
+                                    onChange={(e) => setItemValue(e.target.value)}
+                                />
+
+                            </div>
+                        </div>
+                        <button
+                            id='calculate-button'
+                            className='btn btn-primary'
+                            onClick={handleCalculate}>
+                            {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
+                        </button>
+                        <div id='result'></div>
+                    </div>
+                </div>
                 </div>)
             }
             {
@@ -729,45 +1064,45 @@ const handleOk=()=>{
                                 </div>
                                 <div className="order-elements billing">
                                     {
-                                deliverypart === "Indian Post"&&(  <div className="billing-box">
-                                        <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
-                                        <div className="billing-details">
-                                            <div className="charge">
-                                                <p className="charge name">Pickup Charge</p>
-                                                <p>{pickupCharge}</p>
+                                        deliverypart === "Indian Post" && (<div className="billing-box">
+                                            <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
+                                            <div className="billing-details">
+                                                <div className="charge">
+                                                    <p className="charge name">Pickup Charge</p>
+                                                    <p>{pickupCharge}</p>
+                                                </div>
+                                                <div className="charge">
+                                                    <p className="charge name">Packing Charge</p>
+                                                    <p>{packingCharge}</p>
+                                                </div>
+                                                <div className="charge">
+                                                    <p className="charge name">Courier Charge</p>
+                                                    <p>{courierBotePrice}</p>
+                                                </div>
+                                                <div className="charge ">
+                                                    <p id="total" className="charge name">Total Charge</p>
+                                                    <p id="total">{totalPrice}</p>
+                                                </div>
                                             </div>
-                                            <div className="charge">
-                                                <p className="charge name">Packing Charge</p>
-                                                <p>{packingCharge}</p>
-                                            </div>
-                                            <div className="charge">
-                                                <p className="charge name">Courier Charge</p>
-                                                <p>{courierBotePrice}</p>
-                                            </div>
-                                            <div className="charge ">
-                                                <p id="total" className="charge name">Total Charge</p>
-                                                <p id="total">{totalPrice}</p>
-                                            </div>
-                                        </div>
-                                    </div>)}
+                                        </div>)}
                                     {
-                                deliverypart === "d2d"&&(  <div className="billing-box">
-                                        <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
-                                        <div className="billing-details">
-                                            <div className="charge">
-                                                <p className="charge name">Pickup Charge</p>
-                                                <p>{pickupCharge}</p>
+                                        deliverypart === "d2d" && (<div className="billing-box">
+                                            <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
+                                            <div className="billing-details">
+                                                <div className="charge">
+                                                    <p className="charge name">Pickup Charge</p>
+                                                    <p>{pickupCharge}</p>
+                                                </div>
+                                                <div className="charge">
+                                                    <p className="charge name">Delivery Charge</p>
+                                                    <p>{totalPrice - pickupCharge}</p>
+                                                </div>
+                                                <div className="charge ">
+                                                    <p id="total" className="charge name">Total Charge</p>
+                                                    <p id="total">{totalPrice}</p>
+                                                </div>
                                             </div>
-                                            <div className="charge">
-                                                <p className="charge name">Delivery Charge</p>
-                                                <p>{totalPrice-pickupCharge}</p>
-                                            </div>
-                                            <div className="charge ">
-                                                <p id="total" className="charge name">Total Charge</p>
-                                                <p id="total">{totalPrice}</p>
-                                            </div>
-                                        </div>
-                                    </div>)}
+                                        </div>)}
                                 </div>
                             </div>
                             <div className="order-payment">
@@ -808,24 +1143,24 @@ const handleOk=()=>{
 
                                     <div className='popup-container ' >
                                         <div className="popup-container content">
-                                            <div class="alert-popup-container">
-                                                <div class="success-checkmark">
-                                                    <div class="check-icon">
-                                                        <span class="icon-line line-tip"></span>
-                                                        <span class="icon-line line-long"></span>
-                                                        <div class="icon-circle"></div>
-                                                        <div class="icon-fix"></div>
+                                            <div className="alert-popup-container">
+                                                <div className="success-checkmark">
+                                                    <div className="check-icon">
+                                                        <span className="icon-line line-tip"></span>
+                                                        <span className="icon-line line-long"></span>
+                                                        <div className="icon-circle"></div>
+                                                        <div className="icon-fix"></div>
                                                     </div>
                                                 </div>
-                                                <div class="alert-popup-title">Success!!!</div>
-                                                <div class="alert-popup-message">
+                                                <div className="alert-popup-title">Success!!!</div>
+                                                <div className="alert-popup-message">
                                                     Your Pickup has been placed :)
                                                 </div>
-                                                <div class="alert-popup-confirm">
+                                                <div className="alert-popup-confirm">
                                                     <button
                                                         id='finalok-button'
                                                         className='btn btn-primary'
-                                                        onClick={()=>{handleOk();}}>OK</button>
+                                                        onClick={() => { handleOk(); }}>OK</button>
                                                 </div>
                                             </div>
                                             <button className="popup-close" onClick=

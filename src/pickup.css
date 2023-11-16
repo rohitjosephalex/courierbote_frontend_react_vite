@@ -44,9 +44,17 @@ label {
 
 }
 
-.logo {
+.logo.indian-post {
 	width: 128px;
 	height: 61px;
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+
+}
+.logo.courierBote{
+	width: auto;
+	height: 60px;
 	display: block;
 	margin: auto;
 	margin-bottom: 10px;
@@ -506,7 +514,5 @@ label {
 		flex-wrap: wrap;
 		gap: 10px;
 	}
-	.order-elements.add{
-		color: red;
-	}
+
 	}

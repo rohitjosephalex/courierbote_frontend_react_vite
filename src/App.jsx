@@ -71,6 +71,11 @@ function ShippingCalculator() {
 						return false;
 						
 					}
+					else if(pickupPincode===dropPincode){
+						alert('Pickup Pincode cannot be same as Drop Pincode')
+						setButtonLoading(false);
+						return false;
+					}
 					return true;
 				};
 				if(validateInputs()===true){
@@ -81,6 +86,7 @@ function ShippingCalculator() {
 				};
 				const getPrice = async () => {
 					try {
+						
 						const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
 
 						);
@@ -103,6 +109,7 @@ function ShippingCalculator() {
 				const validateInputs = () => {
 					if (!pickupPincode || !dropPincode ) {
 						alert("Please fill in all required fields.");
+						setButtonLoading(false);
 						return false;
 					}
 					return true;
@@ -120,6 +127,7 @@ function ShippingCalculator() {
 						console.log(response.data.result.TotalPrice);
 						setResult(response.data.result.TotalPrice);
 						setIsBookingVisible(true);
+						setButtonLoading(false);
 					}
 					catch (error) {
 						console.error('Error fetching data from Indian post:', error);
@@ -139,6 +147,8 @@ function ShippingCalculator() {
 		setIsInitialCard(false);
 		setIsPickupCard(true);
 		setBigShippingCalculator('Big');
+		
+						setIsBookingVisible(false);
 	}
 	const changeToInitialCard = () => {
 		setIsInitialCard(true);
@@ -327,8 +337,11 @@ function ShippingCalculator() {
 									<button
 										id='calculate-button'
 										className='btn btn-primary'
-										onClick={handleCalculate}>
-										Calculate
+										disabled={buttonLoading}
+										onClick={handleCalculate}
+										style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
+										>
+										{!buttonLoading ? 'Calculate' : 'loading...'}
 									</button>
 									{isBookingVisible && (<div>
 										<div className='price' id='result'>
