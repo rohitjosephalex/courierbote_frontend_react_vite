@@ -147,8 +147,7 @@ function ShippingCalculator() {
 		setIsInitialCard(false);
 		setIsPickupCard(true);
 		setBigShippingCalculator('Big');
-		
-						setIsBookingVisible(false);
+		setIsBookingVisible(false);
 	}
 	const changeToInitialCard = () => {
 		setIsInitialCard(true);
@@ -157,7 +156,7 @@ function ShippingCalculator() {
 		setPickupPincode('');
 		setDropPincode('');
 		setWeight('');
-		setIsBookingVisible(true);
+		setIsBookingVisible(false);
 		setResult('');
 	}
 

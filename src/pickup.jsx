@@ -271,7 +271,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
             weight: `${newWeight}`,
             lbh: `${length}x${width}x${height}`,
             paymentMode: `${paymentType}`,
-            paymentAmount: `Pickup Charge: ${pickupCharge} Packing Charge ${packingCharge} Courier Charge ${courierBotePrice} Total Charge ${totalPrice}`,
+            paymentAmount: `Pickup Charge: ${pickupCharge} Packing Charge: ${packingCharge} Courier Charge: ${courierBotePrice} Total Charge: ${totalPrice}`,
 
         }
         const confirmOrder = async () => {
