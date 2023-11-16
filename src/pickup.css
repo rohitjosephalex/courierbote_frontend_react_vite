@@ -18,7 +18,16 @@
 	flex-direction: column;
 
 }
+.Pickup-Adress h5,
+.Delivery-Address h5,.Billing-Address h5,.product-dimension h5,.product-dimension h5, .about-item h5 {
+	display: flex;
+justify-content: center;
+align-items: center;
 
+}
+.input.x{
+	width: 70vw;
+}
 .Billing-Address,
 .product-dimension,
 .about-item {
@@ -33,6 +42,7 @@ margin-bottom: 20px;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-start;
+	gap: 30px;
 
 }
 
@@ -288,6 +298,14 @@ label {
 .order-payment {
 	margin: 10px 10px 20px;
 }
+.Address-Elements{
+	display: flex;
+	flex-direction: row;
+}
+.Address-Elements-sub{
+	display: flex;
+	flex-direction: column;
+}
 
 			/******** sucess popup *********/
 			.alert-popup-container {
@@ -497,6 +515,7 @@ label {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-start;
+		gap:0px;
 	
 	}
 
@@ -514,5 +533,20 @@ label {
 		flex-wrap: wrap;
 		gap: 10px;
 	}
-
+	.Address-Elements{
+		display: flex;
+		flex-direction: column;
+	}
+	.Address-Elements-sub{
+		display: flex;
+		flex-direction: column;
+	}
+	.pickupbooking .input{
+		width: 65vw;
+	}
+.Weight-input{
+	display: flex;
+	flex-direction: row;
+	width: 65vw;
+}
 	}

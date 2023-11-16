@@ -351,7 +351,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                     <div className='popup-container content'  >
                                         <h5>OTP Verification</h5>
                                         {otpSent === "notSent" && <div>
-                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <div  className="Address-Elements-sub">
                                                 <label className='label'>Phone Number:</label>
                                                 <input
                                                     className='input'
@@ -454,8 +454,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
 
                                 <div  >
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div  className="Address-Elements">
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='Email'>Email:</label>
                                             <input
                                                 className='input'
@@ -466,7 +466,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupEmail(e.target.value)}
                                             />
                                         </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='city'>City:</label>
                                             <input
                                                 className='input'
@@ -478,8 +478,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div  className="Address-Elements" >
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='pincode'>Pincode:</label>
                                             <input
                                                 className='input'
@@ -490,7 +490,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupPincode(e.target.value)}
                                             />
                                         </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='state'>State:</label>
                                             <input
                                                 className='input'
@@ -545,7 +545,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
                                 <div className="cityStatePin" >
 
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div  className="Address-Elements-sub">
                                         <label htmlFor="City">City:</label>
                                         <input
                                             className='input'
@@ -556,8 +556,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             onChange={(e) => setDeliveryCity(e.target.value)}
                                         />
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div  className="Address-Elements">
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor="Pincode">Pincode:</label>
                                             <input
                                                 className='input'
@@ -569,7 +569,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
 
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor="State">State:</label>
                                             <input
                                                 className='input'
@@ -656,8 +656,9 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                     value={width}
                                     onChange={(e) => setWidth(e.target.value)}
                                 />
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div >
                                     <label htmlFor="">Weight:</label>
+                                    <div className="Weight-input">
                                     <input
                                         className='input'
                                         type='number'
@@ -673,7 +674,9 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                         onChange={(e) => setWeightUnit(e.target.value)}>
                                         <option>gm</option>
                                         <option>kg</option>
+                                        
                                     </select>
+                                    </div>
                                 </div>
                             </div>
 
@@ -793,8 +796,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
 
                                 <div  >
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div className="Address-Elements">
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='Email'>Email:</label>
                                             <input
                                                 className='input'
@@ -805,7 +808,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupEmail(e.target.value)}
                                             />
                                         </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='city'>City:</label>
                                             <input
                                                 className='input'
@@ -817,8 +820,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div className="Address-Elements">
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='pincode'>Pincode:</label>
                                             <input
                                                 className='input'
@@ -829,7 +832,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupPincode(e.target.value)}
                                             />
                                         </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor='state'>State:</label>
                                             <input
                                                 className='input'
@@ -884,7 +887,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
                                 <div className="cityStatePin" >
 
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div  className="Address-Elements-sub">
                                         <label htmlFor="City">City:</label>
                                         <input
                                             className='input'
@@ -895,8 +898,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             onChange={(e) => setDeliveryCity(e.target.value)}
                                         />
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div className="Address-Elements">
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor="Pincode">Pincode:</label>
                                             <input
                                                 className='input'
@@ -908,7 +911,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
 
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div  className="Address-Elements-sub">
                                             <label htmlFor="State">State:</label>
                                             <input
                                                 className='input'
