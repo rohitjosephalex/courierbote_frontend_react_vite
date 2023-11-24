@@ -188,7 +188,7 @@ function ShippingCalculator() {
 									<div className='field'>
 										<div className='control'>
 											<div style={{ display: 'grid' }}>
-												<label className='label'>Delivery Pincode:</label>
+												<label className='label'>Pickup Pincode:</label>
 												<input
 													className='input'
 													maxLength="6"
@@ -209,6 +209,7 @@ function ShippingCalculator() {
 													maxLength="6"
 													pattern="[0-9]*" 
 													type='text'
+													inputMode="numeric"
 													id='drop-pincode'
 													placeholder='Drop Pincode'
 													value={dropPincode}
@@ -301,7 +302,10 @@ function ShippingCalculator() {
 												<label className='label'>Pickup Pincode:</label>
 												<input
 													className='input'
+													maxLength="6"
+													pattern="[0-9]*" 
 													type='text'
+													inputMode="numeric"
 													id='pickup-pincode'
 													placeholder='Pickup Pincode'
 													value={pickupPincode}
@@ -312,9 +316,12 @@ function ShippingCalculator() {
 												<label className='label'>Delivery Pincode:</label>
 												<input
 													className='input'
+													maxLength="6"
+													pattern="[0-9]*" 
 													type='text'
+													inputMode="numeric"
 													id='drop-pincode'
-													placeholder='Drop Pincode'
+													placeholder='Drop Pincode'	
 													value={dropPincode}
 													onChange={(e) => setDropPincode(e.target.value)}
 												/>
@@ -323,9 +330,12 @@ function ShippingCalculator() {
 												<label className='label'>Product Description:</label>
 												<input
 													className='input'
+													maxLength="6"
+													pattern="[0-9]*" 
 													type='text'
-													id='product_description'
-													placeholder='Product description'
+													inputMode="numeric"
+													id='drop-pincode'
+													placeholder='Drop Pincode'
 													value={description}
 													onChange={(e) => setdescription(e.target.value)}
 												/>

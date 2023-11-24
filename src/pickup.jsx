@@ -353,14 +353,25 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                         {otpSent === "notSent" && <div>
                                             <div  className="Address-Elements-sub">
                                                 <label className='label'>Phone Number:</label>
-                                                <input
-                                                    className='input'
+                                                <div style={{display:'flex'}}>
+                                                <input className='input phonecode'
                                                     type='text'
-                                                    id='drop-pincode'
+                                                    id='Phone number'
+                                                    readOnly
+                                                    value={'+91'}
+                                                    />
+                                                <input
+                                                    className='input phonenumber'
+                                                    type='text'
+                                                    id='Phone number'
                                                     placeholder='Phone Number'
+													maxLength="10"
+													pattern="[0-9]*" 
+													inputMode="numeric"
                                                     value={otpPhoneNumber}
                                                     onChange={(e) => setOtpPhoneNumber(e.target.value)}
                                                 />
+                                                </div>
 
                                             </div>
                                             <button className="btn btn-primary otp" onClick={() => handleOtpSend()}>Send-OTP

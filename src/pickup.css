@@ -4,6 +4,20 @@
 	justify-content: center;
 	align-items: center;
 }
+.input.phonecode{
+	flex: 0;
+	border-right: 1px solid #989898;
+	padding-right: 0;
+	margin-right: 0;
+	width: 40px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.input.phonenumber{
+	margin-left: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
 
 .inputfields.address {
 	display: flex;
@@ -121,7 +135,10 @@ label {
 .btn.proceed {
 	margin-top: 30px;
 }
-
+.popup-container h5{
+	margin: 25px;
+font-size:17px;
+}
 .popup-container {
 	position: fixed;
 	top: 0;
@@ -141,7 +158,10 @@ label {
 
 .popup-container.content {
 	position: relative;
-	display: block;
+	display: flex;
+	flex-direction: column;
+	justify-content:flex-start;
+	align-items: center;
 	background: #141414;
 	height: 320px;
 	width: 280px;

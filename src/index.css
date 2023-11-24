@@ -1,15 +1,15 @@
 .shipping-calculator {
-	position: relative;
+	position: absolute;
 	width: 350px;
-	margin-left: 65%;
-	margin-top: -40%;
+	left: 65vw;
+	top: 13vh;
 }
 
 .shipping-calculator.big {
-	position: relative;
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
+	position: absolute;
+	width: 60vw;
+	left:50%;
+	transform: translateX(-50%);
 }
 
 @media (max-width: 768px) {
@@ -36,17 +36,16 @@
 
 @media (max-width:450px) {
 	.shipping-calculator {
+		top: 80vh;
 		width: 90vw;
-		margin-left: auto;
-		margin-right: 20px;
-		margin-top: 2%;
-		/* margin-top: 45vh; */
+		left:15%;
+		transform: translateX(-50%);
 	}
 	.shipping-calculator.big {
-		position: relative;
+
 		width: 90vw;
-		margin-left: auto;
-		margin-right: auto;
+		left:15%;
+		transform: translateX(-50%);
 	}
 
 }

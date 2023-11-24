@@ -6,12 +6,7 @@
 }
 
 .card {
-	/* background-image: url("https://drive.google.com/uc?export=view&id=10Cch0Zj-iTCh04WznizSz_VTHhRgu8OR"); */
-	/* background: linear-gradient(to bottom right, #5b5b5b, #1a1a1a); */
-	/* filter: brightness(0.8); */
-	/* background-size: 400px ; */
-	/* background-position-x: ; */
-	min-height: 320px;
+	min-height: 340px;
 	max-height: 75vh;
 	overflow-y:scroll;
 	background-color:rgba(35, 35, 35, .9);
@@ -228,7 +223,7 @@
 
 /* Animation for button hover */
 .btn-option:hover {
-	background-color: #ccc;
+	background-color: #767676;
 }
 
 

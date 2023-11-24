@@ -8,175 +8,157 @@ body {
   color: white;
 }
 
-.landing-page.text {
-  font-size: 40px;
-  position: fixed;
+.landing-page-start {
+  position: relative;
+  height: 100vh;
+  /* 100% of the viewport height */
+  display: flex;
+  align-items: center;
 
-  color: aliceblue;
-  margin-left: 10%;
-  padding: 0px;
-  margin-top: 25px;
+}
+
+.landing-page-start::before {
+  content: "";
+  background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('./assets/background postbox.jpg') center/cover no-repeat;
+  /* Use relative path to the image */
+  background-position: top -65px center;
+  /* Adjust the position as needed */
+  flex: 7;
+  /* Adjust as needed to cover 70% of the width */
+  height: 100%;
+}
 
 
+.landing-page-start::after {
+  content: "";
+  background: linear-gradient(to right, #D6410B, #e95f1a);
+  /* Gradient background from left to right */
+  flex: 3;
+  /* Adjust as needed to cover 30% of the width */
+  height: 100%;
+  filter: brightness(0.8);
+  z-index: -1;
+
+}
+
+
+.logisticslogo {
+  position: absolute;
+  top: 75vh;
+  width: 150px;
+  height: auto;
+  right: 5vw;
+}
+
+.landing-page-Text h2 {
+  margin: 0;
+  margin-top: 20px;
 }
 
 .landing-page-Text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: left;
-}
-
-.landing-page.text h2 {
-  margin: 25px;
-}
-
-.logisticslogo {
+  position: absolute;
+  top: 20vh;
+  left: 20vw;
+  font-size: 40px;
   position: fixed;
-  margin-left: 75%;
-  top: 78vh;
-  width: 150px;
-  height: auto;
-  margin-bottom: -5;
-  display: inline-block;
+  color: aliceblue;
   padding: 0px;
 }
 
-.background-pic {
-  position: fixed;
-
-  height: 100vh;
-  top: 0;
-}
-
-.backgroundlogo {
-  position: relative;
-  transform: translate(0px, -20px);
-  width: 70%;
-  top: 0;
-  height: auto;
-  object-position: 10%;
-}
-
-.background-black {
-  position: absolute;
-  top: 0;
-  background-color: #010302;
-  height: 100vh;
-  /* Replace 'your-line-color' with the desired line color */
-  width: 70%;
-  opacity: 60%;
-  z-index: 1;
-
-}
-
 .courierbote {
-  position: fixed;
-  margin-left: 80%;
-  margin-top: -3%;
-  margin-bottom: -10;
+  position: absolute;
+  top: 2.5vh;
+  left: 80vw;
   font-size: 30px;
   color: #FFFFFF;
   font-weight: 100;
   font-family: 'Overpass';
 }
 
+
 .courierbotelogo {
-  position: fixed;
+  position: absolute;
   width: 180px;
   height: auto;
-  margin-left: -7%;
+  left: 2vw;
   top: 87vh;
 
-
 }
 
-.vertical-line {
-  /* background-color: #e97236; */
-  background: linear-gradient(to right, #D6410B, #e95f1a);
-  /* Replace 'your-line-color' with the desired line color */
-  width: 30%;
-  /* Adjust the width of the line as needed */
-  height: 100vh;
-  /* Set the height to 100% of the viewport height */
-  position: relative;
-  /* top: 0; */
-  left: 70%;
-  filter: brightness(0.85);
-  /* Adjust the position to place the line at 60% of the viewport width */
-  /* z-index: 1; */
-}
 
-/* Define your two colors */
 
-.content {
-  text-align: center;
-  padding: 20px;
-  font-size: 24px;
-  color: white;
-  /* Text color for readability */
-}
+
 
 @media (max-width:450px) {
-
-  .landing-page.text {
-    font-size: 30px;
+  .landing-page-start {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 173vh;
+    width: 100vw;
+    /* 100% of the viewport height */
 
   }
 
-  .backgroundlogo {
-    position: relative;
-    transform: translate(-5px, -25px);
-    width: 110%;
-    top: 0;
-    height: auto;
-    object-position: 10%;
-  }
-
-  .vertical-line {
-
-    width: 200%;
-    /* Adjust the width of the line as needed */
-    left: 0;
-    /* Set the height to 100% of the viewport height */
-    position: fixed;
-    /* top: 0; */
-    top: 70%;
-  }
-
-  .background-black {
+  .landing-page-start::before {
+    content: "";
+    background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('./assets/background postbox.jpg') center/cover no-repeat;
+    /* Use relative path to the image */
+    background-position: top -65px center;
+    /* Adjust the position as needed */
+    background-position: top center;
+    flex: 1;
+    /* Adjust as needed */
+    height: 100vh;
+    position: absolute;
     width: 100%;
+    top: 0;
+  }
 
+
+  .landing-page-start::after {
+    content: "";
+    background: linear-gradient(to right, #D6410B, #e95f1a);
+    /* Gradient background from left to right */
+    flex: 1;
+    /* Adjust as needed to cover 30% of the width */
+    height: 100%;
+
+    z-index: -1;
 
   }
+
 
   .landing-page-Text {
+    font-size: 35px;
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
   }
-  .landing-page-Text
+
   .logisticslogo {
     display: none;
   }
 
+
   .courierbote {
-    position: relative;
-  margin-left:65vw;
-  margin-top:0;
-  margin-bottom: 10px;
-  font-size: 20px;
+    position: absolute;
+    top: 79vh;
+    font-size: 20px;
+    left: 65vw;
+
   }
 
   .courierbotelogo {
-    position: relative;
+    position: absolute;
     width: 120px;
-    height: auto;
-    margin-left: 0%;
+    top: 165vh;
   }
+
   .landing-page.text h2 {
     margin: 10px;
   }
