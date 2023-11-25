@@ -194,6 +194,7 @@ font-size:17px;
 .popup-close::before {
 	content: "\2716";
 }
+  
 
 .btn.btn-primary.otp {
 	position: absolute;

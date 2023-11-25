@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Popup from 'reactjs-popup';
 import "./pickup.css";
 import axios from 'axios';
+import OtpInput from 'react-otp-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import indianPost from './assets/India Post LOGO.jpg';
@@ -22,7 +23,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
     const [pickupCity, setPickupCity] = useState("");
     const [pickupPincode, setPickupPincode] = useState(pickupPin);
     const [otpSent, setOtpSent] = useState("notSent");
-    const [otp, setOtp] = useState("Indian Post");
+    const [otp, setOtp] = useState('');
     const [otpPhoneNumber, setOtpPhoneNumber] = useState();
     const [otpSentNumber, setOtpSentNumber] = useState();
     const [pickupInfo, setPickupInfo] = useState()
@@ -83,6 +84,34 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
 
 
     }
+    const inputRefs = useRef(Array(6).fill(null).map(() => React.createRef()));
+    const handleOtpChange = (index, value) => {
+        const newOtp = [...otp];
+        newOtp[index] = value;
+        if (value !== '' && index < otp.length - 1) {
+            // Move to the next column when a digit is filled
+            inputRefs.current[index + 1].current.focus();
+        }
+        // You can add additional validation if needed
+        setOtp(newOtp);
+    };
+
+    const handleBackspace = (index) => {
+        if (index > 0 && index <= 5) {
+            // Move to the previous column when backspaced
+            const newOtp = [...otp];
+            newOtp[index - 1] = '';
+            setOtp(newOtp);
+            inputRefs.current[index - 1].current.focus();
+        } else if (index === 6 && otp[index] !== '') {
+            // Clear the current column if it's the first one and not already cleared
+            const newOtp = [...otp];
+            newOtp[index] = '';
+            setOtp(newOtp);
+        }
+    };
+
+
     const handleCategoryChange = (e) => {
         const selectedCategory = e.target.value;
         setSelectedCategory(selectedCategory);
@@ -333,8 +362,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                     </div>
                     <div className="pickup-details route-elements">
                         <h5>Delivery Partner</h5>
-                        {deliverypart==='Indian Post'&&<p>Indian Post</p>}
-                        {deliverypart==='d2d'&&<p>courierBote</p>}
+                        {deliverypart === 'Indian Post' && <p>Indian Post</p>}
+                        {deliverypart === 'd2d' && <p>courierBote</p>}
                     </div>
                     <div className="pickup-details route-elements">
                         <h5>Rate</h5>
@@ -349,28 +378,28 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                             close => (
                                 <div className='popup-container otp' >
                                     <div className='popup-container content'  >
-                                        <h5>OTP Verification</h5>
+                                        <h3>OTP Verification</h3>
                                         {otpSent === "notSent" && <div>
-                                            <div  className="Address-Elements-sub">
+                                            <div className="Address-Elements-sub">
                                                 <label className='label'>Phone Number:</label>
-                                                <div style={{display:'flex'}}>
-                                                <input className='input phonecode'
-                                                    type='text'
-                                                    id='Phone number'
-                                                    readOnly
-                                                    value={'+91'}
+                                                <div style={{ display: 'flex' }}>
+                                                    <input className='input phonecode'
+                                                        type='text'
+                                                        id='Phone number'
+                                                        readOnly
+                                                        value={'+91'}
                                                     />
-                                                <input
-                                                    className='input phonenumber'
-                                                    type='text'
-                                                    id='Phone number'
-                                                    placeholder='Phone Number'
-													maxLength="10"
-													pattern="[0-9]*" 
-													inputMode="numeric"
-                                                    value={otpPhoneNumber}
-                                                    onChange={(e) => setOtpPhoneNumber(e.target.value)}
-                                                />
+                                                    <input
+                                                        className='input phonenumber'
+                                                        type='text'
+                                                        id='Phone number'
+                                                        placeholder='Phone Number'
+                                                        maxLength="10"
+                                                        pattern="[0-9]*"
+                                                        inputMode="numeric"
+                                                        value={otpPhoneNumber}
+                                                        onChange={(e) => setOtpPhoneNumber(e.target.value)}
+                                                    />
                                                 </div>
 
                                             </div>
@@ -379,22 +408,37 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                         </div>
 
                                         }
-                                        {otpSent === "sent" && <div style={{ display: 'grid' }}>
+                                        {otpSent === "sent" && <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                             <p style={{ fontSize: '15px' }}>OTP has been sent to {otpSentNumber} </p>
                                             <div>
                                                 <button className="btn btn-new" onClick={() => handleWrongNumbeer()}>Entered a wrong number?
                                                 </button>
                                             </div>
-                                            <div style={{ display: 'grid' }}>
+                                            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
 
                                                 <label className='label'>OTP</label>
-                                                <input
-                                                    className='input'
-                                                    type='number'
-                                                    id='weight'
-                                                    placeholder='otp'
+                                                <OtpInput
                                                     value={otp}
-                                                    onChange={(e) => setOtp(e.target.value)}
+                                                    onChange={setOtp}
+                                                    numInputs={6}
+                                                    renderSeparator={<span>{ } </span>}
+                                                    containerStyle={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        gap: '4px',
+                                                        margin: '15px auto',
+                                                    }}
+                                                    inputStyle={{
+                                                        width: '30px',
+                                                        height: '30px',
+                                                        fontSize: '18px',
+                                                        textAlign: 'center',
+                                                        margin: '0',
+                                                        borderRadius: '6px',
+                                                        outline: 'none',
+                                                    }}
+                                                    renderInput={(props) => <input {...props}
+                                                    />}
                                                 />
 
                                             </div>
@@ -406,7 +450,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
 
                                         <div>
                                             <button className="popup-close" onClick=
-                                                {() => { close(); handleProceed(); }}>
+                                                {() => { close(); handleProceed(); setOtp('')}}>
 
                                             </button>
                                         </div>
@@ -465,8 +509,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
 
                                 <div  >
-                                    <div  className="Address-Elements">
-                                        <div  className="Address-Elements-sub">
+                                    <div className="Address-Elements">
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor='Email'>Email:</label>
                                             <input
                                                 className='input'
@@ -477,7 +521,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupEmail(e.target.value)}
                                             />
                                         </div>
-                                        <div  className="Address-Elements-sub">
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor='city'>City:</label>
                                             <input
                                                 className='input'
@@ -489,8 +533,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
                                     </div>
-                                    <div  className="Address-Elements" >
-                                        <div  className="Address-Elements-sub">
+                                    <div className="Address-Elements" >
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor='pincode'>Pincode:</label>
                                             <input
                                                 className='input'
@@ -501,7 +545,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                                 onChange={(e) => setPickupPincode(e.target.value)}
                                             />
                                         </div>
-                                        <div  className="Address-Elements-sub">
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor='state'>State:</label>
                                             <input
                                                 className='input'
@@ -556,7 +600,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 />
                                 <div className="cityStatePin" >
 
-                                    <div  className="Address-Elements-sub">
+                                    <div className="Address-Elements-sub">
                                         <label htmlFor="City">City:</label>
                                         <input
                                             className='input'
@@ -567,8 +611,8 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             onChange={(e) => setDeliveryCity(e.target.value)}
                                         />
                                     </div>
-                                    <div  className="Address-Elements">
-                                        <div  className="Address-Elements-sub">
+                                    <div className="Address-Elements">
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor="Pincode">Pincode:</label>
                                             <input
                                                 className='input'
@@ -580,7 +624,7 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                             />
                                         </div>
 
-                                        <div  className="Address-Elements-sub">
+                                        <div className="Address-Elements-sub">
                                             <label htmlFor="State">State:</label>
                                             <input
                                                 className='input'
@@ -670,23 +714,23 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                                 <div >
                                     <label htmlFor="">Weight:</label>
                                     <div className="Weight-input">
-                                    <input
-                                        className='input'
-                                        type='number'
-                                        id='weight'
-                                        placeholder='Weight'
-                                        value={weight}
-                                        onChange={(e) => setWeight(e.target.value)}
-                                    />
-                                    <select
-                                        className="input"
-                                        id='weight-unit'
-                                        value={weightUnit}
-                                        onChange={(e) => setWeightUnit(e.target.value)}>
-                                        <option>gm</option>
-                                        <option>kg</option>
-                                        
-                                    </select>
+                                        <input
+                                            className='input'
+                                            type='number'
+                                            id='weight'
+                                            placeholder='Weight'
+                                            value={weight}
+                                            onChange={(e) => setWeight(e.target.value)}
+                                        />
+                                        <select
+                                            className="input"
+                                            id='weight-unit'
+                                            value={weightUnit}
+                                            onChange={(e) => setWeightUnit(e.target.value)}>
+                                            <option>gm</option>
+                                            <option>kg</option>
+
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -762,287 +806,287 @@ function Pickup({ pickupPin, deliveryPin, deliverypart, rate, initialCard }) {
                 // DIV to add the door to door option
                 pickupInfo === "d2d" && (<div className="pickup info">
                     <div className='pickupbooking'>
-                    <img className="logo courierBote" src={courierBoteWhiteText} alt="CourierBote logo" />
-                    <h4 className="heading indian-post">Door To Door</h4>
+                        <img className="logo courierBote" src={courierBoteWhiteText} alt="CourierBote logo" />
+                        <h4 className="heading indian-post">Door To Door</h4>
 
-                    <div className='inputfields'>
-                        <div className="inputfields address" >
-                            <div className='Pickup-Adress'>
-                                <h5>Pickup Adress</h5>
-                                <label htmlFor='name'>Name:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='name'
-                                    placeholder='Name'
-                                    value={pickupName}
-                                    onChange={(e) => setPickupName(e.target.value)}
-                                />
-                                <label htmlFor='addrL1'>Address Line 1:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='addrL1'
-                                    placeholder='Adress Line 1'
-                                    value={pickupAddr1}
-                                    onChange={(e) => setPickupAddr1(e.target.value)}
-                                />
-                                <label htmlFor='addrL2'>Address Line 2:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='addrL2'
-                                    placeholder='Address Line 2'
-                                    value={pickupAddr2}
-                                    onChange={(e) => setPickupAddr2(e.target.value)}
-                                />
-                                <label htmlFor='PhoneNumber'>Phone Number:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='PhoneNumber'
-                                    placeholder='Phone Number'
-                                    value={pickupPhoneNumber}
-                                    onChange={(e) => setPickupPhoneNumber(e.target.value)}
-                                />
+                        <div className='inputfields'>
+                            <div className="inputfields address" >
+                                <div className='Pickup-Adress'>
+                                    <h5>Pickup Adress</h5>
+                                    <label htmlFor='name'>Name:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='name'
+                                        placeholder='Name'
+                                        value={pickupName}
+                                        onChange={(e) => setPickupName(e.target.value)}
+                                    />
+                                    <label htmlFor='addrL1'>Address Line 1:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='addrL1'
+                                        placeholder='Adress Line 1'
+                                        value={pickupAddr1}
+                                        onChange={(e) => setPickupAddr1(e.target.value)}
+                                    />
+                                    <label htmlFor='addrL2'>Address Line 2:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='addrL2'
+                                        placeholder='Address Line 2'
+                                        value={pickupAddr2}
+                                        onChange={(e) => setPickupAddr2(e.target.value)}
+                                    />
+                                    <label htmlFor='PhoneNumber'>Phone Number:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='PhoneNumber'
+                                        placeholder='Phone Number'
+                                        value={pickupPhoneNumber}
+                                        onChange={(e) => setPickupPhoneNumber(e.target.value)}
+                                    />
 
-                                <div  >
-                                    <div className="Address-Elements">
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor='Email'>Email:</label>
-                                            <input
-                                                className='input'
-                                                type='text'
-                                                id='Email'
-                                                placeholder='Email'
-                                                value={pickupEmail}
-                                                onChange={(e) => setPickupEmail(e.target.value)}
-                                            />
+                                    <div  >
+                                        <div className="Address-Elements">
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor='Email'>Email:</label>
+                                                <input
+                                                    className='input'
+                                                    type='text'
+                                                    id='Email'
+                                                    placeholder='Email'
+                                                    value={pickupEmail}
+                                                    onChange={(e) => setPickupEmail(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor='city'>City:</label>
+                                                <input
+                                                    className='input'
+                                                    type='text'
+                                                    id='city'
+                                                    placeholder='city'
+                                                    value={pickupCity}
+                                                    onChange={(e) => setPickupCity(e.target.value)}
+                                                />
+                                            </div>
                                         </div>
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor='city'>City:</label>
+                                        <div className="Address-Elements">
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor='pincode'>Pincode:</label>
+                                                <input
+                                                    className='input'
+                                                    type='number'
+                                                    id='pincode'
+                                                    placeholder='pincode'
+                                                    value={pickupPincode}
+                                                    onChange={(e) => setPickupPincode(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor='state'>State:</label>
+                                                <input
+                                                    className='input'
+                                                    type='text'
+                                                    id='state'
+                                                    placeholder='State'
+                                                    value={pickupState}
+                                                    onChange={(e) => setPickupState(e.target.value)}
+
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='Delivery-Address'>
+                                    <h5>Delivery Address</h5>
+                                    <label htmlFor="name">Name:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='name'
+                                        placeholder='Name'
+                                        value={deliveryName}
+                                        onChange={(e) => setDeliveryName(e.target.value)}
+                                    />
+                                    <label htmlFor="Address Line 1"> Address Line 1:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='addL1'
+                                        placeholder='Adress Line 1'
+                                        value={deliveryAddrL1}
+                                        onChange={(e) => setDeliveryAddrL1(e.target.value)}
+                                    />
+                                    <label htmlFor="Address Line 2"> Address Line 2:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='addL2'
+                                        placeholder='Adress Line 2'
+                                        value={deliveryAddrL2}
+                                        onChange={(e) => setDeliveryAddrL2(e.target.value)}
+                                    />
+                                    <label htmlFor="Phone Number">Phone Number:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='phoneNumber'
+                                        placeholder='Phone Number'
+                                        value={deliveryPhoneNumber}
+                                        onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
+                                    />
+                                    <div className="cityStatePin" >
+
+                                        <div className="Address-Elements-sub">
+                                            <label htmlFor="City">City:</label>
                                             <input
                                                 className='input'
                                                 type='text'
                                                 id='city'
                                                 placeholder='city'
-                                                value={pickupCity}
-                                                onChange={(e) => setPickupCity(e.target.value)}
+                                                value={deliveryCity}
+                                                onChange={(e) => setDeliveryCity(e.target.value)}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="Address-Elements">
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor='pincode'>Pincode:</label>
-                                            <input
-                                                className='input'
-                                                type='number'
-                                                id='pincode'
-                                                placeholder='pincode'
-                                                value={pickupPincode}
-                                                onChange={(e) => setPickupPincode(e.target.value)}
-                                            />
-                                        </div>
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor='state'>State:</label>
-                                            <input
-                                                className='input'
-                                                type='text'
-                                                id='state'
-                                                placeholder='State'
-                                                value={pickupState}
-                                                onChange={(e) => setPickupState(e.target.value)}
+                                        <div className="Address-Elements">
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor="Pincode">Pincode:</label>
+                                                <input
+                                                    className='input'
+                                                    type='number'
+                                                    id='pincode'
+                                                    placeholder='pincode'
+                                                    value={deliveryPincode}
+                                                    onChange={(e) => setDeliveryPincode(e.target.value)}
+                                                />
+                                            </div>
 
-                                            />
+                                            <div className="Address-Elements-sub">
+                                                <label htmlFor="State">State:</label>
+                                                <input
+                                                    className='input'
+                                                    type='text'
+                                                    id='state'
+                                                    placeholder='State'
+                                                    value={deliveryState}
+                                                    onChange={(e) => setDeliveryState(e.target.value)}
+                                                />
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
-                            <div className='Delivery-Address'>
-                                <h5>Delivery Address</h5>
-                                <label htmlFor="name">Name:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='name'
-                                    placeholder='Name'
-                                    value={deliveryName}
-                                    onChange={(e) => setDeliveryName(e.target.value)}
-                                />
-                                <label htmlFor="Address Line 1"> Address Line 1:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='addL1'
-                                    placeholder='Adress Line 1'
-                                    value={deliveryAddrL1}
-                                    onChange={(e) => setDeliveryAddrL1(e.target.value)}
-                                />
-                                <label htmlFor="Address Line 2"> Address Line 2:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='addL2'
-                                    placeholder='Adress Line 2'
-                                    value={deliveryAddrL2}
-                                    onChange={(e) => setDeliveryAddrL2(e.target.value)}
-                                />
-                                <label htmlFor="Phone Number">Phone Number:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='phoneNumber'
-                                    placeholder='Phone Number'
-                                    value={deliveryPhoneNumber}
-                                    onChange={(e) => setDeliveryPhoneNumber(e.target.value)}
-                                />
-                                <div className="cityStatePin" >
-
-                                    <div  className="Address-Elements-sub">
-                                        <label htmlFor="City">City:</label>
+                            <div className="inputfields productdetails" >
+                                <div className='Billing-Address'>
+                                    <h5>Billing Address</h5>
+                                    <label className='checkbox'>
                                         <input
-                                            className='input'
-                                            type='text'
-                                            id='city'
-                                            placeholder='city'
-                                            value={deliveryCity}
-                                            onChange={(e) => setDeliveryCity(e.target.value)}
+                                            type='checkbox'
+                                            name='shipment-type'
+                                            value='Document'
+                                            checked={isBillingChecked}
+                                            onChange={(e) => setBillingAddress(e.target.checked)}
                                         />
-                                    </div>
-                                    <div className="Address-Elements">
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor="Pincode">Pincode:</label>
-                                            <input
-                                                className='input'
-                                                type='number'
-                                                id='pincode'
-                                                placeholder='pincode'
-                                                value={deliveryPincode}
-                                                onChange={(e) => setDeliveryPincode(e.target.value)}
-                                            />
-                                        </div>
-
-                                        <div  className="Address-Elements-sub">
-                                            <label htmlFor="State">State:</label>
-                                            <input
-                                                className='input'
-                                                type='text'
-                                                id='state'
-                                                placeholder='State'
-                                                value={deliveryState}
-                                                onChange={(e) => setDeliveryState(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div className="inputfields productdetails" >
-                            <div className='Billing-Address'>
-                                <h5>Billing Address</h5>
-                                <label className='checkbox'>
-                                    <input
-                                        type='checkbox'
-                                        name='shipment-type'
-                                        value='Document'
-                                        checked={isBillingChecked}
-                                        onChange={(e) => setBillingAddress(e.target.checked)}
-                                    />
-                                    Use my pickup address
-                                </label>
-                                <label htmlFor="">Name:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='name'
-                                    placeholder='Name'
-                                    value={billingName}
-                                    onChange={(e) => setBillingName(e.target.value)}
-                                />
-                                <label htmlFor="">Address:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='address'
-                                    placeholder='Address'
-                                    value={billingAddr}
-                                    onChange={(e) => setBillingAddr(e.target.value)}
-                                />
-                                <label htmlFor="">Phone Number:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='phoneNumber'
-                                    placeholder='PhoneNumber'
-                                    value={billingPhoneNumber}
-                                    onChange={(e) => setBillingPhoneNumber(e.target.value)}
-                                />
-
-                            </div>
-                            <div className="about-item">
-                                <h5>About the item</h5>
-                                <label className='checkbox'>
-                                    <input
-                                        type='checkbox'
-                                        name='shipment-type'
-                                        value='Document'
-                                        checked={isPackingNeeded}
-                                        onChange={(e) => setIsPackingNeeded(e.target.checked)}
-                                    />
-                                    Is packing needed
-                                </label>
-                                <label htmlFor="">Item Name:</label>
-                                <input
-                                    className='input'
-                                    type='text'
-                                    id='height'
-                                    placeholder='Item Description'
-                                    value={itemDescription}
-                                    onChange={(e) => setItemDescriptiont(e.target.value)}
-                                />
-
-
-
-                                <label htmlFor="">Item Category:</label>
-                                <select className='input' value={selectedCategory} onChange={handleCategoryChange}>
-                                    <option value="" disabled hidden>Select Item category</option>
-                                    {categories.map((category, index) => (
-                                        <option key={index} value={category}>
-                                            {category}
-                                        </option>
-                                    ))}
-                                </select>
-                                {selectedCategory === "Other" && (
+                                        Use my pickup address
+                                    </label>
+                                    <label htmlFor="">Name:</label>
                                     <input
                                         className='input'
-                                        type="text"
-                                        value={otherCategoryInput}
-                                        onChange={(e) => setOtherCategoryInput(e.target.value)}
-                                        placeholder="Enter other category"
+                                        type='text'
+                                        id='name'
+                                        placeholder='Name'
+                                        value={billingName}
+                                        onChange={(e) => setBillingName(e.target.value)}
                                     />
-                                )}
-                                <label htmlFor="">Item Value:</label>
-                                <input
-                                    className='input'
-                                    type='number'
-                                    id='pincode'
-                                    placeholder='Estimated value'
-                                    value={itemValue}
-                                    onChange={(e) => setItemValue(e.target.value)}
-                                />
+                                    <label htmlFor="">Address:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='address'
+                                        placeholder='Address'
+                                        value={billingAddr}
+                                        onChange={(e) => setBillingAddr(e.target.value)}
+                                    />
+                                    <label htmlFor="">Phone Number:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='phoneNumber'
+                                        placeholder='PhoneNumber'
+                                        value={billingPhoneNumber}
+                                        onChange={(e) => setBillingPhoneNumber(e.target.value)}
+                                    />
 
+                                </div>
+                                <div className="about-item">
+                                    <h5>About the item</h5>
+                                    <label className='checkbox'>
+                                        <input
+                                            type='checkbox'
+                                            name='shipment-type'
+                                            value='Document'
+                                            checked={isPackingNeeded}
+                                            onChange={(e) => setIsPackingNeeded(e.target.checked)}
+                                        />
+                                        Is packing needed
+                                    </label>
+                                    <label htmlFor="">Item Name:</label>
+                                    <input
+                                        className='input'
+                                        type='text'
+                                        id='height'
+                                        placeholder='Item Description'
+                                        value={itemDescription}
+                                        onChange={(e) => setItemDescriptiont(e.target.value)}
+                                    />
+
+
+
+                                    <label htmlFor="">Item Category:</label>
+                                    <select className='input' value={selectedCategory} onChange={handleCategoryChange}>
+                                        <option value="" disabled hidden>Select Item category</option>
+                                        {categories.map((category, index) => (
+                                            <option key={index} value={category}>
+                                                {category}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {selectedCategory === "Other" && (
+                                        <input
+                                            className='input'
+                                            type="text"
+                                            value={otherCategoryInput}
+                                            onChange={(e) => setOtherCategoryInput(e.target.value)}
+                                            placeholder="Enter other category"
+                                        />
+                                    )}
+                                    <label htmlFor="">Item Value:</label>
+                                    <input
+                                        className='input'
+                                        type='number'
+                                        id='pincode'
+                                        placeholder='Estimated value'
+                                        value={itemValue}
+                                        onChange={(e) => setItemValue(e.target.value)}
+                                    />
+
+                                </div>
                             </div>
+                            <button
+                                id='calculate-button'
+                                className='btn btn-primary'
+                                onClick={handleCalculate}>
+                                {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
+                            </button>
+                            <div id='result'></div>
                         </div>
-                        <button
-                            id='calculate-button'
-                            className='btn btn-primary'
-                            onClick={handleCalculate}>
-                            {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
-                        </button>
-                        <div id='result'></div>
                     </div>
-                </div>
                 </div>)
             }
             {

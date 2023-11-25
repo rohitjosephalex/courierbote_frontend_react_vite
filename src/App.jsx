@@ -177,10 +177,10 @@ function ShippingCalculator() {
 						{courierType === "domestic" &&
 							<div className="domestic">
 								<div className='btn-group' role='group' aria-label='Basic example'>
-									<button type='button' onClick={() => handleButtonClick("Indian Post")} className={selectedPosrD2dButton === 'Indian Post' ? 'btn btn-new active' : 'btn btn-new'} >
+									<button type='button' onClick={() => {handleButtonClick("Indian Post"); setButtonLoading(false);}} className={selectedPosrD2dButton === 'Indian Post' ? 'btn btn-new active' : 'btn btn-new'} >
 										Indian Post
 									</button>
-									<button type='button' onClick={() => handleButtonClick("d2d")} className={selectedPosrD2dButton === 'd2d' ? 'btn btn-new active' : 'btn btn-new'}>
+									<button type='button' onClick={() =>{ handleButtonClick("d2d");setButtonLoading(false);}} className={selectedPosrD2dButton === 'd2d' ? 'btn btn-new active' : 'btn btn-new'}>
 										Door To Door
 									</button>
 								</div>
@@ -328,14 +328,11 @@ function ShippingCalculator() {
 											</div>
 											<div style={{ display: 'grid' }}>
 												<label className='label'>Product Description:</label>
-												<input
+												<input 
 													className='input'
-													maxLength="6"
-													pattern="[0-9]*" 
 													type='text'
-													inputMode="numeric"
 													id='drop-pincode'
-													placeholder='Drop Pincode'
+													placeholder='Product Description'
 													value={description}
 													onChange={(e) => setdescription(e.target.value)}
 												/>
