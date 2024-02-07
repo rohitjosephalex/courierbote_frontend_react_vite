@@ -1,5 +1,5 @@
 // import React from "react";
-import App from "./App";
+import ShippingCalculator from "./Card";
 import "./Landing.css";
 import "./App.css";
 import "./index.css";
@@ -31,7 +31,7 @@ function LandingPage() {
 					< img src={courierBoteWhiteText} alt="logo" className="courierbotelogo" />
 					<img src={logistics} alt="new" className="logisticslogo" />
 					<h3 className="courierbote" >CourierBote</h3>
-					<App />
+					<ShippingCalculator />
 				</div>
 			</main>
 			<footer></footer>
