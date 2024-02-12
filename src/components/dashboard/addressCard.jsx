@@ -124,7 +124,7 @@ function AddressCard() {
                         perBoxWeight: unifiedperBoxWeight,
                         noOfBOx: noOfBox
                     };
-                    const response = await axios.post('http://localhost:80/api/corporatedashboard/byairrate', requestData, {
+                    const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byairrate', requestData, {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
                         },
@@ -151,7 +151,7 @@ function AddressCard() {
                             perBoxWeight: unifiedperBoxWeight,
                             noOfBOx: noOfBox
                         };
-                        const response = await axios.post('http://localhost:80/api/corporatedashboard/byroadrate', requestData, {
+                        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byroadrate', requestData, {
                             headers: {
                                 Authorization: `Bearer ${apiToken}`,
                             },
