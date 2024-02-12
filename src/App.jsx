@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './Landing';
-import SignUp from './components/signup/SignUp';
+import SignUp from './components/signup/signUp';
 import CorporateDashboard from './components/dashboard/CorperateDashboard';
 // Placeholder component for unknown paths
 const NotFound = () => {
