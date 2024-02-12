@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from 'react';
 import './dashboard.css';
 import NavBar from './navbar';
 import PincodeSearch from './pincodeSearch';
-import AddressCard from './AddressCard';
+import AddressCard from './addressCard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import UseSessionExpiration from './useSessionHistory';
