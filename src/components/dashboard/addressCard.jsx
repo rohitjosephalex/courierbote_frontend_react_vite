@@ -1,14 +1,16 @@
 // import React from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Popup from 'reactjs-popup';
 import sizeOfPacking from '../../assets/Size_Packing.jpg';
 import securityOfPacking from '../../assets/Security_Items.jpg';
 import softPacking from '../../assets/Soft_Packing.jpg';
 import qualityPacking from '../../assets/Quality_packing.jpg';
-import Modal from 'react-modal';
+import TermsAndCondition from "./termsAndCondition";
+import RestrictedItems from "./restrictedItems";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+
 
 function AddressCard() {
     const [cardName, setCardName] = useState("Initial");
@@ -37,7 +39,6 @@ function AddressCard() {
     const [wholeWeight, setWholeWeight] = useState("");
     const [perBoxWeight, setPerBoxWeight] = useState("");
     const [noOfBox, setNoOfBox] = useState("");
-    const [weight, setWeight] = useState("");
     const [weightUnit, setWeightUnit] = useState("kg");
 
     // About the Item
@@ -47,19 +48,30 @@ function AddressCard() {
     const [otherCategoryInput, setOtherCategoryInput] = useState("");
     const [itemValue, setItemValue] = useState("");
     const [isChecked, setChecked] = useState(false);
+    const [isCheckedShipping, setCheckedShipping] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
 
     // Other States
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [amount, setAmount] = useState(false);
+    const [courierAmount, setCourierAmount] = useState('');
+    const [pickUpAmount, setPickUpAmount] = useState('');
+    const [courierBoteAmount, setCourierBoteAmount] = useState('');
+    const [totalAmount, setTotalAmount] = useState('');
     const [orderConfirmation, setOrderConfirmation] = useState(false);
     const [paymentType, setPaymentType] = useState('');
+    const [error, setError] = useState("");
+    const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
+
     const handleConfirm = () => {
         setOrderConfirmation(true)
     }
     const handleCheckboxChange = () => {
         setChecked(!isChecked);
     };
+    const handleCheckboxShippingChange = () => {
+        setCheckedShipping(!isCheckedShipping);
+    };
+
 
     const handleTextClick = () => {
 
@@ -78,73 +90,103 @@ function AddressCard() {
 
     // Function to handle calculate button click
     const handleCalculate = async () => {
-
         try {
-            setButtonLoading(true);
-            let unifiedperBoxWeight=perBoxWeight;
-            let unifiedTotalWeight=wholeWeight;
-            if(weightUnit==='gm'){
-                unifiedperBoxWeight=perBoxWeight/1000;
-                unifiedTotalWeight=wholeWeight/1000
-            }
-            if (shipmentType === 'By Air') {
-                const requestData = {
-                    pickupPincode: pickupPincode,
-                    destiantionPincode: deliveryPincode,
-                    totalWeight:unifiedTotalWeight,
-                    perBoxWeight:unifiedperBoxWeight,
-                    noOfBOx:noOfBox
-                };
-                const response = await axios.post('http://localhost:80/api/corporatedashboard/byairrate', requestData);
-                console.log(response.data)
-                if(response.data.status===200){
-                    setAmount(response.data.data.courierCharge) ;
-                    setButtonLoading(false);
-                    setCardName("summary")
+            let isTimedOut = false;
+    
+            // Set a timeout to stop loading after 20 seconds
+            const timeoutId = setTimeout(() => {
+                isTimedOut = true;
+                setButtonLoading(false);
+                alert('Request timed out. Please try again.');
+            }, 20000);
+    
+            if (!isCheckedShipping) {
+                setError("Please read what items can be Shipped");
+                setButtonLoading(false);
+            } else if (!localPincode.includes(parseInt(pickupPincode))) {
+                setError("Sorry Service at this pincode is currently unavailable");
+                setButtonLoading(false);
+            } else {
+                setButtonLoading(true);
+                setError("");
+                const apiToken = sessionStorage.getItem('api_token');
+                let unifiedperBoxWeight = perBoxWeight;
+                let unifiedTotalWeight = wholeWeight;
+                if (weightUnit === 'gm') {
+                    unifiedperBoxWeight = perBoxWeight / 1000;
+                    unifiedTotalWeight = wholeWeight / 1000;
+                }
+                if (shipmentType === 'By Air') {
+                    const requestData = {
+                        pickupPincode: pickupPincode,
+                        destiantionPincode: deliveryPincode,
+                        totalWeight: unifiedTotalWeight,
+                        perBoxWeight: unifiedperBoxWeight,
+                        noOfBOx: noOfBox
+                    };
+                    const response = await axios.post('http://localhost:80/api/corporatedashboard/byairrate', requestData, {
+                        headers: {
+                            Authorization: `Bearer ${apiToken}`,
+                        },
+                    });
+                    console.log(response.data);
+                    if (!isTimedOut) {
+                        clearTimeout(timeoutId); // Clear the timeout if response is received before timeout
+                        if (response.data.status === 200) {
+                            setCourierAmount(response.data.data.courierCharge);
+                            setCourierBoteAmount(response.data.data.CourierBotePrice);
+                            setPickUpAmount(response.data.data.pickupCharge);
+                            setTotalAmount(response.data.data.totalCharge);
+                            setButtonLoading(false);
+                            setCardName("summary");
+                        }
+                    }
+                } else if (shipmentType === 'By surface') {
+                    if (!isTimedOut) {
+                        clearTimeout(timeoutId); // Clear the timeout if response is received before timeout
+                        const requestData = {
+                            pickupPincode: pickupPincode,
+                            destiantionPincode: deliveryPincode,
+                            totalWeight: unifiedTotalWeight,
+                            perBoxWeight: unifiedperBoxWeight,
+                            noOfBOx: noOfBox
+                        };
+                        const response = await axios.post('http://localhost:80/api/corporatedashboard/byroadrate', requestData, {
+                            headers: {
+                                Authorization: `Bearer ${apiToken}`,
+                            },
+                        });
+                        console.log(response.data);
+                        if (response.data.status === 200) {
+                            setCourierAmount(response.data.data.courierCharge);
+                            setCourierBoteAmount(response.data.data.courierCharge.CourierBotePrice);
+                            setPickUpAmount(response.data.data.courierCharge.pickupCharge);
+                            setTotalAmount(response.data.data.courierCharge.totalCharge);
+                            setButtonLoading(false);
+                            setCardName("summary");
+                        }
+                    }
                 }
             }
-            else if(shipmentType === 'By surface'){
-                const requestData = {
-                    pickupPincode: pickupPincode,
-                    destiantionPincode: deliveryPincode,
-                    totalWeight:unifiedTotalWeight,
-                    perBoxWeight:unifiedperBoxWeight,
-                    noOfBOx:noOfBox
-                };
-                const response = await axios.post('http://localhost:80/api/corporatedashboard/byroadrate', requestData);
-                console.log(response.data)
-                if(response.data.status===200){
-                    setAmount(response.data.data.courierCharge) ;
-                    setButtonLoading(false);
-                    setCardName("summary")
-                }   
-            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError("An error occurred. Please try again.");
+            setButtonLoading(false);
         }
-        catch (error) {
-            console.log(error)
-        }
-
-
-
-
     };
+    
     const handleProceed = () => {
         // Your logic for handling the calculate button click
         if (isChecked) {
             // Set buttonLoading to true during processing
             setButtonLoading(true);
 
-            // Simulate an asynchronous operation (e.g., API call)
-            setTimeout(() => {
-                // After completion, set buttonLoading back to false
                 setButtonLoading(false);
-                setAmount(250)
                 setCardName("billing")
-                // Your further logic after the operation is complete
-            }, 2000)
+
         } else {
             // Handle the case when the checkbox is not checked
-            alert('Please agree to the Terms and Conditions');
+            setError('Please agree to the Terms and Conditions');
         }
     };
     const handlOk = () => {
@@ -322,15 +364,29 @@ function AddressCard() {
                                         modal nested>
                                         {
                                             close => (
-                                                <div className='popup-container otp' >
-                                                    <div className='popup-container content'  >
-
-
+                                                <div className='popup-container parcel-type' >
+                                                    <div className='popup-container parcel-type-content'  >
 
                                                         <div>
-                                                            <button className="popup-close" onClick=
-                                                                {() => { close(); }}>
+                                                            <div className="question">
+                                                                What is 'By Air'?
+                                                            </div>
+                                                            <p>
+                                                                Speed Post is used for delivering parcels, especially for long-distance and international courier services, utilizing air transport. The use of air transport significantly reduces transit time, making Speed Post a fast and efficient service.
+                                                            </p>
+                                                            <div className="question">
+                                                                How long will it take?
+                                                            </div>
+                                                            <p>
+                                                                By air, delivery typically takes 2 to 3 working days within India, depending on the destination. However, delivery times may vary based on factors such as distance, weather conditions, and the efficiency of the local postal service.
+                                                            </p>
 
+                                                        </div>
+
+                                                        <div>
+                                                            <button className="btn btn-primary" onClick=
+                                                                {() => { close(); }}>
+                                                                close
                                                             </button>
                                                         </div>
                                                     </div>
@@ -358,20 +414,52 @@ function AddressCard() {
                                         modal nested>
                                         {
                                             close => (
-                                                <div className='popup-container otp' >
-                                                    <div className='popup-container content'  >
-
-
-
+                                                <div className='popup-container parcel-type' >
+                                                    <div className='popup-container parcel-type-content'  >
                                                         <div>
-                                                            <button className="popup-close" onClick=
+                                                            <div className="question">
+                                                                What is 'By Surface'?
+                                                            </div>
+                                                            <p>
+                                                                Business Parcel is a premium surface service to suit the requirements of business customers for an economical and reliable distribution solution.​ Features​​ Network. Business Parcel is available throughout the country.
+                                                            </p>
+                                                            <div className="question">
+                                                                How long will it take?
+                                                            </div>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>Local</td>
+                                                                    <td>2 days</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Within State</td>
+                                                                    <td>3 to 5 days</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>State to State</td>
+                                                                    <td>4 to 6 days</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Rest of the country</td>
+                                                                    <td>6 to 7 days</td>
+                                                                </tr>
+                                                            </table>
+                                                            <div className="question">
+                                                                Permisible Dimension and Weight
+                                                            </div>
+                                                            <p>
+                                                                The maximum length should not surpass 150 centimeters in any single dimension, or 300 centimeters when considering the length and the largest circumference measured in a direction perpendicular to the length.                                                           </p>
+                                                            <p>
+                                                                Maximum weight per parcel shall not exceed 35kg
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <button className="btn btn-primary" onClick=
                                                                 {() => { close(); }}>
-
+                                                                close
                                                             </button>
                                                         </div>
                                                     </div>
-
-
                                                 </div>
                                             )
                                         }
@@ -387,25 +475,17 @@ function AddressCard() {
                             <div className='product-weight-corporate'>
                                 <h5>Parcel Details</h5>
                                 <div className="product-weight-inputs">
-                                    <div className="product-weight-input-fields">
+                                <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
-                                            id='wholeWeight'
-                                            placeholder='Total Weight'
-                                            value={wholeWeight}
-                                            onChange={(e) => setWholeWeight(e.target.value)}
+                                            id='noOfBox'
+                                            placeholder="No of Box's"
+                                            value={noOfBox}
+                                            onChange={(e) => setNoOfBox(e.target.value)}
                                         />
-                                        <select
-                                            className="input corporate"
-                                            id='weightUnit'
-                                            value={weightUnit}
-                                            onChange={(e) => setWeightUnit(e.target.value)}>
-                                             <option>kg</option>
-                                            <option>gm</option>
-                                        </select>
                                     </div>
-                                    <div className="product-weight-input-fields">
+                                <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
@@ -422,16 +502,24 @@ function AddressCard() {
                                             <option>kg</option>
                                             <option>gm</option>
                                         </select>
-                                    </div>
+                                    </div>                       
                                     <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
-                                            id='noOfBox'
-                                            placeholder='No of Box'
-                                            value={noOfBox}
-                                            onChange={(e) => setNoOfBox(e.target.value)}
+                                            id='wholeWeight'
+                                            placeholder='Total Weight'
+                                            value={wholeWeight}
+                                            onChange={(e) => setWholeWeight(e.target.value)}
                                         />
+                                        <select
+                                            className="input corporate"
+                                            id='weightUnit'
+                                            value={weightUnit}
+                                            onChange={(e) => setWeightUnit(e.target.value)}>
+                                            <option>kg</option>
+                                            <option>gm</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -472,14 +560,64 @@ function AddressCard() {
                                 </div>
                             </div>
                         </div>
+                        <div className="items-restriction">
+                            <div className="readme">
+                                <div className="readme-restricteditems">
+                                    <Popup trigger=
+                                        {
+                                            <p
+                                                style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                                onClick={handleTextClick}
+                                            >
+                                                Please read what can be shipped
+                                            </p>}
+                                        modal nested>
+                                        {
+                                            close => (
+                                                <div className='popup-container parcel-type'>
+                                                    <div className='popup-container terms-and-condition'>
+                                                        <h2>What items can be shipped?</h2>
+                                                        {/* Add your Terms and Conditions content here */}
+                                                        <RestrictedItems />
+                                                        <div className="iHave-read">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={isCheckedShipping}
+                                                                onChange={handleCheckboxShippingChange}
+                                                            />
+                                                            <p>I have read and understand what can and cannot be shipped</p>
+                                                        </div>
+                                                        <div>
+                                                            <button className="btn btn-primary" onClick={() => { close(); }}>
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <ScrollToTopOnMount /> {/* Scroll to top when the component mounts */}
+                                                </div>
+                                            )
+                                        }
 
-                        <button
-                            id='calculate-button'
-                            className='btn btn-primary'
-                            onClick={handleCalculate}>
-                            {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
-                        </button>
-                        <div id='result'></div>
+                                    </Popup>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="button-class">
+                            {error && (
+                                <div className="error-text-container">
+                                    <p className="error-text">{error}</p>
+                                </div>
+                            )}
+                            <button
+                                id='calculate-button'
+                                className='btn btn-primary'
+                                onClick={handleCalculate}
+                                style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>
+                                {!buttonLoading ? 'Proceed to Summary' : 'loading...'}
+                            </button>
+
+                        </div>
                     </div>
                 </div>)}
                 {cardName === "summary" && (
@@ -503,44 +641,46 @@ function AddressCard() {
 
                                 <div className="summary-items">
                                     <div className="items-heading">Amount</div>
-                                    <div className="items-name">{amount}</div>
+                                    <div className="items-name">{courierAmount}</div>
                                 </div>
                             </div>
                             <div className="summary-information">
-                                <div className="Please-note" >
-                                    Service Cut off Time: 12:30 PM
-                                    All parcels that are booked for pick up after service cut off time:12:30 PM, Will be scheduled for delivery on the next working day
-
+                                <div className="summary-information-please">
+                                    <h4>Please Note:</h4>
+                                    <ul>
+                                        <li className="Please-note">
+                                            Any parcels booked for pick-up after the cut-off time (12:30 PM) will be scheduled for delivery on the next working day.
+                                        </li>
+                                        <li className="Please-note">
+                                            Pick-up service is available 24/7, but deliveries are not scheduled for Sundays and designated holidays.
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div className="Please-note" >
-                                    Pick up service is available 24/7 but
-                                    Delivery of the parcels will not be scheduled on Sundays and the Delivery partner designated holiday
 
-                                </div>
                                 <div className="packing-guide">
                                     <div>
                                         <h3>How To Pack Your Courier</h3>
                                         <div className="packing-image-section">
-                                            <div className="packing-items">
-                                                <img src={sizeOfPacking} alt="sizeOfPacking" className="packingLogo" />
-                                                <h5 className="packing-item-heading">Size of Packing</h5>
-                                                <p className="packing-item-desc">Ensure the box is not overloaded</p>
-                                            </div>
-                                            <div className="packing-items">
-                                                <img src={qualityPacking} alt="qualityPacking" className="packingLogo" />
-                                                <h5 className="packing-item-heading">Quality of Packing</h5>
-                                                <p className="packing-item-desc">Ensure that the box is sturdy and thick. Do not under or overfill</p>
-                                            </div>
-                                            <div className="packing-items">
-                                                <img src={securityOfPacking} alt="securityOfPacking" className="packingLogo" />
-                                                <h5 className="packing-item-heading">Securing Items</h5>
-                                                <p className="packing-item-desc">Use 5-6 cm cushioning between each item and line box with bubble wrap or newspaper</p>
-                                            </div>
-                                            <div className="packing-items">
-                                                <img src={softPacking} alt="softPacking" className="packingLogo" />
-                                                <h5 className="packing-item-heading">Soft Packing</h5>
-                                                <p className="packing-item-desc">Ensure that the package is properly sealed Do not use paper or fabric bags </p>
-                                            </div>
+                                            <table>
+                                                <tr>
+                                                    <td><img src={sizeOfPacking} alt="sizeOfPacking" className="packingLogo" /></td>
+                                                    <td><img src={qualityPacking} alt="qualityPacking" className="packingLogo" /> </td>
+                                                    <td><img src={securityOfPacking} alt="securityOfPacking" className="packingLogo" /></td>
+                                                    <td><img src={softPacking} alt="softPacking" className="packingLogo" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Size of Packing</td>
+                                                    <td>Quality of Packing</td>
+                                                    <td>Securing Item</td>
+                                                    <td>Size of Packing</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ensure the box is not overloaded</td>
+                                                    <td>Ensure that the box is sturdy and thick. Do not under or overfill</td>
+                                                    <td>Use 5-6 cm cushioning between each item and line box with bubble wrap or newspaper</td>
+                                                    <td>Ensure that the package is properly sealed Do not use paper or fabric bags</td>
+                                                </tr>
+                                            </table>
 
                                         </div>
                                     </div>
@@ -551,42 +691,62 @@ function AddressCard() {
                                     <div className="readme">
                                         <div className="readme-restricteditems">
 
-                                            <p
-                                                style={{ textDecoration: 'underline', cursor: 'pointer' }}
-                                                onClick={handleTextClick}
-                                            >
-                                                Click here to read the Terms and Conditions
-                                            </p>
+                                            <input
+                                                type="checkbox"
+                                                checked={isChecked}
+                                                onChange={handleCheckboxChange}
+                                            />
 
-                                            <Modal
-                                                isOpen={isModalOpen}
-                                                onRequestClose={closeModal}
-                                                contentLabel="Terms and Conditions Modal"
-                                            >
-                                                <h2>Terms and Conditions</h2>
-                                                {/* Add your Terms and Conditions content here */}
-                                                <p>Your terms and conditions go here.</p>
-                                                <label>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isChecked}
-                                                        onChange={handleCheckboxChange}
-                                                    />
-                                                    I agree to the Terms and Conditions
-                                                </label>
-                                                <button onClick={closeModal}>Close</button>
-                                            </Modal>
+                                            <p>I agree to the&nbsp; </p>
+                                            <Popup trigger=
+                                                {
+                                                    <p
+                                                        style={{ textDecoration: 'underline', cursor: 'pointer' }}
+                                                        onClick={handleTextClick}
+                                                    >
+                                                        Terms and Conditions
+                                                    </p>}
+                                                modal nested>
+                                                {
+                                                    close => (
+                                                        <div className='popup-container parcel-type' >
+                                                            <div className='popup-container terms-and-condition'  >
+                                                                <h2>Terms and Conditions</h2>
+                                                                {/* Add your Terms and Conditions content here */}
+                                                                <TermsAndCondition />
+
+                                                                <div>
+                                                                    <button className="btn btn-primary" onClick=
+                                                                        {() => { close(); }}>
+                                                                        close
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <ScrollToTopOnMount />
+                                                        </div>
+                                                    )
+                                                }
+                                            </Popup>
+
+
                                         </div>
                                     </div>
                                 </div>
                                 <button className="card-back" onClick=
                                     {() => { setCardName('Initial') }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
+                                <div  className="button-class">
                                 <button
                                     id='dashboard-button'
                                     className='btn btn-primary'
                                     onClick={handleProceed}>
                                     {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
                                 </button>
+                                {error && (
+                        <div className="error-text-container">
+                            <p className="error-text">{error}</p>
+                        </div>
+                    )}
+                    </div>
                             </div>
 
                         </div>
@@ -600,33 +760,39 @@ function AddressCard() {
                         <div className="order-elements-grp" >
                             <div className="order-elements address">
                                 <div className="order-elements add" >
-                                    <p>Pickup Address:</p>
-                                    <p >{pickupName}<br />{pickupAddr1}<br />{pickupAddr2}<br />{pickupCity}<br />{pickupPincode}<br />{pickupState}</p>
+                                    <p className="order-elements heading">Pickup Details</p>
+                                    <p >{pickupName}<br />{pickupAddr1}<br />{pickupAddr2}<br />{pickupCity}<br />{pickupPincode}<br />{pickupState}<br />Phone Number {pickupPhoneNumber}</p>
                                 </div>
                                 <div className="order-elements add">
-                                    <p>Delivery Address:</p>
-                                    <p >{deliveryName}<br />{deliveryAddrL1}<br />{deliveryAddrL2}<br />{deliveryCity}<br />{deliveryPincode}<br />{deliveryState}</p>
+                                    <p className="order-elements heading">Delivery Details</p>
+                                    <p >{deliveryName}<br />{deliveryAddrL1}<br />{deliveryAddrL2}<br />{deliveryCity}<br />{deliveryPincode}<br />{deliveryState}<br />Phone Number {deliveryPhoneNumber}</p>
                                 </div>
                             </div>
-                            <div className=" order-elements">
-                                <p>Item description:</p>
+                            <div className="order-elements desc">
+                                <div className="order-elements items">
+                                <p className="order-elements heading">Item description:</p>
                                 <p>{itemDescription}</p>
+                                </div>
+                                <div className="order-elements items">
+                                <p className="order-elements heading">Item Category:</p>
+                                <p>{selectedCategory}</p>
+                                </div>
+                                <div className="order-elements items">
+                                <p className="order-elements heading">Item Value:</p>
+                                <p>{itemValue}</p>
+                                </div>
                             </div>
                             <div className="order-elements size">
                                 <div className="order-elements">
-                                    <p>Weight:</p>
-                                    <p>{weight}</p>
-                                </div>
-                                <div className="order-elements">
-                                    <p>NO of Boxes:</p>
+                                    <p className="order-elements heading">NO of Boxes:</p>
                                     <p>{noOfBox}</p>
                                 </div>
                                 <div className="order-elements">
-                                    <p>Per Box Weight:</p>
+                                    <p className="order-elements heading">Per Box Weight:</p>
                                     <p>{perBoxWeight}</p>
                                 </div>
                                 <div className="order-elements">
-                                    <p>Total Weight:</p>
+                                    <p className="order-elements heading">Total Weight:</p>
                                     <p>{wholeWeight}</p>
                                 </div>
                             </div>
@@ -635,20 +801,20 @@ function AddressCard() {
                                     <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
                                     <div className="billing-details">
                                         <div className="charge">
-                                            <p className="charge name">Pickup Charge</p>
-                                            <p>25</p>
-                                        </div>
-                                        <div className="charge">
-                                            <p className="charge name">Packing Charge</p>
-                                            <p>65</p>
-                                        </div>
-                                        <div className="charge">
                                             <p className="charge name">Courier Charge</p>
-                                            <p>100</p>
+                                            <p>{courierAmount}</p>
+                                        </div>
+                                        <div className="charge">
+                                            <p className="charge name">Pickup Charge</p>
+                                            <p>{pickUpAmount}</p>
+                                        </div>
+                                        <div className="charge">
+                                            <p className="charge name">Service Charge + GST</p>
+                                            <p>{(courierBoteAmount-courierAmount).toFixed(2)}</p>
                                         </div>
                                         <div className="charge ">
                                             <p id="total" className="charge name">Total Charge</p>
-                                            <p id="total">650</p>
+                                            <p id="total">{totalAmount.toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -731,5 +897,10 @@ function AddressCard() {
 
     );
 }
-
+function ScrollToTopOnMount() {
+    useEffect(() => {
+        document.querySelector('.terms-and-condition').scrollTop = 0; // Scroll to top when opened
+    }, []); // Empty dependency array ensures this effect runs only once
+    return null;
+}
 export default AddressCard;

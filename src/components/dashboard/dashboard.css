@@ -4,16 +4,52 @@ body {
 }
 
 .pincode-entry {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* height: 100vh; */
-    /* background-color: red; */
-
     padding-top: 15px;
     color: darkgrey;
     gap: 20px;
+}
+.button-class{
+margin: 15px;
+    width: 100%;
+       position: relative; 
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       z-index: 10;
+}
+.button-class.btn{
+    margin: 10px;
+    z-index: 10;
+
+}
+.error-text-container {
+    width:100%;    
+    margin-top: 25px;
+    font-weight: 600;
+    padding: 25px;
+    position: absolute;
+    top: -50px; /* Adjust as needed */
+    left: 0;
+    width: 100%;
+    height: 20px; /* Adjust the height as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: -1;
+}
+
+.error-text {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    color: red;
+    font-size: 14px;
 
 }
 
@@ -44,7 +80,8 @@ body {
     box-shadow: 15px 15px 10px 5px rgba(78, 78, 78, 0.2);
     padding-bottom: 25px;
     margin-bottom: 15px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    
 }
 
 .input.corporate {
@@ -60,11 +97,13 @@ body {
 .Pickup-Adress-corporate {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .Delivery-Address-corporate {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .corporate-address {
@@ -166,6 +205,26 @@ body {
     display: flex;
     flex-direction: row;
     gap: 15px;
+    align-items: center; /* Align items vertically in the flex container */
+}
+
+.packing-image-section table {
+    border-collapse: collapse; /* Collapse the borders of the table cells */
+    width: 100%; /* Make the table fill the container */
+}
+
+.packing-image-section td {
+    padding: 10px; /* Padding for the table cells */
+    border: 1px solid #ddd; /* Border for the table cells */
+    text-align: left; /* Align text to the left within cells */
+    background-color: white;
+    width: fit-content;
+}
+
+.packing-image-section img {
+    display: block; /* Make images block-level elements for spacing */
+    margin: 0 auto; /* Center images horizontally within their cells */
+    max-width: 100%; /* Ensure images don't exceed the width of their container */
 }
 
 .packing-items {
@@ -177,9 +236,33 @@ body {
 }
 
 .packingLogo {
-    width: 10vw;
-    height: 10vw;
+    width: 8vw;
+    height: auto;
 }
+
+.packing-item-desc {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.packing-guide {
+    width: fit-content;
+    margin: 25px;
+    background-color: #f5f5f5; /* Background color for the packing guide box */
+    padding: 20px; /* Padding around the content */
+    border-radius: 10px; /* Rounded corners for the box */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect for the box */
+}
+  .packing-image-section tr:nth-child(3) td {
+    text-align: justify; /* Justify the content of the third row */
+    font-size: small;
+  }
+  .packing-image-section tr:nth-child(2) td {
+    text-align: center; /* Justify the content of the third row */
+    font-size: small;
+    font-weight: 600;
+  }
+  
 
 .packing-item-desc {
     font-size: 12px;
@@ -193,13 +276,21 @@ body {
     justify-content: center;
     text-align: center;
     margin: 25px;
-    background-color: ;
+
 }
 
 .packing-item-heading {
     margin: 10px;
 }
+.summary-information-please{
+    padding-top: 25px;
+}
+.Please-note {
+    margin-bottom: 5px; /* Add space between note sections */
+    padding: 5px; /* Add padding around the note content */
+    border-radius: 5px; /* Rounded corners for the note */
 
+}
 .popup-container h5 {
     margin: 25px;
     font-size: 17px;
@@ -222,19 +313,35 @@ body {
     /* Adjust the z-index to ensure it's above other content */
 }
 
-.popup-container.content {
+.popup-container.parcel-type-content {
+    
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background: #141414;
-    height: 320px;
-    width: 280px;
+    background: #f5f5f5;
+    height: auto;
+    width: 35vw;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-
+    font-size: small;
+}
+.popup-container.terms-and-condition {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #f5f5f5;
+    height: 80vh;
+    width: 40vw;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    font-size: small;
+    overflow-y: auto;
 }
 
 .popup-close {
@@ -260,7 +367,10 @@ body {
 .popup-close::before {
     content: "\2716";
 }
-
+.question{
+    text-align: center;
+    font-size: medium;
+}
 .card-back {
     position: absolute;
 
@@ -293,6 +403,7 @@ body {
     height: 100vh;
     background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('../../assets/dashboardPincode.jpg') center/cover no-repeat;
     z-index: -1;
+    backdrop-filter: blur(10px); 
 }
 
 .pincode-search {
@@ -312,4 +423,148 @@ body {
 
 .pincode-desc {
     color: white;
+}
+.popup-container.parcel-type-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.popup-container.parcel-type-content td, .popup-container.parcel-type-content th {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.popup-container.parcel-type-content tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.popup-container.parcel-type-content tr:hover {
+  background-color: #ddd;
+}
+.popup-container.parcel-type-content p {
+    text-align: justify;
+}
+
+.custom-modal {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 600px; /* Optionally, set a maximum width */
+    margin: 0 auto; /* Center the modal horizontally */
+}
+.readme-restricteditems{
+    display: flex;
+    font-size: 13px;
+}
+.restricted-items {
+    margin-bottom: 20px;
+}
+
+.restricted-items ol {
+    list-style-type:circle;
+    padding-left: 20px;
+    text-align: left;
+}
+.restricted-items ul{
+    list-style: none;
+    padding: 5px;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap between items */
+    padding-inline-start: 0; /* Reset the padding added by the user agent */
+  }
+.highlighted-point {
+    text-align: justify;
+    background-color: #ffff9d; /* Yellow background */
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.banned-items-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .banned-items-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap between items */
+  }
+  .banned-items-list li img {
+    width: 100px; /* Adjust the width to your preference */
+    height: 100px; /* Set the height to match the width for a square shape */
+    object-fit: cover; /* Ensure the image covers the entire area */
+}
+  .banned-items-list ul li {
+    flex-basis: calc(33.33% - 20px); /* Adjust the width of each item */
+    display: flex;
+    align-items:center;
+    justify-content:flex-start;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 20px; /* Adjust the margin between rows */
+
+    /* For mobile devices */
+    @media (max-width: 768px) {
+      flex-basis: calc(50% - 20px); /* Adjust width to fit two items per row */
+    }
+  
+    /* For smaller mobile devices */
+    @media (max-width: 480px) {
+      flex-basis: calc(100% - 20px); /* Adjust width to fit one item per row */
+    }
+  }
+  .order-elements.address{
+    gap: 50px;
+  }
+  .order-elements .desc{
+    gap: 50px
+  }
+.order-elements.add{
+display: flex;
+flex-direction: column;
+}
+  .order-elements.heading{
+    font-weight: 600;
+  }
+.iHave-read{
+    display: flex;
+}
+.billing-box {
+
+	background-color: #f9f9f9;;
+	color:#333;
+}
+.billing-box h4 {
+    color: #333; /* Dark text color */
+}
+
+
+
+
+
+#total {
+    background-color: #d6d6d6; /* Light background color */
+    color: #333; /* Dark text color */
+}
+
+.charge p {
+
+    background-color: #f1f1f1; /* Lighter background color */
+    border: 1px solid #ccc; /* Light border color */
+    color: #333; /* Dark text color */
+;
+}
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+    .packing-image-section {
+        flex-direction: column; /* Change to vertical layout */
+    }
+    
+    .packing-image-section td {
+        text-align: center; /* Center align text in cells */
+    }
 }

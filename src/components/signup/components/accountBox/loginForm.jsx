@@ -40,6 +40,7 @@ export function LoginForm(props) {
         if (response.status === 200) {
           sessionStorage.setItem('api_token', response.data.api_token);
           sessionStorage.setItem('userid', response.data.userid);
+          sessionStorage.setItem('expirationTime', response.data.expirationTime);
           navigate('/corporate/dashboard');
         } else {
           // Handle other status codes here

@@ -4,13 +4,19 @@ import NavBar from './navbar';
 import PincodeSearch from './pincodeSearch';
 import AddressCard from './AddressCard';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import UseSessionExpiration from './useSessionHistory';
 
 function CorporateDashboard() {
+  const isExpired = UseSessionExpiration();
   const [companyName, setCompanyName] = useState("");
   const [proceedToAddress, setProceedToAddress] = useState(false); // Initialize state for proceeding to address
   const addressCardRef = useRef(null); // Create a ref for the AddressCard element
 
   useEffect(() => {
+    if (isExpired) {
+      return <Link className='link' to="/corporate/signin"></Link>;
+    }
     const fetchData = async () => {
       try {
         // Retrieve the api_token from the session storage
@@ -23,7 +29,7 @@ function CorporateDashboard() {
         }
 
         const response = await axios.post(
-          'https://backend.courierbote.com/api/corporateuser/get-user-by-token',
+          'http://localhost:80/api/corporateuser/get-user-by-token',
           {},
           {
             headers: {
@@ -31,7 +37,7 @@ function CorporateDashboard() {
             },
           }
         );
-        console.log(response.data.comapanyName);
+        console.log(response.data);
         setCompanyName(response.data.comapanyName);
       } catch (error) {
         console.error('Error fetching data:', error);
