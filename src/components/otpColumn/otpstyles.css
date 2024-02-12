@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
   
   .verification-number {
@@ -53,4 +54,61 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+=======
+
+  
+  .verification-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  
+  .otp-conatiner {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+
+  
+  .otp-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  .otp-input {
+    border-radius: 10px;
+    font-size: 25px;
+    text-align: center;
+    height: 55px;
+    width: 55px;
+    border: 1px solid rgba(87, 87, 87, 0.3);
+  }
+  .otp-input::placeholder {
+    color: rgba(200, 200, 200, 1);
+  }
+  .otp-input:focus {
+    outline: none;
+    border-bottom: 1px solid rgb(249, 144, 91);
+  }
+
+  
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+>>>>>>> de582fe6711407c235dc5c8cc67553d42f5b17ca
 }

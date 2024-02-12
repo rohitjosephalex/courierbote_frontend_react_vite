@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // MyContext.js
 import React, { createContext, useState } from "react";
 
@@ -18,3 +19,25 @@ const MyContextProvider = ({ children }) => {
 };
 
 export { MyContext, MyContextProvider };
+=======
+// MyContext.js
+import React, { createContext, useState } from "react";
+
+// Create a context with a default value
+const MyContext = createContext();
+
+// Create a provider component to wrap your components
+const MyContextProvider = ({ children }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+
+  return (
+    <MyContext.Provider value={{ email, setEmail, password, setPassword, companyName, setCompanyName }}>
+      {children}
+    </MyContext.Provider>
+  );
+};
+
+export { MyContext, MyContextProvider };
+>>>>>>> de582fe6711407c235dc5c8cc67553d42f5b17ca

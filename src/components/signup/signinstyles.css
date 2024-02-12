@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
 
 
@@ -40,4 +41,48 @@ code {
   color: inherit;
   cursor: pointer;
   text-decoration: inherit;
+=======
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  background-color: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.otp-send{
+  color: darkgray;
+  font-size: 13px;
+  text-align: center;
+  /* padding-bottom: 25px; */
+}
+.wrong-email{
+  text-align: center;
+}
+
+.link{
+  color: inherit;
+  cursor: pointer;
+  text-decoration: inherit;
+>>>>>>> de582fe6711407c235dc5c8cc67553d42f5b17ca
 }

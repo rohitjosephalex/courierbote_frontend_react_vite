@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
     color: black;
     background-color: #e8e9ed;
@@ -567,4 +568,320 @@ flex-direction: column;
     .packing-image-section td {
         text-align: center; /* Center align text in cells */
     }
+=======
+body {
+    color: black;
+    background-color: #e8e9ed;
+}
+
+.pincode-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* height: 100vh; */
+    /* background-color: red; */
+
+    padding-top: 15px;
+    color: darkgrey;
+    gap: 20px;
+
+}
+
+.label {
+    color: black;
+    display: flex;
+    flex-direction: column;
+}
+
+.pincode-inputs {
+    display: flex;
+    gap: 10vw;
+}
+
+.dashboard-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    
+}
+
+.dashboard-details {
+    width: 55rem;
+    background-color: #ffffff;
+    max-height: 90vh;
+    border-radius: 15px;
+    box-shadow: 15px 15px 10px 5px rgba(78, 78, 78, 0.2);
+    padding-bottom: 25px;
+    margin-bottom: 15px;
+    overflow-y: scroll;
+}
+
+.input.corporate {
+    background-color: white;
+    color: #333;
+    /* Adjust text color to ensure visibility */
+    border: 1px solid #a7a7a7;
+    /* Add border for better visibility */
+    /* Add any other styling here */
+    border-radius: 5px;
+}
+
+.Pickup-Adress-corporate {
+    display: flex;
+    flex-direction: column;
+}
+
+.Delivery-Address-corporate {
+    display: flex;
+    flex-direction: column;
+}
+
+.corporate-address {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.product-weight-corporate {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    align-items: center;
+}
+
+.product-weight-inputs {
+    display: flex;
+    gap: 20px;
+}
+
+.product-weight-input-fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.about-item-corporate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.avout-item {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.about-item-list {
+    display: flex;
+    gap: 30px;
+
+}
+
+.about-item-input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shipping-elements {
+    display: flex;
+    padding-top: 35px;
+    gap: 65px;
+}
+
+.radio-corperate {
+    display: flex;
+    flex-direction: row;
+}
+
+.button-sub-text {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.summary-content {
+    position: relative;
+    padding: 50px;
+}
+
+.summary-heading {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.summary-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px
+}
+
+.items-heading {
+    font-size: large;
+    font-weight: 600;
+}
+
+#dashboard-button {
+    margin-top: 2rem;
+}
+
+.packing-image-section {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.packing-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.packingLogo {
+    width: 10vw;
+    height: 10vw;
+}
+
+.packing-item-desc {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.packing-guide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 25px;
+    background-color: ;
+}
+
+.packing-item-heading {
+    margin: 10px;
+}
+
+.popup-container h5 {
+    margin: 25px;
+    font-size: 17px;
+}
+
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(49, 49, 49, 0.5);
+    /* Semi-transparent black background for the blur effect */
+    backdrop-filter: blur(.5px);
+    /* Adjust the blur amount as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Adjust the z-index to ensure it's above other content */
+}
+
+.popup-container.content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #141414;
+    height: 320px;
+    width: 280px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+
+}
+
+.popup-close {
+    position: absolute;
+
+    top: 5px;
+    right: 5px;
+    /* width: 30px; */
+    /* height: 30px; */
+    background: transparent;
+    /* Background color set to grey */
+    border: none;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    /* Adjust the font size as needed */
+    color: grey;
+}
+
+.popup-close::before {
+    content: "\2716";
+}
+
+.card-back {
+    position: absolute;
+
+    top: 5px;
+    left: 5px;
+    /* width: 30px; */
+    /* height: 30px; */
+    background: transparent;
+    /* Background color set to grey */
+    border: none;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    /* Adjust the font size as needed */
+    color: rgb(99, 98, 98);
+}
+
+.card-back:hover {
+    color: rgb(129, 129, 129);
+}
+
+.order-summary {
+    position: relative;
+}
+
+.dashboard-landing {
+    height: 100vh;
+    background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('../../assets/dashboardPincode.jpg') center/cover no-repeat;
+    z-index: -1;
+}
+
+.pincode-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75%;
+}
+
+.pincode-heading {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.pincode-desc {
+    color: white;
+>>>>>>> de582fe6711407c235dc5c8cc67553d42f5b17ca
 }
