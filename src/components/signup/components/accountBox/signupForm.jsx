@@ -18,6 +18,7 @@ import axios from 'axios';
 export function SignupForm(props) {
   const { companyName, setCompanyName } = useContext(MyContext);
   const { email, setEmail } = useContext(MyContext);
+
   const { password, setPassword } = useContext(MyContext);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -61,9 +62,11 @@ export function SignupForm(props) {
         console.error('Error during sign-up:', error.response);
 
         if (error.response.status === 409)
-          setError('Email already exist');
+         { setError('Email already exist');
+          setButtonLoading(true);}
         else 
-        setError(error.response.data.errorName);
+       { setError(error.response.data.errorName);
+        setButtonLoading(true);}
       }
     }
   };
@@ -80,7 +83,7 @@ export function SignupForm(props) {
       <Marginer direction="vertical" margin={10} />
       {/* Use an arrow function to correctly invoke handleSignUp */}
       {error && <ErrorText>{error}</ErrorText>}
-      <SubmitButton type="submit" onClick={() => { handleSignUp(); }} disabled={buttonLoading}>
+      <SubmitButton type="submit"   style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }} onClick={() => { handleSignUp(); }} disabled={buttonLoading}>
       {!buttonLoading ? 'Signup' : 'loading...'}
       </SubmitButton>
       <Marginer direction="vertical" margin="5px" />
