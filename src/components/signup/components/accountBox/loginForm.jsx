@@ -44,6 +44,7 @@ export function LoginForm(props) {
           sessionStorage.setItem('api_token', response.data.api_token);
           sessionStorage.setItem('userid', response.data.userid);
           sessionStorage.setItem('expirationTime', response.data.expirationTime);
+          sessionStorage.setItem('timerStart', Math.floor(Date.now() / 1000));
           setButtonLoading(false);
           navigate('/corporate/dashboard');
         } else {

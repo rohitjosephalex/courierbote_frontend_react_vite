@@ -6,13 +6,16 @@ const UseSessionExpiration = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
-    const checkExpiration = () => {
+    const checkExpiration = () => {   console.log('hello')
       const token = sessionStorage.getItem('api_token');
       const expirationTime = sessionStorage.getItem('expirationTime');
-
+      const timerStart = parseInt(sessionStorage.getItem('timerStart'), 10); // Get timerStart from sessionStorage
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000); // Current time in seconds
+      
       if (token && expirationTime) {
-        const currentTime = new Date().getTime();
-        if (currentTime > expirationTime) {
+        const timeExpired = currentTimeInSeconds - timerStart;
+        if (timeExpired > expirationTime) {
+          console.log("timeExpired",expirationTime);
           // Token has expired
           setIsExpired(true);
           // Redirect to sign-in page
