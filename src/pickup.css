@@ -225,11 +225,13 @@ font-size:17px;
 	align-items: flex-start;
 }
 
+
 .order-elements.address,
 .order-elements.size {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	padding: 30px;
 
 }
 

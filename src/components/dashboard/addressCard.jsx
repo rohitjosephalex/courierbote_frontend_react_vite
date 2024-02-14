@@ -61,9 +61,92 @@ function AddressCard() {
     const [paymentType, setPaymentType] = useState('');
     const [error, setError] = useState("");
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
+    const apiToken = sessionStorage.getItem('api_token');
+    const handleConfirm = async () => {
 
-    const handleConfirm = () => {
-        setOrderConfirmation(true)
+        // setOrderConfirmation(true)
+        const requestData = {
+            pickupName: pickupName,
+            pickupAddr1: pickupAddr1,
+            pickupAddr2: pickupAddr2,
+            pickupPhoneNumber: pickupPhoneNumber,
+            pickupEmail: pickupEmail,
+            pickupCity: pickupCity,
+            pickupState: pickupState,
+            pickupPincode: pickupPincode,
+            totalWeight: wholeWeight,
+            perBoxWeight: perBoxWeight,
+            noOfBOx: noOfBox,
+            deliveryName: deliveryName,
+            deliveryAddrL1: deliveryAddrL1,
+            deliveryAddrL2: deliveryAddrL2,
+            deliveryPhoneNumber: deliveryPhoneNumber,
+            deliveryCity: deliveryCity,
+            deliveryState: deliveryState,
+            deliveryPincode: deliveryPincode,
+            shipmentType: shipmentType,
+            itemDescription: itemDescription,
+            selectedCategory: selectedCategory,
+            itemValue: itemValue,
+            paymentType: paymentType
+
+
+        };
+        const response = await axios.post('http://localhost/api/corporatedashboard/billing', requestData,
+            {
+                headers: {
+                    Authorization: `Bearer ${apiToken}`,
+                },
+            });
+        console.log(response.data);
+        var options = {
+            "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
+            "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Courierbote",
+            "description": "Transaction for delivery",
+            "image": "https://i.imgur.com/9L39rc3.png",
+            "order_id": response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": async function (response) {
+                // console.log(response.razorpay_payment_id);
+                // console.log(response.razorpay_order_id);
+                // console.log(response.razorpay_signature);
+                const requestData = {
+                    orderId: response.razorpay_order_id,
+                    paymentId: response.razorpay_payment_id,
+                    razorPaySignature: response.razorpay_signature
+                };
+                const responsepayment = await axios.post('http://localhost/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${apiToken}`,
+                        },
+                    });
+                console.log(responsepayment.data);
+
+            },
+            "prefill": {
+                "name": pickupName,
+                "email": pickupEmail,
+                "contact": pickupPhoneNumber
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new window.Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+        rzp1.open();
+        e.preventDefault();
+
     }
     const handleCheckboxChange = () => {
         setChecked(!isChecked);
@@ -92,14 +175,14 @@ function AddressCard() {
     const handleCalculate = async () => {
         try {
             let isTimedOut = false;
-    
+
             // Set a timeout to stop loading after 20 seconds
             const timeoutId = setTimeout(() => {
                 isTimedOut = true;
                 setButtonLoading(false);
                 alert('Request timed out. Please try again.');
             }, 20000);
-    
+
             if (!isCheckedShipping) {
                 setError("Please read what items can be Shipped");
                 setButtonLoading(false);
@@ -109,7 +192,6 @@ function AddressCard() {
             } else {
                 setButtonLoading(true);
                 setError("");
-                const apiToken = sessionStorage.getItem('api_token');
                 let unifiedperBoxWeight = perBoxWeight;
                 let unifiedTotalWeight = wholeWeight;
                 if (weightUnit === 'gm') {
@@ -174,15 +256,15 @@ function AddressCard() {
             setButtonLoading(false);
         }
     };
-    
+
     const handleProceed = () => {
         // Your logic for handling the calculate button click
         if (isChecked) {
             // Set buttonLoading to true during processing
             setButtonLoading(true);
 
-                setButtonLoading(false);
-                setCardName("billing")
+            setButtonLoading(false);
+            setCardName("billing")
 
         } else {
             // Handle the case when the checkbox is not checked
@@ -277,6 +359,12 @@ function AddressCard() {
                                                 onChange={(e) => setPickupState(e.target.value)}
                                             />
                                         </div>
+                                        <button
+                                            className="save-address-button"
+                                            
+                                        >
+                                            Save Address
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -475,7 +563,7 @@ function AddressCard() {
                             <div className='product-weight-corporate'>
                                 <h5>Parcel Details</h5>
                                 <div className="product-weight-inputs">
-                                <div className="product-weight-input-fields">
+                                    <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
@@ -485,7 +573,7 @@ function AddressCard() {
                                             onChange={(e) => setNoOfBox(e.target.value)}
                                         />
                                     </div>
-                                <div className="product-weight-input-fields">
+                                    <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
@@ -502,7 +590,7 @@ function AddressCard() {
                                             <option>kg</option>
                                             <option>gm</option>
                                         </select>
-                                    </div>                       
+                                    </div>
                                     <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
@@ -734,19 +822,19 @@ function AddressCard() {
                                 </div>
                                 <button className="card-back" onClick=
                                     {() => { setCardName('Initial') }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
-                                <div  className="button-class">
-                                <button
-                                    id='dashboard-button'
-                                    className='btn btn-primary'
-                                    onClick={handleProceed}>
-                                    {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
-                                </button>
-                                {error && (
-                        <div className="error-text-container">
-                            <p className="error-text">{error}</p>
-                        </div>
-                    )}
-                    </div>
+                                <div className="button-class">
+                                    <button
+                                        id='dashboard-button'
+                                        className='btn btn-primary'
+                                        onClick={handleProceed}>
+                                        {!buttonLoading ? 'Proceed to Checkout' : 'loading...'}
+                                    </button>
+                                    {error && (
+                                        <div className="error-text-container">
+                                            <p className="error-text">{error}</p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                         </div>
@@ -770,16 +858,16 @@ function AddressCard() {
                             </div>
                             <div className="order-elements desc">
                                 <div className="order-elements items">
-                                <p className="order-elements heading">Item description:</p>
-                                <p>{itemDescription}</p>
+                                    <p className="order-elements heading">Item Description</p>
+                                    <p>{itemDescription}</p>
                                 </div>
                                 <div className="order-elements items">
-                                <p className="order-elements heading">Item Category:</p>
-                                <p>{selectedCategory}</p>
+                                    <p className="order-elements heading">Item Category</p>
+                                    <p>{selectedCategory}</p>
                                 </div>
                                 <div className="order-elements items">
-                                <p className="order-elements heading">Item Value:</p>
-                                <p>{itemValue}</p>
+                                    <p className="order-elements heading">Item Value</p>
+                                    <p>{itemValue}</p>
                                 </div>
                             </div>
                             <div className="order-elements size">
@@ -810,7 +898,7 @@ function AddressCard() {
                                         </div>
                                         <div className="charge">
                                             <p className="charge name">Service Charge + GST</p>
-                                            <p>{(courierBoteAmount-courierAmount).toFixed(2)}</p>
+                                            <p>{(courierBoteAmount - courierAmount).toFixed(2)}</p>
                                         </div>
                                         <div className="charge ">
                                             <p id="total" className="charge name">Total Charge</p>
