@@ -92,7 +92,7 @@ function AddressCard() {
 
 
         };
-        const response = await axios.post('http://localhost/api/corporatedashboard/billing', requestData,
+        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
             {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
@@ -116,7 +116,7 @@ function AddressCard() {
                     paymentId: response.razorpay_payment_id,
                     razorPaySignature: response.razorpay_signature
                 };
-                const responsepayment = await axios.post('http://localhost/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                const responsepayment = await axios.post('https://backend.courierbote.com/api/corporatedashboard/razorpayvalidatepayment', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
