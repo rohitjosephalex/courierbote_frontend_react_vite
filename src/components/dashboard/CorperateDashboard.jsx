@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './dashboard.css';
 import NavBar from './navbar';
 import PincodeSearch from './pincodeSearch';
@@ -10,6 +10,14 @@ import UseSessionExpiration from './useSessionHistory';
 function CorporateDashboard() {
   const isExpired = UseSessionExpiration();
   const [companyName, setCompanyName] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [state, setState] = useState("");
   const [proceedToAddress, setProceedToAddress] = useState(false); // Initialize state for proceeding to address
   const addressCardRef = useRef(null); // Create a ref for the AddressCard element
 
@@ -37,8 +45,16 @@ function CorporateDashboard() {
             },
           }
         );
-        console.log(response.data);
+        console.log(response.data.Address);
         setCompanyName(response.data.comapanyName);
+        setAddressLine1(response.data.Address.addressLine1);
+        setAddressLine2(response.data.Address.addressLine2);
+        setCity(response.data.Address.city);
+        setEmail(response.data.Address.email);
+        setName(response.data.Address.name);
+        setPhoneNumber(response.data.Address.phoneNumber);
+        setPincode(response.data.Address.pincode);
+        setState(response.data.Address.state);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -52,13 +68,13 @@ function CorporateDashboard() {
       <div className='dashboard-landing'>
         <NavBar companyName={companyName} />
         <div className='pincode-search'>
-          <PincodeSearch setProceedToAddress={setProceedToAddress} /> 
+          <PincodeSearch setProceedToAddress={setProceedToAddress} PickPincode={pincode}/>
         </div>
       </div>
-      {proceedToAddress && 
-       <div id="address-card" ref={addressCardRef}> {/* Assign the ref to the wrapping element */}
-       <AddressCard />
-     </div>} 
+      {proceedToAddress &&
+        <div id="address-card" ref={addressCardRef}> {/* Assign the ref to the wrapping element */}
+          <AddressCard name={name} add1={addressLine1} add2={addressLine2} phoneNumber={phoneNumber} email={email} city={city} pincode={pincode} state={state} />
+        </div>}
     </div>
   );
 }

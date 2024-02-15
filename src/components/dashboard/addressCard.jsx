@@ -12,18 +12,18 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function AddressCard() {
+function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
     const [cardName, setCardName] = useState("Initial");
 
     // Pickup Address
-    const [pickupName, setPickupName] = useState("");
-    const [pickupAddr1, setPickupAddr1] = useState("");
-    const [pickupAddr2, setPickupAddr2] = useState("");
-    const [pickupPhoneNumber, setPickupPhoneNumber] = useState("");
-    const [pickupEmail, setPickupEmail] = useState("");
-    const [pickupCity, setPickupCity] = useState("");
-    const [pickupPincode, setPickupPincode] = useState("");
-    const [pickupState, setPickupState] = useState("");
+    const [pickupName, setPickupName] = useState(name);
+    const [pickupAddr1, setPickupAddr1] = useState(add1);
+    const [pickupAddr2, setPickupAddr2] = useState(add2);
+    const [pickupPhoneNumber, setPickupPhoneNumber] = useState(phoneNumber);
+    const [pickupEmail, setPickupEmail] = useState(email);
+    const [pickupCity, setPickupCity] = useState(city);
+    const [pickupPincode, setPickupPincode] = useState(pincode);
+    const [pickupState, setPickupState] = useState(state);
 
     // Delivery Address
     const [deliveryName, setDeliveryName] = useState("");
@@ -170,7 +170,31 @@ function AddressCard() {
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
-
+    const handleSaveAddress = async () => {
+        try {
+            const requestData = {
+                pickupName: pickupName,
+                pickupAddr1: pickupAddr1,
+                pickupAddr2: pickupAddr2,
+                pickupPhoneNumber: pickupPhoneNumber,
+                pickupEmail: pickupEmail,
+                pickupCity:pickupCity,
+                pickupPincode:pickupPincode,
+                pickupState:pickupState
+            };
+            const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/saveaddress', requestData, {
+                headers: {
+                    Authorization: `Bearer ${apiToken}`,
+                },
+            }); 
+            if(response.status===200){
+                console.log("saved")
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
     // Function to handle calculate button click
     const handleCalculate = async () => {
         try {
@@ -361,9 +385,10 @@ function AddressCard() {
                                         </div>
                                         <button
                                             className="save-address-button"
-                                            
+                                            title="Save the address for convenient future checkouts"
+                                            onClick={handleSaveAddress}
                                         >
-                                            Save Address
+                                            Save
                                         </button>
                                     </div>
                                 </div>

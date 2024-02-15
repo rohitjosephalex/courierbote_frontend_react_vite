@@ -2,9 +2,9 @@ import { useState } from "react";
 import {
     ErrorText
 } from "../signup/components/accountBox/common";
-function PincodeSearch({ setProceedToAddress }) {
+function PincodeSearch({ setProceedToAddress,pincode }) {
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
-    const [pickupPincode, setPickupPincode] = useState("");
+    const [pickupPincode, setPickupPincode] = useState(pincode);
     const [dropPincode, setDropPincode] = useState("");
     const [buttonLoading, setButtonLoading] = useState(false);
     const [error, setError] = useState("");

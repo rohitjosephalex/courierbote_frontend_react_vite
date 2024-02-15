@@ -6,7 +6,7 @@ const UseSessionExpiration = () => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
-    const checkExpiration = () => {   console.log('hello')
+    const checkExpiration = () => {   
       const token = sessionStorage.getItem('api_token');
       const expirationTime = sessionStorage.getItem('expirationTime');
       const timerStart = parseInt(sessionStorage.getItem('timerStart'), 10); // Get timerStart from sessionStorage

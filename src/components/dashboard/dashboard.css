@@ -121,9 +121,9 @@ body {
 .save-address-button {
     position: absolute;
     /* Set position to absolute */
-    bottom: -2rem;
+    bottom: -2.5rem;
     /* Adjust vertical position as needed */
-    left: 16.5%;
+    left:10%;
     /* Align button horizontally to the center */
     transform: translateX(-50%);
     /* Adjust horizontal position */
@@ -131,11 +131,12 @@ body {
     /* Adjust top margin */
     padding: 0.5rem 1rem;
     /* Adjust padding as needed */
-    background-color: #007bff;
+    background-color: #ffffff;
     /* Example button color */
-    color: #fff;
+    color: #e97236;
     /* Text color */
-    border: none;
+    
+    border-color: #e97236;
     border-radius: 5px;
     cursor: pointer;
 }
