@@ -12,7 +12,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
+function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, state }) {
     const [cardName, setCardName] = useState("Initial");
 
     // Pickup Address
@@ -63,7 +63,7 @@ function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const apiToken = sessionStorage.getItem('api_token');
     const handleConfirm = async () => {
-
+        setButtonLoading(true);
         // setOrderConfirmation(true)
         const requestData = {
             pickupName: pickupName,
@@ -122,6 +122,7 @@ function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
                             Authorization: `Bearer ${apiToken}`,
                         },
                     });
+                    setButtonLoading(false)
                 console.log(responsepayment.data);
 
             },
@@ -178,16 +179,16 @@ function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
                 pickupAddr2: pickupAddr2,
                 pickupPhoneNumber: pickupPhoneNumber,
                 pickupEmail: pickupEmail,
-                pickupCity:pickupCity,
-                pickupPincode:pickupPincode,
-                pickupState:pickupState
+                pickupCity: pickupCity,
+                pickupPincode: pickupPincode,
+                pickupState: pickupState
             };
             const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/saveaddress', requestData, {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
                 },
-            }); 
-            if(response.status===200){
+            });
+            if (response.status === 200) {
                 console.log("saved")
             }
         }
@@ -264,10 +265,11 @@ function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
                         });
                         console.log(response.data);
                         if (response.data.status === 200) {
+                            console.log("hello", response.data.data.CourierBotePrice, response.data.data.pickupCharge, response.data.data.totalCharge, response.data.data.courierCharge)
                             setCourierAmount(response.data.data.courierCharge);
-                            setCourierBoteAmount(response.data.data.courierCharge.CourierBotePrice);
-                            setPickUpAmount(response.data.data.courierCharge.pickupCharge);
-                            setTotalAmount(response.data.data.courierCharge.totalCharge);
+                            setCourierBoteAmount(response.data.data.CourierBotePrice);
+                            setPickUpAmount(response.data.data.pickupCharge);
+                            setTotalAmount(response.data.data.totalCharge);
                             setButtonLoading(false);
                             setCardName("summary");
                         }
@@ -963,7 +965,7 @@ function AddressCard({name,add1,add2,phoneNumber,email,city,pincode,state}) {
                         <button
                             id='pickup-button'
                             className='btn btn-primary'
-                            onClick={() => handleConfirm()}>Confirm and Pay</button>
+                            onClick={handleConfirm}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
 
                         {orderConfirmation && (
                             <div className="sucess-popup">
