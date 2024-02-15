@@ -58,7 +58,7 @@ body {
 
 }
 
-.label {
+.dashboard-card.label {
     color: black;
     display: flex;
     flex-direction: column;
@@ -600,25 +600,39 @@ body {
 .order-elements.address {
     gap: 50px;
 }
+.order-element.address-details{
+    font-size: 15px;
 
-.order-elements .desc {
-    gap: 50px
+    white-space: normal; /* Allow text to wrap within each item */
+    text-align: justify;
+
+}
+.order-element.address-details p {
+    margin: 0; /* Remove default margin */
 }
 
 .order-elements.add {
     display: flex;
     flex-direction: column;
+    align-items: left;
+    flex: 1; /* Each item gets an equal share of space */
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping by default */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    margin: 0 1rem; /* Add margin for spacing between items */
+    width: calc(50% - 2rem); /* Calculate width based on 33.33% with margin */
 }
 
 .order-elements.heading {
     font-weight: 600;
 }
 
-.order-elements.desc {
+.order-elements .desc {
+    gap: 50px;
     display: flex;
     flex-wrap: wrap;
 }
-
 .order-elements.items {
     align-items: center;
     display: flex;
@@ -673,9 +687,11 @@ body {
     /* Dark text color */
     ;
 }
-
 /* Mobile styles */
 @media only screen and (max-width: 768px) {
+    .dashboard-landing{
+        width: 100%;
+    }
     .packing-image-section {
         flex-direction: column;
         /* Change to vertical layout */
@@ -685,4 +701,31 @@ body {
         text-align: center;
         /* Center align text in cells */
     }
+    .pincode-inputs {
+            display: flex;
+            gap:    5vw;
+    }
+    .pincode-inputs .input {
+        width: 10rem;    
+        margin-bottom: 10px; /* Add space between inputs */
+    }
+    .order-elements.add {
+        align-items:center;
+        flex: 1; /* Each item gets an equal share of space */
+        text-align: center;
+        margin: 0 1rem; /* Add margin for spacing between items */
+        width: calc(80%); /* Calculate width based on 33.33% with margin */
+    }
+    .order-elements.desc {
+        gap: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+        justify-content: center;
+
+    }
+    .order-elements.items {
+        width: calc(80%); /* Calculate width based on 33.33% with margin */
+    }   
 }

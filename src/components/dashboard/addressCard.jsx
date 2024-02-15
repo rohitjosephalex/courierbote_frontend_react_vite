@@ -108,7 +108,7 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
             "image": "https://i.imgur.com/9L39rc3.png",
             "order_id": response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "handler": async function (response) {
-                // console.log(response.razorpay_payment_id);
+                console.log("response.razorpay_payment_id");
                 // console.log(response.razorpay_order_id);
                 // console.log(response.razorpay_signature);
                 const requestData = {
@@ -122,8 +122,12 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                             Authorization: `Bearer ${apiToken}`,
                         },
                     });
-                    setButtonLoading(false)
-                console.log(responsepayment.data);
+                    console.log(responsepayment); 
+                if (responsepayment.status === 200) {
+                    setButtonLoading(false);
+                    console.log(responsepayment.data); 
+                setOrderConfirmation(true);
+            }
 
             },
             "prefill": {
@@ -874,14 +878,31 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                         <h3>Order Summary </h3>
                         <div className="order-elements-grp" >
                             <div className="order-elements address">
-                                <div className="order-elements add" >
+                                <div className="order-elements add">
                                     <p className="order-elements heading">Pickup Details</p>
-                                    <p >{pickupName}<br />{pickupAddr1}<br />{pickupAddr2}<br />{pickupCity}<br />{pickupPincode}<br />{pickupState}<br />Phone Number {pickupPhoneNumber}</p>
+                                    <div className="order-element address-details">
+                                        <p>{pickupName}</p>
+                                        {pickupAddr1 && <p>{pickupAddr1}</p>}
+                                        {pickupAddr2 && <p>{pickupAddr2}</p>}
+                                        <p>{pickupCity}</p>
+                                        <p>{pickupPincode}</p>
+                                        <p>{pickupState}</p>
+                                        <p>Phone Number: {pickupPhoneNumber}</p>
+                                    </div>
                                 </div>
                                 <div className="order-elements add">
                                     <p className="order-elements heading">Delivery Details</p>
-                                    <p >{deliveryName}<br />{deliveryAddrL1}<br />{deliveryAddrL2}<br />{deliveryCity}<br />{deliveryPincode}<br />{deliveryState}<br />Phone Number {deliveryPhoneNumber}</p>
+                                    <div className="order-element address-details">
+                                        <p>{deliveryName}</p>
+                                        {deliveryAddrL1 && <p>{deliveryAddrL1}</p>}
+                                        {deliveryAddrL2 && <p>{deliveryAddrL2}</p>}
+                                        <p>{deliveryCity}</p>
+                                        <p>{deliveryPincode}</p>
+                                        <p>{deliveryState}</p>
+                                        <p>Phone Number: {deliveryPhoneNumber}</p>
+                                    </div>
                                 </div>
+
                             </div>
                             <div className="order-elements desc">
                                 <div className="order-elements items">
