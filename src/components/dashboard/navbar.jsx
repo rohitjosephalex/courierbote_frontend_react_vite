@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AppBar, Stack, Toolbar, Typography, Button, Menu, MenuItem } from "@mui/material";
 import {  useNavigate } from 'react-router-dom';
-import logoImage from "../../assets/courierbote logo white transparent.png"; // Replace with the actual path to your image
+import logoImage from "../../assets/favicon.png"
 
 function NavBar({companyName}) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,8 +25,12 @@ function NavBar({companyName}) {
     <AppBar position="static" sx={{ background: 'transparent'  }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          {/* <img src={logoImage} alt="Logo" style={{ width: '150px', height: 'auto', margin: '3px' }} /> */}
-          CourierBote
+          <img src={logoImage} alt="CourierBote Logo"  style={{
+                width: window.innerWidth > 768 ? '50px' : '35px', // 50px for larger screens, 35px for mobile view
+                height: 'auto',
+                marginTop: '5px',
+                paddingTop: window.innerWidth > 768 ? '5px':"0px"
+            }}/>
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button

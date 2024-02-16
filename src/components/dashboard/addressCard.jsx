@@ -202,11 +202,12 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
     }
     // Function to handle calculate button click
     const handleCalculate = async () => {
+        let timeoutId=0;
         try {
             let isTimedOut = false;
 
             // Set a timeout to stop loading after 20 seconds
-            const timeoutId = setTimeout(() => {
+             timeoutId = setTimeout(() => {
                 isTimedOut = true;
                 setButtonLoading(false);
                 alert('Request timed out. Please try again.');
@@ -282,6 +283,7 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
             }
         } catch (error) {
             console.error('Error:', error);
+            clearTimeout(timeoutId);
             setError("An error occurred. Please try again.");
             setButtonLoading(false);
         }
