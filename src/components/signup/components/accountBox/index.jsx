@@ -9,7 +9,7 @@ import { MyContextProvider } from "./MyContext";
 import { Link } from 'react-router-dom';
 
 const BoxContainer = styled.div`
-  width: 400px;
+  width:  400px;
   min-height: 550px;
   display: flex;
   flex-direction: column;
@@ -18,6 +18,19 @@ const BoxContainer = styled.div`
   box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
   overflow: hidden;
+  @media (max-width: 768px) {
+    width: 38vw;
+  }
+  @media (max-width: 560px) {
+    width: 70vw;
+  }
+
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
+  @media (max-width: 300px) {
+    width: 95vw;
+  }
 `;
 
 const TopContainer = styled.div`
@@ -43,6 +56,7 @@ const BackDrop = styled(motion.div)`
   background: linear-gradient(
     58deg,  #f45217 20%, #e95f1a 100%
   );
+  
 `;
 
 const HeaderContainer = styled.div`

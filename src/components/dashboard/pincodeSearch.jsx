@@ -2,6 +2,8 @@ import { useState } from "react";
 import {
     ErrorText
 } from "../signup/components/accountBox/common";
+import courierBoteWhiteText from '../../assets/courierbote logo white transparent.png';
+
 function PincodeSearch({ setProceedToAddress,pincode }) {
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const [pickupPincode, setPickupPincode] = useState(pincode);
@@ -35,7 +37,13 @@ function PincodeSearch({ setProceedToAddress,pincode }) {
     return (
         <div>
             <div className='pincode-entry'>
-                <div className="pincode-heading">Courierbote</div>
+                {/* <div className="pincode-heading">Courierbote</div> */}
+                <img src={courierBoteWhiteText} alt="CourierBote Logo"  style={{
+                width: window.innerWidth > 768 ? '20vw' : '65vw', // 50px for larger screens, 35px for mobile view
+                height: 'auto',
+                marginTop: '5px',
+                paddingTop: window.innerWidth > 768 ? '5px':"5px"
+            }}/>
                 <div className="pincode-desc">Moving Customers With Care</div>
                 <div className="pincode-inputs">
                     <div >

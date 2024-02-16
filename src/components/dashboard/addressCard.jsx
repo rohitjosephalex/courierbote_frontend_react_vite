@@ -12,7 +12,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, state }) {
+function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email, city, pincode, state }) {
     const [cardName, setCardName] = useState("Initial");
 
     // Pickup Address
@@ -24,6 +24,7 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
     const [pickupCity, setPickupCity] = useState(city);
     const [pickupPincode, setPickupPincode] = useState(pincode);
     const [pickupState, setPickupState] = useState(state);
+    const [customerGstin, setCustomerGstin] = useState("");
 
     // Delivery Address
     const [deliveryName, setDeliveryName] = useState("");
@@ -33,7 +34,7 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
     const [deliveryCity, setDeliveryCity] = useState("");
     const [deliveryPincode, setDeliveryPincode] = useState("");
     const [deliveryState, setDeliveryState] = useState("");
-    const [shipmentType, setShipmentType] = useState("By Air");
+    const [shipmentType, setShipmentType] = useState("");
 
     // Product Dimensions
     const [wholeWeight, setWholeWeight] = useState("");
@@ -304,7 +305,8 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
         }
     };
     const handlOk = () => {
-
+        setOrderConfirmation(false);
+        setProceedToAddress(false);
     }
 
     return (
@@ -399,6 +401,16 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                             Save
                                         </button>
                                     </div>
+                                    <div className="Address-Elements-sub">
+                                            <input
+                                                className='input corporate'
+                                                type='text'
+                                                id='pincode'
+                                                placeholder='Customer GSTIN'
+                                                value={customerGstin}
+                                                onChange={(e) => setCustomerGstin(e.target.value)}
+                                            />
+                                        </div>
                                 </div>
                             </div>
                             <div className='Delivery-Address-corporate'>
@@ -479,7 +491,8 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                         {<input
                                             type='radio'
                                             name='shipment-type'
-                                            value='Document'
+                                            value='shipmentType'
+                                            checked={shipmentType === "By Air"}
                                             onChange={() => setShipmentType("By Air")}
                                         />}
                                         modal nested>
@@ -529,7 +542,8 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                         {<input
                                             type='radio'
                                             name='shipment-type'
-                                            value='Document'
+                                            value='shipmentType'
+                                            checked={shipmentType === "By surface"}
                                             onChange={() => setShipmentType("By surface")}
                                         />}
                                         modal nested>
@@ -961,14 +975,14 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                     <input
                                         type='radio'
                                         name='shipment-type'
-                                        value='Document'
+                                        value='paymentType'
                                         checked={paymentType === "razorPay"}
                                         onChange={() => setPaymentType("razorPay")}
                                     />
                                     Razor Pay
                                 </label>
 
-                                <label className='radios'>
+                                {/* <label className='radios'>
                                     <input
                                         type='radio'
                                         name='shipment-type'
@@ -977,7 +991,7 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                         onChange={() => setPaymentType("cod")}
                                     />
                                     COD
-                                </label>
+                                </label> */}
                             </div>
                         </div>
                         <button className="card-back" onClick=
@@ -1013,10 +1027,10 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                                     onClick={() => { handlOk(); }}>OK</button>
                                             </div>
                                         </div>
-                                        <button className="popup-close" onClick=
+                                        {/* <button className="popup-close" onClick=
                                             {() => { setOrderConfirmation(false); }}>
 
-                                        </button>
+                                        </button> */}
                                     </div>
 
                                 </div>

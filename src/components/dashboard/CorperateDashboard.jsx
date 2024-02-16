@@ -73,7 +73,7 @@ function CorporateDashboard() {
       </div>
       {proceedToAddress &&
         <div id="address-card" ref={addressCardRef}> {/* Assign the ref to the wrapping element */}
-          <AddressCard name={name} add1={addressLine1} add2={addressLine2} phoneNumber={phoneNumber} email={email} city={city} pincode={pincode} state={state} />
+          <AddressCard setProceedToAddress={setProceedToAddress} name={name} add1={addressLine1} add2={addressLine2} phoneNumber={phoneNumber} email={email} city={city} pincode={pincode} state={state} />
         </div>}
     </div>
   );

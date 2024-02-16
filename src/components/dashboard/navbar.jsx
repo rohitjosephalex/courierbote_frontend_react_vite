@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { AppBar, Stack, Toolbar, Typography, Button, Menu, MenuItem } from "@mui/material";
 import {  useNavigate } from 'react-router-dom';
 import logoImage from "../../assets/favicon.png"
-
+import { faUserCircle ,faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function NavBar({companyName}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -41,7 +42,7 @@ function NavBar({companyName}) {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            User
+            <FontAwesomeIcon icon={faUser}size="2x" />
           </Button>
         </Stack>
         <Menu

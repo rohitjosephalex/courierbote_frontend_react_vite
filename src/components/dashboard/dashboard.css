@@ -78,7 +78,7 @@ body {
 }
 
 .dashboard-details {
-    width:85vw;
+    width:60rem;
     background-color: #ffffff;
     max-height: 90vh;
     border-radius: 15px;
@@ -335,10 +335,36 @@ body {
 
 }
 
+.popup-container.content {
+	background: #f5f5f5;
+}
+
 .popup-container h5 {
     margin: 25px;
     font-size: 17px;
 }
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+  
+    .check-icon {
+     
+  
+      &::before,
+      &::after {
+        position: absolute;
+        background: #f5f5f5;
+      }
+  
+
+  
+      .icon-fix {
+
+        background-color: #f5f5f5;
+      }
+    }
+  }
 
 .popup-container {
     position: fixed;
@@ -598,7 +624,7 @@ body {
 
     white-space: normal;
     /* Allow text to wrap within each item */
-    text-align: justify;
+    text-align: left;
 
 }
 
