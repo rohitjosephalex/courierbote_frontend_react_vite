@@ -123,7 +123,7 @@ body {
     /* Set position to absolute */
     bottom: -2.5rem;
     /* Adjust vertical position as needed */
-    left:10%;
+    left: 10%;
     /* Align button horizontally to the center */
     transform: translateX(-50%);
     /* Adjust horizontal position */
@@ -135,7 +135,7 @@ body {
     /* Example button color */
     color: #e97236;
     /* Text color */
-    
+
     border-color: #e97236;
     border-radius: 5px;
     cursor: pointer;
@@ -223,7 +223,7 @@ body {
 
 .items-heading {
     font-size: large;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 #dashboard-button {
@@ -284,6 +284,8 @@ body {
 }
 
 .packing-guide {
+    
+    text-align: center;
     width: fit-content;
     margin: 25px;
     background-color: #f5f5f5;
@@ -313,16 +315,6 @@ body {
 .packing-item-desc {
     font-size: 12px;
     margin-top: 5px;
-}
-
-.packing-guide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: 25px;
-
 }
 
 .packing-item-heading {
@@ -600,28 +592,38 @@ body {
 .order-elements.address {
     gap: 50px;
 }
-.order-element.address-details{
+
+.order-element.address-details {
     font-size: 15px;
 
-    white-space: normal; /* Allow text to wrap within each item */
+    white-space: normal;
+    /* Allow text to wrap within each item */
     text-align: justify;
 
 }
+
 .order-element.address-details p {
-    margin: 0; /* Remove default margin */
+    margin: 0;
+    /* Remove default margin */
 }
 
 .order-elements.add {
     display: flex;
     flex-direction: column;
     align-items: left;
-    flex: 1; /* Each item gets an equal share of space */
+    flex: 1;
+    /* Each item gets an equal share of space */
     text-align: left;
-    white-space: nowrap; /* Prevent text from wrapping by default */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-    margin: 0 1rem; /* Add margin for spacing between items */
-    width: calc(50% - 2rem); /* Calculate width based on 33.33% with margin */
+    white-space: nowrap;
+    /* Prevent text from wrapping by default */
+    overflow: hidden;
+    /* Hide overflow text */
+    text-overflow: ellipsis;
+    /* Show ellipsis for overflow text */
+    margin: 0 1rem;
+    /* Add margin for spacing between items */
+    width: calc(50% - 2rem);
+    /* Calculate width based on 33.33% with margin */
 }
 
 .order-elements.heading {
@@ -633,23 +635,37 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
+
 .order-elements.items {
     align-items: center;
     display: flex;
     flex-direction: column;
-    flex: 1; /* Each item gets an equal share of space */
+    flex: 1;
+    /* Each item gets an equal share of space */
     text-align: center;
-    white-space: nowrap; /* Prevent text from wrapping by default */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-    margin: 0 1rem; /* Add margin for spacing between items */
-    width: calc(33.33% - 2rem); /* Calculate width based on 33.33% with margin */
+    white-space: nowrap;
+    /* Prevent text from wrapping by default */
+    overflow: hidden;
+    /* Hide overflow text */
+    text-overflow: ellipsis;
+    /* Show ellipsis for overflow text */
+    margin: 0 1rem;
+    /* Add margin for spacing between items */
+    width: calc(33.33% - 2rem);
+    /* Calculate width based on 33.33% with margin */
 }
 
 .order-elements.items p {
-    white-space: normal; /* Allow text to wrap within each item */
+    white-space: normal;
+    /* Allow text to wrap within each item */
     text-align: justify;
 }
+.readme-restricteditems {
+    display: flex;
+    font-size: 12px;
+}
+
+
 .iHave-read {
     display: flex;
 }
@@ -687,11 +703,67 @@ body {
     /* Dark text color */
     ;
 }
+
 /* Mobile styles */
 @media only screen and (max-width: 768px) {
-    .dashboard-landing{
+    .dashboard-landing {
         width: 100%;
+        align-items: center;
+        justify-content: center;
     }
+
+    .dashboard-card {
+        width: 90vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .product-weight-inputs {
+        width: 67vw;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .about-item-list {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .save-address-button {
+        position: absolute;
+        /* Set position to absolute */
+        bottom: -2.5rem;
+        /* Adjust vertical position as needed */
+        left: 50%;
+        /* Align button horizontally to the center */
+        transform: translateX(-50%);
+
+    }
+
+    .corporate-address {
+        flex-direction: column;
+    }
+
+    .address-card {
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+    }
+
+    .popup-container.terms-and-condition,
+    .popup-container.parcel-type-content {
+
+        max-height: 90vh;
+        width: 80vw;
+
+
+    }
+
+    .popup-container h2 {
+        align-items: center;
+        text-align: center;
+    }
+
     .packing-image-section {
         flex-direction: column;
         /* Change to vertical layout */
@@ -701,21 +773,81 @@ body {
         text-align: center;
         /* Center align text in cells */
     }
+
     .pincode-inputs {
-            display: flex;
-            gap:    5vw;
+        display: flex;
+        gap: 5vw;
     }
+
     .pincode-inputs .input {
-        width: 10rem;    
-        margin-bottom: 10px; /* Add space between inputs */
+        width: 10rem;
+        margin-bottom: 10px;
+        /* Add space between inputs */
+    }
+
+    .summary-heading {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .summary-items{
+        gap: .5rem;
+    }
+    .Please-note{
+        text-align: justify;
+    }
+    .packing-image-section {
+        flex-direction: column; /* Stack items vertically on small screens */
+        gap: 10px; /* Reduce the gap between items */
+    }
+
+    .packing-image-section td {
+        width: auto; /* Let table cells adjust their width based on content */
+        padding: 8px; /* Reduce padding for smaller screens */
+        font-size: 12px; /* Adjust font size for smaller screens */
+        text-align: center; /* Center align text for smaller screens */
+        border: none; /* Remove borders for smaller screens */
+    }
+
+    .packing-items {
+        align-items: center; /* Center align items in the column */
+    }
+
+    .packingLogo {
+        width: 50%; /* Adjust image width to fit smaller screens */
+        max-width: 100px; /* Set a maximum width for the image */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .packing-guide {
+        margin: 10px auto;  /* Reduce margin for smaller screens */
+    }
+
+    .packing-image-section tr:nth-child(2) td {
+        font-size: 10px; /* Adjust font size for smaller screens */
+        font-weight: normal; /* Reset font weight */
+    }
+
+    .packing-image-section tr:nth-child(3) td {
+        font-size: 10px; /* Adjust font size for smaller screens */
     }
     .order-elements.add {
-        align-items:center;
-        flex: 1; /* Each item gets an equal share of space */
+        align-items: center;
+        flex: 1;
+        /* Each item gets an equal share of space */
         text-align: center;
-        margin: 0 1rem; /* Add margin for spacing between items */
-        width: calc(80%); /* Calculate width based on 33.33% with margin */
+        margin: 0 1rem;
+        /* Add margin for spacing between items */
+        width: calc(80%);
+        /* Calculate width based on 33.33% with margin */
     }
+    .items-heading {
+        font-size: 15px;
+        font-weight: 700;
+    }
+    .items-name{
+        font-size:14px;
+    }
+    
     .order-elements.desc {
         gap: 50px;
         display: flex;
@@ -725,7 +857,41 @@ body {
         justify-content: center;
 
     }
+    .order-elements.heading {
+        font-size: 14px;
+    }
+    .order-element.address-details, .order-elements.values {
+        font-size: 13px;
+    }
     .order-elements.items {
-        width: calc(80%); /* Calculate width based on 33.33% with margin */
-    }   
+        width: calc(68%);
+        /* Calculate width based on 33.33% with margin */
+    }
+    .order-elements.desc  {
+       gap: 15px;
+    }
+    .charge.name ,.summary-information-please h4,.packing-guide h4{
+        font-size: 14px;
+    }
+    .charge.value{
+        font-size: 13px;
+    }
+    .summary-information-please {
+        font-size: 16px;
+    }
+    .summary-content {
+
+        padding: 25px;
+    }
+    
+    .Please-note {
+    font-size: 13px;
+    
+    }
+    .billing-box h4{
+        font-size: 15px;
+    }
+    .order-elements label{
+        font-size: 13px;
+    }
 }

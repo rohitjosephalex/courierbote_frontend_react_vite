@@ -776,7 +776,9 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                     </ul>
                                 </div>
 
-                                <div className="packing-guide">
+                              
+                            </div>
+                            <div className="packing-guide">
                                     <div>
                                         <h3>How To Pack Your Courier</h3>
                                         <div className="packing-image-section">
@@ -804,7 +806,6 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div>
                                 <div className="items-restriction">
                                     <div className="readme">
@@ -907,29 +908,29 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                             <div className="order-elements desc">
                                 <div className="order-elements items">
                                     <p className="order-elements heading">Item Description</p>
-                                    <p>{itemDescription}</p>
+                                    <p className="order-elements values">{itemDescription}</p>
                                 </div>
                                 <div className="order-elements items">
                                     <p className="order-elements heading">Item Category</p>
-                                    <p>{selectedCategory}</p>
+                                    <p className="order-elements values">{selectedCategory}</p>
                                 </div>
                                 <div className="order-elements items">
                                     <p className="order-elements heading">Item Value</p>
-                                    <p>{itemValue}</p>
+                                    <p className="order-elements values">{itemValue}</p>
                                 </div>
                             </div>
                             <div className="order-elements size">
                                 <div className="order-elements">
                                     <p className="order-elements heading">NO of Boxes:</p>
-                                    <p>{noOfBox}</p>
+                                    <p className="order-elements values">{noOfBox}</p>
                                 </div>
                                 <div className="order-elements">
                                     <p className="order-elements heading">Per Box Weight:</p>
-                                    <p>{perBoxWeight}</p>
+                                    <p className="order-elements values">{perBoxWeight}</p>
                                 </div>
                                 <div className="order-elements">
                                     <p className="order-elements heading">Total Weight:</p>
-                                    <p>{wholeWeight}</p>
+                                    <p className="order-elements values">{wholeWeight}</p>
                                 </div>
                             </div>
                             <div className="order-elements billing">
@@ -938,19 +939,15 @@ function AddressCard({ name, add1, add2, phoneNumber, email, city, pincode, stat
                                     <div className="billing-details">
                                         <div className="charge">
                                             <p className="charge name">Courier Charge</p>
-                                            <p>{courierAmount}</p>
-                                        </div>
-                                        <div className="charge">
-                                            <p className="charge name">Pickup Charge</p>
-                                            <p>{pickUpAmount}</p>
+                                            <p className="charge value">{courierAmount}</p>
                                         </div>
                                         <div className="charge">
                                             <p className="charge name">Service Charge + GST</p>
-                                            <p>{(courierBoteAmount - courierAmount).toFixed(2)}</p>
+                                            <p className="charge value">{((courierBoteAmount - courierAmount)+pickUpAmount).toFixed(2)}</p>
                                         </div>
                                         <div className="charge ">
                                             <p id="total" className="charge name">Total Charge</p>
-                                            <p id="total">{totalAmount.toFixed(2)}</p>
+                                            <p id="total" className="charge value">{totalAmount.toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>

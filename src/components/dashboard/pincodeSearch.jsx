@@ -35,8 +35,8 @@ function PincodeSearch({ setProceedToAddress,pincode }) {
     return (
         <div>
             <div className='pincode-entry'>
-                <div className="pincode-heading">courierBote</div>
-                <div className="pincode-desc">An Efficient Digital Shipping Solution</div>
+                <div className="pincode-heading">Courierbote</div>
+                <div className="pincode-desc">Moving Customers With Care</div>
                 <div className="pincode-inputs">
                     <div >
                         <label className='label'>

@@ -49,7 +49,7 @@ export default function RestrictedItems() {
             <div className="restricted-items">
                 <h3>RESTRICTED ITEMS:</h3>
                 <ol>
-                    <li>International Airport Authority (IATA) restricted items like explosive flammable materials, radioactive material, plastics, gases, stuffed toys.</li>
+                    <li>International Air Transport Association (IATA) restricted items like explosive flammable materials, radioactive material, plastics, gases, stuffed toys.</li>
                     <li>Electronics items like PC Boards, ICs, resistors, capacitors, switches, transformers, computer and computer parts, calculators, VCR and VCPs, television, radios, tape-recorders.</li>
                     <li>Electrical items like solenoid valves, electrical machinery like motors, plugs, pumps, switches, sockets, telephone instruments, wires, fuses and any item in which there are electrical wiring, batteries, and cells.</li>
                     <li>Wrist watches, clocks, alarm devices.</li>
