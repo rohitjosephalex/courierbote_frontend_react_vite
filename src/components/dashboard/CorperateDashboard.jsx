@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import UseSessionExpiration from './useSessionHistory';
 
+
 function CorporateDashboard() {
   const isExpired = UseSessionExpiration();
   const [companyName, setCompanyName] = useState("");

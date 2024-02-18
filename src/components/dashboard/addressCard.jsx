@@ -12,7 +12,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email, city, pincode, state }) {
+function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email, city, pincode, state }) {
     const [cardName, setCardName] = useState("Initial");
 
     // Pickup Address
@@ -123,12 +123,12 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                             Authorization: `Bearer ${apiToken}`,
                         },
                     });
-                    console.log(responsepayment); 
+                console.log(responsepayment);
                 if (responsepayment.status === 200) {
                     setButtonLoading(false);
-                    console.log(responsepayment.data); 
-                setOrderConfirmation(true);
-            }
+                    console.log(responsepayment.data);
+                    setOrderConfirmation(true);
+                }
 
             },
             "prefill": {
@@ -203,12 +203,12 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
     }
     // Function to handle calculate button click
     const handleCalculate = async () => {
-        let timeoutId=0;
+        let timeoutId = 0;
         try {
             let isTimedOut = false;
 
             // Set a timeout to stop loading after 20 seconds
-             timeoutId = setTimeout(() => {
+            timeoutId = setTimeout(() => {
                 isTimedOut = true;
                 setButtonLoading(false);
                 alert('Request timed out. Please try again.');
@@ -316,7 +316,7 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                     <div className='inputfields'>
                         <div className="corporate-address">
                             <div className='Pickup-Adress-corporate'>
-                                <h5>Pickup Address</h5>
+                                <h4>Pickup Address</h4>
                                 <input
                                     className='input corporate'
                                     type='text'
@@ -402,19 +402,19 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                                         </button>
                                     </div>
                                     <div className="Address-Elements-sub">
-                                            <input
-                                                className='input corporate'
-                                                type='text'
-                                                id='pincode'
-                                                placeholder='Customer GSTIN'
-                                                value={customerGstin}
-                                                onChange={(e) => setCustomerGstin(e.target.value)}
-                                            />
-                                        </div>
+                                        <input
+                                            className='input corporate'
+                                            type='text'
+                                            id='pincode'
+                                            placeholder='Customer GSTIN'
+                                            value={customerGstin}
+                                            onChange={(e) => setCustomerGstin(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div className='Delivery-Address-corporate'>
-                                <h5>Delivery Address</h5>
+                                <h4>Delivery Address</h4>
                                 <input
                                     className='input corporate'
                                     type='text'
@@ -608,7 +608,7 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                         </div>
                         <div className="productdetails-corporate">
                             <div className='product-weight-corporate'>
-                                <h5>Parcel Details</h5>
+                                <h4>Parcel Details</h4>
                                 <div className="product-weight-inputs">
                                     <div className="product-weight-input-fields">
                                         <input
@@ -660,7 +660,7 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                             </div>
 
                             <div className="about-item-corporate">
-                                <h5>About the item</h5>
+                                <h4>About the item</h4>
                                 <div className="about-item-list">
                                     <div className="about-item-input-fields">
                                         <input
@@ -792,36 +792,36 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                                     </ul>
                                 </div>
 
-                              
+
                             </div>
                             <div className="packing-guide">
-                                    <div>
-                                        <h3>How To Pack Your Courier</h3>
-                                        <div className="packing-image-section">
-                                            <table>
-                                                <tr>
-                                                    <td><img src={sizeOfPacking} alt="sizeOfPacking" className="packingLogo" /></td>
-                                                    <td><img src={qualityPacking} alt="qualityPacking" className="packingLogo" /> </td>
-                                                    <td><img src={securityOfPacking} alt="securityOfPacking" className="packingLogo" /></td>
-                                                    <td><img src={softPacking} alt="softPacking" className="packingLogo" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Size of Packing</td>
-                                                    <td>Quality of Packing</td>
-                                                    <td>Securing Item</td>
-                                                    <td>Size of Packing</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ensure the box is not overloaded</td>
-                                                    <td>Ensure that the box is sturdy and thick. Do not under or overfill</td>
-                                                    <td>Use 5-6 cm cushioning between each item and line box with bubble wrap or newspaper</td>
-                                                    <td>Ensure that the package is properly sealed Do not use paper or fabric bags</td>
-                                                </tr>
-                                            </table>
+                                <div>
+                                    <h3>How To Pack Your Courier</h3>
+                                    <div className="packing-image-section">
+                                        <table>
+                                            <tr>
+                                                <td><img src={sizeOfPacking} alt="sizeOfPacking" className="packingLogo" /></td>
+                                                <td><img src={qualityPacking} alt="qualityPacking" className="packingLogo" /> </td>
+                                                <td><img src={securityOfPacking} alt="securityOfPacking" className="packingLogo" /></td>
+                                                <td><img src={softPacking} alt="softPacking" className="packingLogo" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Size of Packing</td>
+                                                <td>Quality of Packing</td>
+                                                <td>Securing Item</td>
+                                                <td>Size of Packing</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ensure the box is not overloaded</td>
+                                                <td>Ensure that the box is sturdy and thick. Do not under or overfill</td>
+                                                <td>Use 5-6 cm cushioning between each item and line box with bubble wrap or newspaper</td>
+                                                <td>Ensure that the package is properly sealed Do not use paper or fabric bags</td>
+                                            </tr>
+                                        </table>
 
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
                             <div>
                                 <div className="items-restriction">
                                     <div className="readme">
@@ -891,98 +891,99 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                 )}
                 {cardName === 'billing' && (
                     <div className="order-summary">
+                        <div className="bill">
 
-                        <h3>Order Summary </h3>
-                        <div className="order-elements-grp" >
-                            <div className="order-elements address">
-                                <div className="order-elements add">
-                                    <p className="order-elements heading">Pickup Details</p>
-                                    <div className="order-element address-details">
-                                        <p>{pickupName}</p>
-                                        {pickupAddr1 && <p>{pickupAddr1}</p>}
-                                        {pickupAddr2 && <p>{pickupAddr2}</p>}
-                                        <p>{pickupCity}</p>
-                                        <p>{pickupPincode}</p>
-                                        <p>{pickupState}</p>
-                                        <p>Phone Number: {pickupPhoneNumber}</p>
-                                    </div>
-                                </div>
-                                <div className="order-elements add">
-                                    <p className="order-elements heading">Delivery Details</p>
-                                    <div className="order-element address-details">
-                                        <p>{deliveryName}</p>
-                                        {deliveryAddrL1 && <p>{deliveryAddrL1}</p>}
-                                        {deliveryAddrL2 && <p>{deliveryAddrL2}</p>}
-                                        <p>{deliveryCity}</p>
-                                        <p>{deliveryPincode}</p>
-                                        <p>{deliveryState}</p>
-                                        <p>Phone Number: {deliveryPhoneNumber}</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="order-elements desc">
-                                <div className="order-elements items">
-                                    <p className="order-elements heading">Item Description</p>
-                                    <p className="order-elements values">{itemDescription}</p>
-                                </div>
-                                <div className="order-elements items">
-                                    <p className="order-elements heading">Item Category</p>
-                                    <p className="order-elements values">{selectedCategory}</p>
-                                </div>
-                                <div className="order-elements items">
-                                    <p className="order-elements heading">Item Value</p>
-                                    <p className="order-elements values">{itemValue}</p>
-                                </div>
-                            </div>
-                            <div className="order-elements size">
-                                <div className="order-elements">
-                                    <p className="order-elements heading">NO of Boxes:</p>
-                                    <p className="order-elements values">{noOfBox}</p>
-                                </div>
-                                <div className="order-elements">
-                                    <p className="order-elements heading">Per Box Weight:</p>
-                                    <p className="order-elements values">{perBoxWeight}</p>
-                                </div>
-                                <div className="order-elements">
-                                    <p className="order-elements heading">Total Weight:</p>
-                                    <p className="order-elements values">{wholeWeight}</p>
-                                </div>
-                            </div>
-                            <div className="order-elements billing">
-                                <div className="billing-box">
-                                    <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
-                                    <div className="billing-details">
-                                        <div className="charge">
-                                            <p className="charge name">Courier Charge</p>
-                                            <p className="charge value">{courierAmount}</p>
-                                        </div>
-                                        <div className="charge">
-                                            <p className="charge name">Service Charge + GST</p>
-                                            <p className="charge value">{((courierBoteAmount - courierAmount)+pickUpAmount).toFixed(2)}</p>
-                                        </div>
-                                        <div className="charge ">
-                                            <p id="total" className="charge name">Total Charge</p>
-                                            <p id="total" className="charge value">{totalAmount.toFixed(2)}</p>
+                            <h3>Order Summary </h3>
+                            <div className="order-elements-grp" >
+                                <div className="order-elements address">
+                                    <div className="order-elements add">
+                                        <p className="order-elements heading">Pickup Details</p>
+                                        <div className="order-element address-details">
+                                            <p>{pickupName}</p>
+                                            {pickupAddr1 && <p>{pickupAddr1}</p>}
+                                            {pickupAddr2 && <p>{pickupAddr2}</p>}
+                                            <p>{pickupCity}</p>
+                                            <p>{pickupPincode}</p>
+                                            <p>{pickupState}</p>
+                                            <p>Phone Number: {pickupPhoneNumber}</p>
                                         </div>
                                     </div>
+                                    <div className="order-elements add">
+                                        <p className="order-elements heading">Delivery Details</p>
+                                        <div className="order-element address-details">
+                                            <p>{deliveryName}</p>
+                                            {deliveryAddrL1 && <p>{deliveryAddrL1}</p>}
+                                            {deliveryAddrL2 && <p>{deliveryAddrL2}</p>}
+                                            <p>{deliveryCity}</p>
+                                            <p>{deliveryPincode}</p>
+                                            <p>{deliveryState}</p>
+                                            <p>Phone Number: {deliveryPhoneNumber}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="order-elements desc">
+                                    <div className="order-elements items">
+                                        <p className="order-elements heading">Item Description</p>
+                                        <p className="order-elements values">{itemDescription}</p>
+                                    </div>
+                                    <div className="order-elements items">
+                                        <p className="order-elements heading">Item Category</p>
+                                        <p className="order-elements values">{selectedCategory}</p>
+                                    </div>
+                                    <div className="order-elements items">
+                                        <p className="order-elements heading">Item Value</p>
+                                        <p className="order-elements values">{itemValue}</p>
+                                    </div>
+                                </div>
+                                <div className="order-elements size">
+                                    <div className="order-elements">
+                                        <p className="order-elements heading">NO of Boxes:</p>
+                                        <p className="order-elements values">{noOfBox}</p>
+                                    </div>
+                                    <div className="order-elements">
+                                        <p className="order-elements heading">Per Box Weight:</p>
+                                        <p className="order-elements values">{perBoxWeight}</p>
+                                    </div>
+                                    <div className="order-elements">
+                                        <p className="order-elements heading">Total Weight:</p>
+                                        <p className="order-elements values">{wholeWeight}</p>
+                                    </div>
+                                </div>
+                                <div className="order-elements billing">
+                                    <div className="billing-box">
+                                        <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
+                                        <div className="billing-details">
+                                            <div className="charge">
+                                                <p className="charge name">Courier Charge</p>
+                                                <p className="charge value">{courierAmount}</p>
+                                            </div>
+                                            <div className="charge">
+                                                <p className="charge name">Service Charge + GST</p>
+                                                <p className="charge value">{((courierBoteAmount - courierAmount) + pickUpAmount).toFixed(2)}</p>
+                                            </div>
+                                            <div className="charge ">
+                                                <p id="total" className="charge name">Total Charge</p>
+                                                <p id="total" className="charge value">{totalAmount.toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="order-payment">
-                            <div className="order-elements">
-                                <label className='radios'>
-                                    <input
-                                        type='radio'
-                                        name='shipment-type'
-                                        value='paymentType'
-                                        checked={paymentType === "razorPay"}
-                                        onChange={() => setPaymentType("razorPay")}
-                                    />
-                                    Razor Pay
-                                </label>
+                            <div className="order-payment">
+                                <div className="order-elements">
+                                    <label className='radios'>
+                                        <input
+                                            type='radio'
+                                            name='shipment-type'
+                                            value='paymentType'
+                                            checked={paymentType === "razorPay"}
+                                            onChange={() => setPaymentType("razorPay")}
+                                        />
+                                        Razor Pay
+                                    </label>
 
-                                {/* <label className='radios'>
+                                    {/* <label className='radios'>
                                     <input
                                         type='radio'
                                         name='shipment-type'
@@ -992,51 +993,52 @@ function AddressCard({setProceedToAddress, name, add1, add2, phoneNumber, email,
                                     />
                                     COD
                                 </label> */}
+                                </div>
                             </div>
-                        </div>
-                        <button className="card-back" onClick=
-                            {() => { setCardName('summary') }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
-                        <button
-                            id='pickup-button'
-                            className='btn btn-primary'
-                            onClick={handleConfirm}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
+                            <button className="card-back" onClick=
+                                {() => { setCardName('summary') }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
+                            <button
+                                id='pickup-button'
+                                className='btn btn-primary'
+                                onClick={handleConfirm}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
 
-                        {orderConfirmation && (
-                            <div className="sucess-popup">
+                            {orderConfirmation && (
+                                <div className="sucess-popup">
 
 
-                                <div className='popup-container ' >
-                                    <div className="popup-container content">
-                                        <div className="alert-popup-container">
-                                            <div className="success-checkmark">
-                                                <div className="check-icon">
-                                                    <span className="icon-line line-tip"></span>
-                                                    <span className="icon-line line-long"></span>
-                                                    <div className="icon-circle"></div>
-                                                    <div className="icon-fix"></div>
+                                    <div className='popup-container ' >
+                                        <div className="popup-container content">
+                                            <div className="alert-popup-container">
+                                                <div className="success-checkmark">
+                                                    <div className="check-icon">
+                                                        <span className="icon-line line-tip"></span>
+                                                        <span className="icon-line line-long"></span>
+                                                        <div className="icon-circle"></div>
+                                                        <div className="icon-fix"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="alert-popup-title">Success!!!</div>
+                                                <div className="alert-popup-message">
+                                                    Your Pickup has been placed :)
+                                                </div>
+                                                <div className="alert-popup-confirm">
+                                                    <button
+                                                        id='finalok-button'
+                                                        className='btn btn-primary'
+                                                        onClick={() => { handlOk(); }}>OK</button>
                                                 </div>
                                             </div>
-                                            <div className="alert-popup-title">Success!!!</div>
-                                            <div className="alert-popup-message">
-                                                Your Pickup has been placed :)
-                                            </div>
-                                            <div className="alert-popup-confirm">
-                                                <button
-                                                    id='finalok-button'
-                                                    className='btn btn-primary'
-                                                    onClick={() => { handlOk(); }}>OK</button>
-                                            </div>
-                                        </div>
-                                        {/* <button className="popup-close" onClick=
+                                            {/* <button className="popup-close" onClick=
                                             {() => { setOrderConfirmation(false); }}>
 
                                         </button> */}
+                                        </div>
+
                                     </div>
 
-                                </div>
 
-
-                            </div>)}
+                                </div>)}
+                        </div>
                     </div>
                 )
 

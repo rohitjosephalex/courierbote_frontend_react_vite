@@ -25,6 +25,9 @@ function PincodeSearch({ setProceedToAddress,pincode }) {
                 document.getElementById('address-card').scrollIntoView({ behavior: 'smooth' }); // Scroll to AddressCard section
                 setError("")
             }
+            else if(!pickupPincode||!dropPincode){
+                setError('Please Enter Both The Pincodes'); 
+            }
             else {
                 setError('Sorry Service at this pincode is currently unavailable');
             }
