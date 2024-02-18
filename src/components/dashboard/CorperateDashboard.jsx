@@ -19,6 +19,7 @@ function CorporateDashboard() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [pincode, setPincode] = useState("");
   const [state, setState] = useState("");
+  const [gstNo, setGstNo] = useState("");
   const [proceedToAddress, setProceedToAddress] = useState(false); // Initialize state for proceeding to address
   const addressCardRef = useRef(null); // Create a ref for the AddressCard element
 
@@ -56,6 +57,7 @@ function CorporateDashboard() {
         setPhoneNumber(response.data.Address.phoneNumber);
         setPincode(response.data.Address.pincode);
         setState(response.data.Address.state);
+        setGstNo(response.data.Address.gstNo)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -74,7 +76,7 @@ function CorporateDashboard() {
       </div>
       {proceedToAddress &&
         <div id="address-card" ref={addressCardRef}> {/* Assign the ref to the wrapping element */}
-          <AddressCard setProceedToAddress={setProceedToAddress} name={name} add1={addressLine1} add2={addressLine2} phoneNumber={phoneNumber} email={email} city={city} pincode={pincode} state={state} />
+          <AddressCard setProceedToAddress={setProceedToAddress} name={name} add1={addressLine1} add2={addressLine2} phoneNumber={phoneNumber} email={email} city={city} pincode={pincode} state={state} gstNo={gstNo} />
         </div>}
     </div>
   );

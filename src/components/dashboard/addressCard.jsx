@@ -1,5 +1,5 @@
 // import React from "react";
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Popup from 'reactjs-popup';
 import sizeOfPacking from '../../assets/Size_Packing.jpg';
 import securityOfPacking from '../../assets/Security_Items.jpg';
@@ -12,7 +12,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email, city, pincode, state }) {
+function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email, city, pincode, state, gstNo }) {
     const [cardName, setCardName] = useState("Initial");
 
     // Pickup Address
@@ -24,7 +24,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [pickupCity, setPickupCity] = useState(city);
     const [pickupPincode, setPickupPincode] = useState(pincode);
     const [pickupState, setPickupState] = useState(state);
-    const [customerGstin, setCustomerGstin] = useState("");
+    const [customerGstin, setCustomerGstin] = useState(gstNo);
 
     // Delivery Address
     const [deliveryName, setDeliveryName] = useState("");
@@ -63,6 +63,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [orderConfirmation, setOrderConfirmation] = useState(false);
     const [paymentType, setPaymentType] = useState('');
     const [error, setError] = useState("");
+    const [save, setSave] = useState(false);
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const apiToken = sessionStorage.getItem('api_token');
     const dashboardDetailsRef = useRef(null);
@@ -70,12 +71,27 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
         // Whenever cardName changes, or any other relevant state/prop changes
         // Set scrollTop to 0 to ensure the dashboard-details starts from the top
         if (dashboardDetailsRef.current) {
-          dashboardDetailsRef.current.scrollTop = 0;
+            dashboardDetailsRef.current.scrollTop = 0;
         }
-      }, [cardName, /* Add other relevant dependencies here */]);
+    }, [cardName, /* Add other relevant dependencies here */]);
     const handleConfirm = async () => {
         setButtonLoading(true);
         // setOrderConfirmation(true)
+        let unifiedperBoxWeight = perBoxWeight;
+        let unifiedTotalWeight = wholeWeight;
+
+        if (shipmentType === 'By Air') {
+            if (weightUnit === 'kg') {
+                unifiedperBoxWeight = perBoxWeight * 1000;
+                unifiedTotalWeight = wholeWeight * 1000;
+            }// By air calculation is to be done in gms 
+        }
+        else if (shipmentType === 'By surface') {//By surface calculation are done in kg
+            if (weightUnit === 'gm') {
+                unifiedperBoxWeight = perBoxWeight / 1000;
+                unifiedTotalWeight = wholeWeight / 1000;
+            }
+        }
         const requestData = {
             pickupName: pickupName,
             pickupAddr1: pickupAddr1,
@@ -85,8 +101,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             pickupCity: pickupCity,
             pickupState: pickupState,
             pickupPincode: pickupPincode,
-            totalWeight: wholeWeight,
-            perBoxWeight: perBoxWeight,
+            totalWeight: unifiedTotalWeight,
+            perBoxWeight: unifiedperBoxWeight,
             noOfBOx: noOfBox,
             deliveryName: deliveryName,
             deliveryAddrL1: deliveryAddrL1,
@@ -105,7 +121,6 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             height: height,
             gstNo: customerGstin
 
-
         };
         const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
             {
@@ -113,7 +128,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     Authorization: `Bearer ${apiToken}`,
                 },
             });
-            setButtonLoading(false);    
+        setButtonLoading(false);
         console.log(response.data);
         var options = {
             "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
@@ -127,7 +142,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 console.log("response.razorpay_payment_id");
                 // console.log(response.razorpay_order_id);
                 // console.log(response.razorpay_signature);
-                setButtonLoading(false);    
+                setButtonLoading(false);
                 const requestData = {
                     orderId: response.razorpay_order_id,
                     paymentId: response.razorpay_payment_id,
@@ -214,6 +229,10 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             });
             if (response.status === 200) {
                 console.log("saved")
+                setTimeout(() => {
+                    setSave(true);
+                }, 2000);
+
             }
         }
         catch (error) {
@@ -335,7 +354,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
 
     return (
         <div className="dashboard-card">
-            <div className="dashboard-details"  ref={dashboardDetailsRef}  style={{ overflowY: 'scroll', maxHeight: '90vh' }}>
+            <div className="dashboard-details" ref={dashboardDetailsRef} style={{ overflowY: 'scroll', maxHeight: '90vh' }}>
                 {cardName === 'Initial' && (<div className='pickupbooking'>
                     <div className='inputfields'>
                         <div className="corporate-address">
@@ -422,7 +441,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             title="Save the address for convenient future checkouts"
                                             onClick={handleSaveAddress}
                                         >
-                                            Save
+                                            {!save ? 'Save' : 'Saved'}
                                         </button>
                                     </div>
                                     <div className="Address-Elements-sub">
