@@ -51,26 +51,28 @@ export const Input = styled.input`
   }
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button`  
   width: 100%;
   max-width: 150px;
+  margin-top: 15px; /* Add margin to the top */
   padding: 10px;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
   border: none;
   border-radius: 100px;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; // Use 'not-allowed' cursor when disabled
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   transition: all 240ms ease-in-out;
   background: linear-gradient(
     58deg,  #ff7340 20%, #fb7736 100%
   );
-  pointer-events: ${props => props.disabled ? 'none' : 'auto'}; // Disable pointer events when disabled
+  pointer-events: ${props => props.disabled ? 'none' : 'auto'};
 
   &:hover {
     filter: brightness(1.3);
   }
 `;
+
 
 export const LineText = styled.p`
   font-size: 12px;

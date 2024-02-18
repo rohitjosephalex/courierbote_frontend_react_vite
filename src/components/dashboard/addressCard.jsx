@@ -1,5 +1,5 @@
 // import React from "react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import Popup from 'reactjs-popup';
 import sizeOfPacking from '../../assets/Size_Packing.jpg';
 import securityOfPacking from '../../assets/Security_Items.jpg';
@@ -41,7 +41,9 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [perBoxWeight, setPerBoxWeight] = useState("");
     const [noOfBox, setNoOfBox] = useState("");
     const [weightUnit, setWeightUnit] = useState("kg");
-
+    const [length, setLength] = useState("");
+    const [breadth, setBreadth] = useState("");
+    const [height, setHeight] = useState("");
     // About the Item
     const [isPackingNeeded, setIsPackingNeeded] = useState(false);
     const [itemDescription, setItemDescription] = useState("");
@@ -63,6 +65,14 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [error, setError] = useState("");
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const apiToken = sessionStorage.getItem('api_token');
+    const dashboardDetailsRef = useRef(null);
+    useEffect(() => {
+        // Whenever cardName changes, or any other relevant state/prop changes
+        // Set scrollTop to 0 to ensure the dashboard-details starts from the top
+        if (dashboardDetailsRef.current) {
+          dashboardDetailsRef.current.scrollTop = 0;
+        }
+      }, [cardName, /* Add other relevant dependencies here */]);
     const handleConfirm = async () => {
         setButtonLoading(true);
         // setOrderConfirmation(true)
@@ -89,7 +99,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             itemDescription: itemDescription,
             selectedCategory: selectedCategory,
             itemValue: itemValue,
-            paymentType: paymentType
+            paymentType: paymentType,
+            length: length,
+            breadth: breadth,
+            height: height,
+            gstNo: customerGstin
 
 
         };
@@ -99,6 +113,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     Authorization: `Bearer ${apiToken}`,
                 },
             });
+            setButtonLoading(false);    
         console.log(response.data);
         var options = {
             "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
@@ -112,6 +127,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 console.log("response.razorpay_payment_id");
                 // console.log(response.razorpay_order_id);
                 // console.log(response.razorpay_signature);
+                setButtonLoading(false);    
                 const requestData = {
                     orderId: response.razorpay_order_id,
                     paymentId: response.razorpay_payment_id,
@@ -142,6 +158,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
         };
         var rzp1 = new window.Razorpay(options);
         rzp1.on('payment.failed', function (response) {
+            setButtonLoading(false);
+            console.log(response.error)
             alert(response.error.code);
             alert(response.error.description);
             alert(response.error.source);
@@ -186,7 +204,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 pickupEmail: pickupEmail,
                 pickupCity: pickupCity,
                 pickupPincode: pickupPincode,
-                pickupState: pickupState
+                pickupState: pickupState,
+                gstNo: customerGstin
             };
             const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/saveaddress', requestData, {
                 headers: {
@@ -225,11 +244,12 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 setError("");
                 let unifiedperBoxWeight = perBoxWeight;
                 let unifiedTotalWeight = wholeWeight;
-                if (weightUnit === 'gm') {
-                    unifiedperBoxWeight = perBoxWeight / 1000;
-                    unifiedTotalWeight = wholeWeight / 1000;
-                }
+
                 if (shipmentType === 'By Air') {
+                    if (weightUnit === 'kg') {
+                        unifiedperBoxWeight = perBoxWeight * 1000;
+                        unifiedTotalWeight = wholeWeight * 1000;
+                    }// By air calculation is to be done in gms 
                     const requestData = {
                         pickupPincode: pickupPincode,
                         destiantionPincode: deliveryPincode,
@@ -254,7 +274,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             setCardName("summary");
                         }
                     }
-                } else if (shipmentType === 'By surface') {
+                } else if (shipmentType === 'By surface') {// By surface calculation is to be done in kg
+                    if (weightUnit === 'gm') {
+                        unifiedperBoxWeight = perBoxWeight / 1000;
+                        unifiedTotalWeight = wholeWeight / 1000;
+                    }// By air calculation is to be done in gms 
                     if (!isTimedOut) {
                         clearTimeout(timeoutId); // Clear the timeout if response is received before timeout
                         const requestData = {
@@ -311,7 +335,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
 
     return (
         <div className="dashboard-card">
-            <div className="dashboard-details">
+            <div className="dashboard-details"  ref={dashboardDetailsRef}  style={{ overflowY: 'scroll', maxHeight: '90vh' }}>
                 {cardName === 'Initial' && (<div className='pickupbooking'>
                     <div className='inputfields'>
                         <div className="corporate-address">
@@ -658,7 +682,42 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                     </div>
                                 </div>
                             </div>
+                            <div className='product-weight-corporate'>
+                                <h4>Parcel Dimension</h4>
+                                <div className="product-weight-inputs">
+                                    <div className="product-weight-input-fields">
+                                        <input
+                                            className='input corporate'
+                                            type='number'
+                                            id='length'
+                                            placeholder="Length"
+                                            value={length}
+                                            onChange={(e) => setLength(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="product-dimension-input-fields">
+                                        <input
+                                            className='input corporate'
+                                            type='number'
+                                            id='Breadth'
+                                            placeholder='Breadth'
+                                            value={breadth}
+                                            onChange={(e) => setBreadth(e.target.value)}
+                                        />
 
+                                    </div>
+                                    <div className="product-dimension-input-fields">
+                                        <input
+                                            className='input corporate'
+                                            type='number'
+                                            id='height'
+                                            placeholder='Height'
+                                            value={height}
+                                            onChange={(e) => setHeight(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div className="about-item-corporate">
                                 <h4>About the item</h4>
                                 <div className="about-item-list">
@@ -897,7 +956,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             <div className="order-elements-grp" >
                                 <div className="order-elements address">
                                     <div className="order-elements add">
-                                        <p className="order-elements heading">Pickup Details</p>
+                                        <p className="order-elements add-heading">Pickup Details</p>
                                         <div className="order-element address-details">
                                             <p>{pickupName}</p>
                                             {pickupAddr1 && <p>{pickupAddr1}</p>}
@@ -909,7 +968,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         </div>
                                     </div>
                                     <div className="order-elements add">
-                                        <p className="order-elements heading">Delivery Details</p>
+                                        <p className="order-elements add-heading">Delivery Details:</p>
                                         <div className="order-element address-details">
                                             <p>{deliveryName}</p>
                                             {deliveryAddrL1 && <p>{deliveryAddrL1}</p>}
@@ -948,6 +1007,10 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                     <div className="order-elements">
                                         <p className="order-elements heading">Total Weight:</p>
                                         <p className="order-elements values">{wholeWeight}</p>
+                                    </div>
+                                    <div className="order-elements">
+                                        <p className="order-elements heading">LBH:</p>
+                                        <p className="order-elements values">{length}*{breadth}*{height}</p>
                                     </div>
                                 </div>
                                 <div className="order-elements billing">
@@ -1000,7 +1063,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             <button
                                 id='pickup-button'
                                 className='btn btn-primary'
-                                onClick={handleConfirm}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
+                                onClick={handleConfirm} style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
 
                             {orderConfirmation && (
                                 <div className="sucess-popup">

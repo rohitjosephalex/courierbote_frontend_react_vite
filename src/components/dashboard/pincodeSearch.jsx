@@ -54,7 +54,7 @@ function PincodeSearch({ setProceedToAddress,pincode }) {
                             <input
                                 className='input corporate' // Changed class name here
                                 maxLength="6"
-                                type='text'
+                                type='number'
                                 id='pickup-pincode'
                                 placeholder='Pickup Pincode'
                                 inputMode="numeric"
@@ -70,7 +70,7 @@ function PincodeSearch({ setProceedToAddress,pincode }) {
                                 className='input corporate' // Changed class name here
                                 maxLength="6"
                                 pattern="[0-9]*"
-                                type='text'
+                                type='number'
                                 inputMode="numeric"
                                 id='drop-pincode'
                                 placeholder='Destination Pincode'

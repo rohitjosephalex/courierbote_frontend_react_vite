@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState ,useEffect} from "react";
 import {
     BoldLink,
     BoxContainer,
@@ -22,9 +22,29 @@ export function OtpForm() {
     const { switchToSignup, switchToSignin } = useContext(AccountContext);
     const [error, setError] = useState("");
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [resendButtonDisabled, setResendButtonDisabled] = useState(false);
+    const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
     const [resendTimer, setResendTimer] = useState(30); // 30 minutes in seconds
+    useEffect(() => {
+        const timerInterval = setInterval(() => {
+            setResendTimer(prevTimer => {
+                if (prevTimer === 0) {
+                    setResendButtonDisabled(false); // Enable button when timer reaches 0
+                    return 30; // Reset timer to 30 seconds
+                } else {
+                    return prevTimer - 1; // Decrement timer by 1 second
+                }
+            });
+        }, 1000); // Update timer every second
+    
+        return () => clearInterval(timerInterval); // Cleanup interval on component unmount
+    }, []);
 
+    useEffect(() => {
+        // Enable resend button when timer reaches 0
+        if (resendTimer === 0) {
+            setResendButtonDisabled(false);
+        }
+    }, [resendTimer]);
     const handleResendOtp = async () => {
         try {
             console.log('resend')
@@ -32,7 +52,7 @@ export function OtpForm() {
             setTimeout(() => {
                 setResendButtonDisabled(false);
                 setResendTimer(30); // Reset the timer
-            }, 30 * 1000);
+            }, 30 * 1000);  
             const requestData = {
                 email: email
             };
@@ -83,7 +103,7 @@ export function OtpForm() {
                     };
                     const response = await axios.post('https://backend.courierbote.com/api/corporateuser/newuserverification', requestData);
                     if (response.status === 200) {
-                        setError("User created proceed to signin")
+                        setError("")
                         navigate('/corporate/signin');
                         switchToSignin();
                         setPassword("");
@@ -156,14 +176,20 @@ export function OtpForm() {
                 <OtpContainer formik={formik} />
             </FormContainer>
             <Marginer direction="vertical" margin={10} />
-            {error && <ErrorText>{error}</ErrorText>}
+            <div className="button-class">
+                            {error && (
+                                <div className="error-text-container">
+                                    <p className="error-text">{error}</p>
+                                </div>
+                            )}
             <SubmitButton type="submit" onClick={handleValidate} style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>
                 {!buttonLoading ? 'Validate' : 'loading...'}
             </SubmitButton>
+            </div>
             <Marginer direction="vertical" margin="5px" />
             <LineText>
                 Didn't recive the OTP?{" "}
-                <BoldLink onClick={handleResendOtp} disabled={resendButtonDisabled}>
+                <BoldLink onClick={handleResendOtp} disabled={resendButtonDisabled} style={{ pointerEvents: resendButtonDisabled ? 'none' : 'auto' }}>
                     {resendButtonDisabled ? `Resend in ${resendTimer} seconds` : 'Resend'}
                 </BoldLink>
             </LineText>

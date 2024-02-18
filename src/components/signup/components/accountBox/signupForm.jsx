@@ -18,25 +18,21 @@ import axios from 'axios';
 export function SignupForm(props) {
   const { companyName, setCompanyName } = useContext(MyContext);
   const { email, setEmail } = useContext(MyContext);
-
   const { password, setPassword } = useContext(MyContext);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
-  // const { setEmail } = useContext(MyContext); 
-  // const { setCompanyName } = useContext(MyContext); 
   const { switchToSignin, switchToOtp } = useContext(AccountContext);
   const [error, setError] = useState("");
+
   const handleSignUp = async () => {
     let proceed = 0;
-
-    if (password !== confirmPassword) {
-      setError('Password and Confirm Password do not match');
+    if (!companyName || !email || !password || !confirmPassword) {
+      setError('Please fill in all fields');
       proceed = 1;
       return;
     }
-
-    if (!companyName || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+    if (password !== confirmPassword) {
+      setError('Password and Confirm Password do not match');
       proceed = 1;
       return;
     }
@@ -55,22 +51,21 @@ export function SignupForm(props) {
         if (response.status === 200) {
           switchToOtp();
         } else {
-          // Handle other status codes here
           console.log('Error:', response.status, response.data);
         }
       } catch (error) {
         console.error('Error during sign-up:', error.response);
 
-        if (error.response.status === 409)
-         { setError('Email already exist');
-          setButtonLoading(true);}
-        else 
-       { setError(error.response.data.errorName);
-        setButtonLoading(true);}
+        if (error.response.status === 409) {
+          setError('Email already exists');
+        } else {
+          setError(error.response.data.errorName);
+        }
+      } finally {
+        setButtonLoading(false);
       }
     }
   };
-
 
   return (
     <BoxContainer>
@@ -81,17 +76,24 @@ export function SignupForm(props) {
         <Input type="password" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
-      {/* Use an arrow function to correctly invoke handleSignUp */}
-      {error && <ErrorText>{error}</ErrorText>}
-      <SubmitButton type="submit"   style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }} onClick={() => { handleSignUp(); }} disabled={buttonLoading}>
-      {!buttonLoading ? 'Signup' : 'loading...'}
+      {/* <ErrorText style={{ visibility: error ? 'visible' : 'hidden' }}>{error}</ErrorText>
+       */}
+       <div className="button-class">
+                            {error && (
+                                <div className="error-text-container">
+                                    <p className="error-text">{error}</p>
+                                </div>
+                            )}
+      <SubmitButton type="submit" disabled={buttonLoading} onClick={handleSignUp} >
+        {!buttonLoading ? 'Signup' : 'Loading...'}
       </SubmitButton>
+      </div>
       <Marginer direction="vertical" margin="5px" />
       <LineText>
         Already have an account?{" "}
         <BoldLink onClick={switchToSignin} >
           <Link className='link' to="/corporate/signin">
-          Signin
+            Signin
           </Link>
         </BoldLink>
       </LineText>

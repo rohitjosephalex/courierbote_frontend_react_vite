@@ -82,8 +82,14 @@ export function LoginForm(props) {
       <Marginer direction="vertical" margin={10} />
       {/* <MutedLink href="#">Forget your password?</MutedLink> */}
       <Marginer direction="vertical" margin="1.6em" />
-      {error && <ErrorText>{error}</ErrorText>}
+      <div className="button-class">
+                            {error && (
+                                <div className="error-text-container">
+                                    <p className="error-text">{error}</p>
+                                </div>
+                            )}
       <SubmitButton type="submit" onClick={handleSignin}  style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>  {!buttonLoading ? 'Signin' : 'loading...'}</SubmitButton>
+      </div>
       <Marginer direction="vertical" margin="5px" />
       <LineText>
         Don't have an accoun?{" "}

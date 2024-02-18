@@ -49,6 +49,7 @@ body {
 }
 
 .error-text {
+
     margin-top: 0px;
     display: flex;
     flex-direction: row;
@@ -64,6 +65,7 @@ body {
 }
 
 .pincode-inputs {
+    z-index: 100;
    padding-top: 15px;
     display: flex;
     gap: 10vw;
@@ -77,26 +79,45 @@ body {
 
 }
 
+
 .dashboard-details {
     width: 60rem;
     background-color: #ffffff;
     max-height: 90vh;
     border-radius: 15px;
     box-shadow: 15px 15px 10px 5px rgba(78, 78, 78, 0.2);
-    padding-bottom: 25px;
+    padding-bottom: 15px;
     margin-bottom: 15px;
-    /* overflow-y: auto; */
+    overflow-y: scroll;
 
 }
-.pickupbooking{
-    max-height:90vh;
-    overflow-y: auto;
-}
+
+.dashboard-details::-webkit-scrollbar {
+	width: 5px;  
+            /* width of the entire scrollbar */
+	margin-right: 10px;
+  }
+  
+  .dashboard-details::-webkit-scrollbar-track {
+
+	margin-block: 15px;
+	background: transparent;        /* color of the tracking area */
+  }
+  
+  .dashboard-details::-webkit-scrollbar-thumb {
+	background-color: rgb(165, 164, 164);    /* color of the scroll thumb */
+	border-radius: 20px;       /* roundness of the scroll thumb */
+	height: 50px;
+	width: 10px;
+
+	border: none;  /* creates padding around scroll thumb */
+  }
+
 .input.corporate {
     background-color: white;
     color: #333;
     /* Adjust text color to ensure visibility */
-    border: 1px solid #a7a7a7;
+    border: 1px solid #bcbcbc;
     /* Add border for better visibility */
     /* Add any other styling here */
     border-radius: 5px;
@@ -204,10 +225,9 @@ body {
 }
 
 .summary-content {
-    max-height: 90vh;
-    overflow-y: auto;
     position: relative;
     padding: 25px;
+    padding-bottom: 15px;
 }
 
 .summary-heading {
@@ -475,13 +495,12 @@ body {
 }
 
 .order-summary {
-    max-height: 90vh;
-overflow-y: auto;
+padding: 15px;
     position: relative;
 }
 
 .bill{
-padding-top: 100px;
+
 text-align: center;
 align-items: center;
 
@@ -530,10 +549,11 @@ align-items: center;
 }
 
 .pincode-desc {
+    z-index: -1;
     position: absolute;
     padding-bottom: 60px;
-    left: 40%;
-    top: 37%;
+    left: 37%;
+    top: 34%;
     color: white;
 }
 
@@ -671,7 +691,12 @@ align-items: center;
     margin: 0;
     /* Remove default margin */
 }
-
+.order-elements.add-heading{
+   font-weight: 600;
+   padding: 0;
+   margin: 0; 
+   text-align: left;
+}
 .order-elements.add {
     display: flex;
     flex-direction: column;
@@ -692,6 +717,10 @@ align-items: center;
 }
 
 .order-elements.heading {
+
+    font-weight: 600;
+}
+.add-heading{
     font-weight: 600;
 }
 
@@ -1006,4 +1035,10 @@ align-items: center;
     .order-elements label {
         font-size: 13px;
     }
+    .bill{
+        /* margin-top: 50rem; */
+        text-align: center;
+        align-items: center;
+        
+        }
 }
