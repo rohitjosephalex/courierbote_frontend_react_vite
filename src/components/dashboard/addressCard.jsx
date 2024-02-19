@@ -122,7 +122,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             gstNo: customerGstin
 
         };
-        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
+        const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
             {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
@@ -130,6 +130,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             });
         setButtonLoading(false);
         console.log(response.data);
+        const courierBoteOrderID=response.data.receipt;
+        const amount= response.data.amount;
         var options = {
             "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
             "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -144,11 +146,39 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 // console.log(response.razorpay_signature);
                 setButtonLoading(false);
                 const requestData = {
+                    pickupName: pickupName,
+                    pickupAddr1: pickupAddr1,
+                    pickupAddr2: pickupAddr2,
+                    pickupPhoneNumber: pickupPhoneNumber,
+                    pickupEmail: pickupEmail,
+                    pickupCity: pickupCity,
+                    pickupState: pickupState,
+                    pickupPincode: pickupPincode,
+                    totalWeight: unifiedTotalWeight,
+                    perBoxWeight: unifiedperBoxWeight,
+                    noOfBOx: noOfBox,
+                    deliveryName: deliveryName,
+                    deliveryAddrL1: deliveryAddrL1,
+                    deliveryAddrL2: deliveryAddrL2,
+                    deliveryPhoneNumber: deliveryPhoneNumber,
+                    deliveryCity: deliveryCity,
+                    deliveryState: deliveryState,
+                    deliveryPincode: deliveryPincode,
+                    shipmentType: shipmentType,
+                    itemDescription: itemDescription,
+                    selectedCategory: selectedCategory,
+                    itemValue: itemValue,
+                    paymentType: paymentType,
+                    length: length,
+                    breadth: breadth,
+                    height: height,
+                    gstNo: customerGstin,
+                    courierBoteOrderID:courierBoteOrderID,
                     orderId: response.razorpay_order_id,
                     paymentId: response.razorpay_payment_id,
                     razorPaySignature: response.razorpay_signature
                 };
-                const responsepayment = await axios.post('https://backend.courierbote.com/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                const responsepayment = await axios.post('http://localhost:80/api/corporatedashboard/razorpayvalidatepayment', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
