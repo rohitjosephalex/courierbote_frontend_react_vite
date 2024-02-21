@@ -122,7 +122,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             gstNo: customerGstin
 
         };
-        const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
+        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
             {
                 headers: {
                     Authorization: `Bearer ${apiToken}`,
@@ -178,7 +178,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     paymentId: response.razorpay_payment_id,
                     razorPaySignature: response.razorpay_signature
                 };
-                const responsepayment = await axios.post('http://localhost:80/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                const responsepayment = await axios.post('https://backend.courierbote.com/api/corporatedashboard/razorpayvalidatepayment', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
@@ -1005,7 +1005,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             <div className="order-elements-grp" >
                                 <div className="order-elements address">
                                     <div className="order-elements add">
-                                        <p className="order-elements add-heading">Pickup Details</p>
+                                        <p className="order-elements add-heading">Pickup Details:</p>
                                         <div className="order-element address-details">
                                             <p>{pickupName}</p>
                                             {pickupAddr1 && <p>{pickupAddr1}</p>}
