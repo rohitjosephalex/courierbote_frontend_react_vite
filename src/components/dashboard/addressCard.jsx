@@ -56,10 +56,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
 
     // Other States
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [courierAmount, setCourierAmount] = useState('');
-    const [pickUpAmount, setPickUpAmount] = useState('');
-    const [courierBoteAmount, setCourierBoteAmount] = useState('');
-    const [totalAmount, setTotalAmount] = useState('');
+    const [courierAmount, setCourierAmount] = useState(0);
+    const [pickUpAmount, setPickUpAmount] = useState(0);
+    const [courierBoteAmount, setCourierBoteAmount] = useState(0);
+    const [serviceGstCharge, setServiceGstCharge] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
     const [orderConfirmation, setOrderConfirmation] = useState(false);
     const [paymentType, setPaymentType] = useState('');
     const [error, setError] = useState("");
@@ -315,10 +316,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     if (!isTimedOut) {
                         clearTimeout(timeoutId); // Clear the timeout if response is received before timeout
                         if (response.data.status === 200) {
-                            setCourierAmount(response.data.data.courierCharge);
+                            setCourierAmount(response.data.data.courierCharge.toFixed(2));
                             setCourierBoteAmount(response.data.data.CourierBotePrice);
                             setPickUpAmount(response.data.data.pickupCharge);
                             setTotalAmount(response.data.data.totalCharge);
+                            setServiceGstCharge((response.data.data.totalCharge-response.data.data.courierCharge).toFixed(2));
                             setButtonLoading(false);
                             setCardName("summary");
                         }
@@ -345,10 +347,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         console.log(response.data);
                         if (response.data.status === 200) {
                             console.log("hello", response.data.data.CourierBotePrice, response.data.data.pickupCharge, response.data.data.totalCharge, response.data.data.courierCharge)
-                            setCourierAmount(response.data.data.courierCharge);
+                            setCourierAmount(response.data.data.courierCharge.toFixed(2));
                             setCourierBoteAmount(response.data.data.CourierBotePrice);
                             setPickUpAmount(response.data.data.pickupCharge);
                             setTotalAmount(response.data.data.totalCharge);
+                            setServiceGstCharge(((response.data.data.CourierBotePrice - response.data.data.courierCharge) + response.data.data.pickupCharge).toFixed(2));
                             setButtonLoading(false);
                             setCardName("summary");
                         }
@@ -1072,7 +1075,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             </div>
                                             <div className="charge">
                                                 <p className="charge name">Service Charge + GST</p>
-                                                <p className="charge value">{((courierBoteAmount - courierAmount) + pickUpAmount).toFixed(2)}</p>
+                                                <p className="charge value">{serviceGstCharge}</p>
                                             </div>
                                             <div className="charge ">
                                                 <p id="total" className="charge name">Total Charge</p>
