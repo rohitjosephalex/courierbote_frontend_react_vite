@@ -44,6 +44,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [length, setLength] = useState("");
     const [breadth, setBreadth] = useState("");
     const [height, setHeight] = useState("");
+    const [dimensionUnit, setDimensionUnit] = useState("");
     // About the Item
     const [isPackingNeeded, setIsPackingNeeded] = useState(false);
     const [itemDescription, setItemDescription] = useState("");
@@ -93,6 +94,14 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 unifiedTotalWeight = wholeWeight / 1000;
             }
         }
+        let unifiedLength = length;
+        let unifiedBreadth = breadth;
+        let unifiedHeight = height;
+        if (dimensionUnit === 'm') {// dimensions are in always sent in cm
+            unifiedLength = length * 100;
+            unifiedBreadth = breadth * 100;
+            unifiedHeight = height * 100;
+        }
         const requestData = {
             pickupName: pickupName,
             pickupAddr1: pickupAddr1,
@@ -117,9 +126,9 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             selectedCategory: selectedCategory,
             itemValue: itemValue,
             paymentType: paymentType,
-            length: length,
-            breadth: breadth,
-            height: height,
+            length: unifiedLength,
+            breadth: unifiedBreadth,
+            height: unifiedHeight,
             gstNo: customerGstin
 
         };
@@ -131,8 +140,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             });
         setButtonLoading(false);
         console.log(response.data);
-        const courierBoteOrderID=response.data.receipt;
-        const amount= response.data.amount;
+        const courierBoteOrderID = response.data.receipt;
+        const amount = response.data.amount;
         var options = {
             "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
             "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -174,7 +183,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     breadth: breadth,
                     height: height,
                     gstNo: customerGstin,
-                    courierBoteOrderID:courierBoteOrderID,
+                    courierBoteOrderID: courierBoteOrderID,
                     orderId: response.razorpay_order_id,
                     paymentId: response.razorpay_payment_id,
                     razorPaySignature: response.razorpay_signature
@@ -294,7 +303,15 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                 setError("");
                 let unifiedperBoxWeight = perBoxWeight;
                 let unifiedTotalWeight = wholeWeight;
-
+                let unifiedLength = length;
+                let unifiedBreadth = breadth;
+                let unifiedHeight = height;
+                if (dimensionUnit === 'm') {// dimensions are in always sent in cm
+                    unifiedLength = length * 100;
+                    unifiedBreadth = breadth * 100;
+                    unifiedHeight = height * 100;
+                }
+                console.log(length,unifiedLength)
                 if (shipmentType === 'By Air') {
                     if (weightUnit === 'kg') {
                         unifiedperBoxWeight = perBoxWeight * 1000;
@@ -305,7 +322,10 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         destiantionPincode: deliveryPincode,
                         totalWeight: unifiedTotalWeight,
                         perBoxWeight: unifiedperBoxWeight,
-                        noOfBOx: noOfBox
+                        noOfBOx: noOfBox,
+                        length: unifiedLength,
+                        breadth: unifiedBreadth,
+                        height: unifiedHeight,
                     };
                     const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byairrate', requestData, {
                         headers: {
@@ -320,7 +340,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             setCourierBoteAmount(response.data.data.CourierBotePrice);
                             setPickUpAmount(response.data.data.pickupCharge);
                             setTotalAmount(response.data.data.totalCharge);
-                            setServiceGstCharge((response.data.data.totalCharge-response.data.data.courierCharge).toFixed(2));
+                            setServiceGstCharge((response.data.data.totalCharge - response.data.data.courierCharge).toFixed(2));
                             setButtonLoading(false);
                             setCardName("summary");
                         }
@@ -337,7 +357,10 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             destiantionPincode: deliveryPincode,
                             totalWeight: unifiedTotalWeight,
                             perBoxWeight: unifiedperBoxWeight,
-                            noOfBOx: noOfBox
+                            noOfBOx: noOfBox,
+                            length: unifiedLength,
+                            breadth: unifiedBreadth,
+                            height: unifiedHeight,
                         };
                         const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byroadrate', requestData, {
                             headers: {
@@ -746,6 +769,14 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             value={length}
                                             onChange={(e) => setLength(e.target.value)}
                                         />
+                                        <select
+                                            className="input corporate"
+                                            id='dimensionUnit'
+                                            value={dimensionUnit}
+                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            <option>m</option>
+                                            <option>cm</option>
+                                        </select>
                                     </div>
                                     <div className="product-dimension-input-fields">
                                         <input
@@ -756,7 +787,14 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             value={breadth}
                                             onChange={(e) => setBreadth(e.target.value)}
                                         />
-
+                                        <select
+                                            className="input corporate"
+                                            id='dimensionUnit'
+                                            value={dimensionUnit}
+                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            <option>m</option>
+                                            <option>cm</option>
+                                        </select>
                                     </div>
                                     <div className="product-dimension-input-fields">
                                         <input
@@ -767,6 +805,14 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             value={height}
                                             onChange={(e) => setHeight(e.target.value)}
                                         />
+                                        <select
+                                            className="input corporate"
+                                            id='dimensionUnit'
+                                            value={dimensionUnit}
+                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            <option>m</option>
+                                            <option>cm</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
