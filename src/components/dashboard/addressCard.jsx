@@ -44,7 +44,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [length, setLength] = useState("");
     const [breadth, setBreadth] = useState("");
     const [height, setHeight] = useState("");
-    const [dimensionUnit, setDimensionUnit] = useState("");
+    const [dimensionUnit, setDimensionUnit] = useState("m");
     // About the Item
     const [isPackingNeeded, setIsPackingNeeded] = useState(false);
     const [itemDescription, setItemDescription] = useState("");
