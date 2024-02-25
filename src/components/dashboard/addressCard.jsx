@@ -778,7 +778,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             <option>cm</option>
                                         </select>
                                     </div>
-                                    <div className="product-dimension-input-fields">
+                                    <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
@@ -796,7 +796,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             <option>cm</option>
                                         </select>
                                     </div>
-                                    <div className="product-dimension-input-fields">
+                                    <div className="product-weight-input-fields">
                                         <input
                                             className='input corporate'
                                             type='number'
