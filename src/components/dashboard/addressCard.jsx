@@ -163,7 +163,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     gstNo: customerGstin
 
                 };
-                const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
+                const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
@@ -389,7 +389,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         breadth: unifiedBreadth,
                         height: unifiedHeight,
                     };
-                    const response = await axios.post('http://localhost:80/api/corporatedashboard/byairrate', requestData, {
+                    const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byairrate', requestData, {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
                         },
@@ -427,7 +427,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             breadth: unifiedBreadth,
                             height: unifiedHeight,
                         };
-                        const response = await axios.post('http://localhost:80/api/corporatedashboard/byroadrate', requestData, {
+                        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byroadrate', requestData, {
                             headers: {
                                 Authorization: `Bearer ${apiToken}`,
                             },
