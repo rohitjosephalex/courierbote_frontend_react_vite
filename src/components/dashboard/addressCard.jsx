@@ -47,9 +47,9 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [breadth, setBreadth] = useState("");
     const [height, setHeight] = useState("");
     // const [dimensionUnit, setDimensionUnit] = useState("m");
-    const [lengthUnit, setLengthUnit] = useState('m');
-    const [breadthUnit, setBreadthUnit] = useState('m');
-    const [heightUnit, setHeightUnit] = useState('m');
+    const [lengthUnit, setLengthUnit] = useState('cm');
+    const [breadthUnit, setBreadthUnit] = useState('cm');
+    const [heightUnit, setHeightUnit] = useState('cm');
     // About the Item
     const [isPackingNeeded, setIsPackingNeeded] = useState(false);
     const [itemDescription, setItemDescription] = useState("");
@@ -73,6 +73,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [save, setSave] = useState(false);
     const [loading, setLoading] = useState(false);
     const [orderFail, setOrderFail] = useState(false);
+    const [courierBoteOrderId, setCourierBoteOrderId] = useState("");
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const apiToken = sessionStorage.getItem('api_token');
     const dashboardDetailsRef = useRef(null);
@@ -83,6 +84,12 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
             dashboardDetailsRef.current.scrollTop = 0;
         }
     }, [cardName, /* Add other relevant dependencies here */]);
+    useEffect(() => {
+        if (noOfBox && perBoxWeight) {
+            const totalWeight = parseFloat(noOfBox) * parseFloat(perBoxWeight);
+            setWholeWeight(totalWeight);
+        }
+    }, [noOfBox, perBoxWeight]);
     const handleConfirm = async () => {
         let timeoutId = 0;
         try {
@@ -160,10 +167,11 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     length: unifiedLength,
                     breadth: unifiedBreadth,
                     height: unifiedHeight,
-                    gstNo: customerGstin
+                    gstNo: customerGstin,
+                    courierBoteOrderId:courierBoteOrderId
 
                 };
-                const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
+                const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
@@ -177,6 +185,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     }
                 }
                 const courierBoteOrderID = response.data.receipt;
+                setCourierBoteOrderId(response.data.receipt);
                 const amount = response.data.amount;
                 var options = {
                     "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
@@ -236,6 +245,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             setLoading(false);
                             console.log(responsepayment.data);
                             setOrderConfirmation(true);
+                            setCourierBoteOrderId("");
                         }
 
                     },
@@ -839,8 +849,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             id='dimensionUnit'
                                             value={lengthUnit}
                                             onChange={(e) => setLengthUnit(e.target.value)}>
-                                            <option>m</option>
                                             <option>cm</option>
+                                            <option>m</option>
                                         </select>
                                     </div>
                                     <div className="product-weight-input-fields">
@@ -857,8 +867,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             id='dimensionUnit'
                                             value={breadthUnit}
                                             onChange={(e) => setBreadthUnit(e.target.value)}>
-                                            <option>m</option>
                                             <option>cm</option>
+                                            <option>m</option>
                                         </select>
                                     </div>
                                     <div className="product-weight-input-fields">
@@ -875,8 +885,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                             id='dimensionUnit'
                                             value={heightUnit}
                                             onChange={(e) => setHeightUnit(e.target.value)}>
-                                            <option>m</option>
                                             <option>cm</option>
+                                            <option>m</option>
                                         </select>
                                     </div>
                                 </div>
@@ -998,7 +1008,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
 
                                 <div className="summary-items">
                                     <div className="items-heading">Amount</div>
-                                    <div className="items-name">{courierAmount}</div>
+                                    <div className="items-name">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierAmount)}</div>
                                 </div>
                             </div>
                             <div className="summary-information">
@@ -1031,7 +1041,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                                 <td>Size of Packing</td>
                                                 <td>Quality of Packing</td>
                                                 <td>Securing Item</td>
-                                                <td>Size of Packing</td>
+                                                <td>Soft Packing</td>
                                             </tr>
                                             <tr>
                                                 <td>Ensure the box is not overloaded</td>
@@ -1155,7 +1165,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                     </div>
                                     <div className="order-elements items">
                                         <p className="order-elements heading">Item Value</p>
-                                        <p className="order-elements values">{itemValue}</p>
+                                        <p className="order-elements values">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(itemValue)}</p>
                                     </div>
                                 </div>
                                 <div className="order-elements size">
@@ -1182,15 +1192,15 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <div className="billing-details">
                                             <div className="charge">
                                                 <p className="charge name">Courier Charge</p>
-                                                <p className="charge value">{courierAmount}</p>
+                                                <p className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierAmount)}</p>
                                             </div>
                                             <div className="charge">
                                                 <p className="charge name">Service Charge + GST</p>
-                                                <p className="charge value">{serviceGstCharge}</p>
+                                                <p className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(serviceGstCharge)}</p>
                                             </div>
                                             <div className="charge ">
                                                 <p id="total" className="charge name">Total Charge</p>
-                                                <p id="total" className="charge value">{totalAmount.toFixed(2)}</p>
+                                                <p id="total" className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(totalAmount)}</p>
                                             </div>
                                         </div>
                                     </div>
