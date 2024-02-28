@@ -171,7 +171,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     courierBoteOrderId:courierBoteOrderId
 
                 };
-                const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
+                const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
