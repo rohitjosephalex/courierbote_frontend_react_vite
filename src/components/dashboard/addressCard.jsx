@@ -40,11 +40,16 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [wholeWeight, setWholeWeight] = useState("");
     const [perBoxWeight, setPerBoxWeight] = useState("");
     const [noOfBox, setNoOfBox] = useState("");
-    const [weightUnit, setWeightUnit] = useState("kg");
+    // const [weightUnit, setWeightUnit] = useState("kg");
+    const [perBoxWeightUnit, setPerBoxWeightUnit] = useState('kg');
+    const [wholeBoxWeightUnit, setWholeBoxWeightUnit] = useState('kg');
     const [length, setLength] = useState("");
     const [breadth, setBreadth] = useState("");
     const [height, setHeight] = useState("");
-    const [dimensionUnit, setDimensionUnit] = useState("m");
+    // const [dimensionUnit, setDimensionUnit] = useState("m");
+    const [lengthUnit, setLengthUnit] = useState('m');
+    const [breadthUnit, setBreadthUnit] = useState('m');
+    const [heightUnit, setHeightUnit] = useState('m');
     // About the Item
     const [isPackingNeeded, setIsPackingNeeded] = useState(false);
     const [itemDescription, setItemDescription] = useState("");
@@ -66,6 +71,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
     const [paymentType, setPaymentType] = useState('');
     const [error, setError] = useState("");
     const [save, setSave] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [orderFail, setOrderFail] = useState(false);
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
     const apiToken = sessionStorage.getItem('api_token');
     const dashboardDetailsRef = useRef(null);
@@ -77,84 +84,55 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
         }
     }, [cardName, /* Add other relevant dependencies here */]);
     const handleConfirm = async () => {
-        setButtonLoading(true);
-        // setOrderConfirmation(true)
-        let unifiedperBoxWeight = perBoxWeight;
-        let unifiedTotalWeight = wholeWeight;
-
-        if (shipmentType === 'By Air') {
-            if (weightUnit === 'kg') {
-                unifiedperBoxWeight = perBoxWeight * 1000;
-                unifiedTotalWeight = wholeWeight * 1000;
-            }// By air calculation is to be done in gms 
-        }
-        else if (shipmentType === 'By surface') {//By surface calculation are done in kg
-            if (weightUnit === 'gm') {
-                unifiedperBoxWeight = perBoxWeight / 1000;
-                unifiedTotalWeight = wholeWeight / 1000;
+        let timeoutId = 0;
+        try {
+            let isTimedOut = false;
+            if (paymentType !== "razorPay") {
+                setError("Please Select Payment Type")
             }
-        }
-        let unifiedLength = length;
-        let unifiedBreadth = breadth;
-        let unifiedHeight = height;
-        if (dimensionUnit === 'm') {// dimensions are in always sent in cm
-            unifiedLength = length * 100;
-            unifiedBreadth = breadth * 100;
-            unifiedHeight = height * 100;
-        }
-        const requestData = {
-            pickupName: pickupName,
-            pickupAddr1: pickupAddr1,
-            pickupAddr2: pickupAddr2,
-            pickupPhoneNumber: pickupPhoneNumber,
-            pickupEmail: pickupEmail,
-            pickupCity: pickupCity,
-            pickupState: pickupState,
-            pickupPincode: pickupPincode,
-            totalWeight: unifiedTotalWeight,
-            perBoxWeight: unifiedperBoxWeight,
-            noOfBOx: noOfBox,
-            deliveryName: deliveryName,
-            deliveryAddrL1: deliveryAddrL1,
-            deliveryAddrL2: deliveryAddrL2,
-            deliveryPhoneNumber: deliveryPhoneNumber,
-            deliveryCity: deliveryCity,
-            deliveryState: deliveryState,
-            deliveryPincode: deliveryPincode,
-            shipmentType: shipmentType,
-            itemDescription: itemDescription,
-            selectedCategory: selectedCategory,
-            itemValue: itemValue,
-            paymentType: paymentType,
-            length: unifiedLength,
-            breadth: unifiedBreadth,
-            height: unifiedHeight,
-            gstNo: customerGstin
+            else {
+                setButtonLoading(true);
+                // setOrderConfirmation(true)
+                // Set a timeout to stop loading after 20 seconds
+                timeoutId = setTimeout(() => {
+                    isTimedOut = true;
+                    setButtonLoading(false);
+                    alert('Request timed out. Please try again.');
+                }, 20000);
+                setError("");
+                let unifiedperBoxWeight = perBoxWeight;
+                let unifiedTotalWeight = wholeWeight;
 
-        };
-        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/billing', requestData,
-            {
-                headers: {
-                    Authorization: `Bearer ${apiToken}`,
-                },
-            });
-        setButtonLoading(false);
-        console.log(response.data);
-        const courierBoteOrderID = response.data.receipt;
-        const amount = response.data.amount;
-        var options = {
-            "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
-            "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "name": "Courierbote",
-            "description": "Transaction for delivery",
-            "image": "https://i.imgur.com/9L39rc3.png",
-            "order_id": response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": async function (response) {
-                console.log("response.razorpay_payment_id");
-                // console.log(response.razorpay_order_id);
-                // console.log(response.razorpay_signature);
-                setButtonLoading(false);
+                if (shipmentType === 'By Air') {
+                    if (perBoxWeightUnit === 'kg') {
+                        unifiedperBoxWeight = perBoxWeight * 1000; // Convert kilograms to grams
+                    }
+                    if (wholeBoxWeightUnit === 'kg') {
+                        unifiedTotalWeight = wholeWeight * 1000; // Convert kilograms to grams
+                    }// By air calculation is to be done in gms 
+                }
+                else if (shipmentType === 'By surface') {//By surface calculation are done in kg
+                    if (perBoxWeightUnit === 'gm') {
+                        unifiedperBoxWeight = perBoxWeight / 1000; // Convert grams to kilograms
+                    }
+                    if (wholeBoxWeightUnit === 'gm') {
+                        unifiedTotalWeight = wholeWeight / 1000; // Convert grams to kilograms
+                    }
+                }
+                let unifiedLength = length;
+                let unifiedBreadth = breadth;
+                let unifiedHeight = height;
+                if (lengthUnit === 'm') {
+                    unifiedLength = length * 100; // Convert meters to centimeters
+                }
+            
+                if (breadthUnit === 'm') {
+                    unifiedBreadth = breadth * 100; // Convert meters to centimeters
+                }
+            
+                if (heightUnit === 'm') {
+                    unifiedHeight = height * 100; // Convert meters to centimeters
+                }
                 const requestData = {
                     pickupName: pickupName,
                     pickupAddr1: pickupAddr1,
@@ -179,53 +157,123 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                     selectedCategory: selectedCategory,
                     itemValue: itemValue,
                     paymentType: paymentType,
-                    length: length,
-                    breadth: breadth,
-                    height: height,
-                    gstNo: customerGstin,
-                    courierBoteOrderID: courierBoteOrderID,
-                    orderId: response.razorpay_order_id,
-                    paymentId: response.razorpay_payment_id,
-                    razorPaySignature: response.razorpay_signature
+                    length: unifiedLength,
+                    breadth: unifiedBreadth,
+                    height: unifiedHeight,
+                    gstNo: customerGstin
+
                 };
-                const responsepayment = await axios.post('https://backend.courierbote.com/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                const response = await axios.post('http://localhost:80/api/corporatedashboard/billing', requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
                         },
                     });
-                console.log(responsepayment);
-                if (responsepayment.status === 200) {
-                    setButtonLoading(false);
-                    console.log(responsepayment.data);
-                    setOrderConfirmation(true);
+                setButtonLoading(false);
+                console.log(response.status);
+                if (response.status === 200) {
+                    if (!isTimedOut) {
+                        clearTimeout(timeoutId);
+                    }
                 }
+                const courierBoteOrderID = response.data.receipt;
+                const amount = response.data.amount;
+                var options = {
+                    "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
+                    "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Courierbote",
+                    "description": "Transaction for delivery",
+                    "image": "https://i.imgur.com/9L39rc3.png",
+                    "order_id": response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "handler": async function (response) {
+                        console.log("response.razorpay_payment_id");
+                        // console.log(response.razorpay_order_id);
+                        // console.log(response.razorpay_signature);
+                        setButtonLoading(false);
+                        setLoading(true);
+                        const requestData = {
+                            pickupName: pickupName,
+                            pickupAddr1: pickupAddr1,
+                            pickupAddr2: pickupAddr2,
+                            pickupPhoneNumber: pickupPhoneNumber,
+                            pickupEmail: pickupEmail,
+                            pickupCity: pickupCity,
+                            pickupState: pickupState,
+                            pickupPincode: pickupPincode,
+                            totalWeight: unifiedTotalWeight,
+                            perBoxWeight: unifiedperBoxWeight,
+                            noOfBOx: noOfBox,
+                            deliveryName: deliveryName,
+                            deliveryAddrL1: deliveryAddrL1,
+                            deliveryAddrL2: deliveryAddrL2,
+                            deliveryPhoneNumber: deliveryPhoneNumber,
+                            deliveryCity: deliveryCity,
+                            deliveryState: deliveryState,
+                            deliveryPincode: deliveryPincode,
+                            shipmentType: shipmentType,
+                            itemDescription: itemDescription,
+                            selectedCategory: selectedCategory,
+                            itemValue: itemValue,
+                            paymentType: paymentType,
+                            length: length,
+                            breadth: breadth,
+                            height: height,
+                            gstNo: customerGstin,
+                            courierBoteOrderID: courierBoteOrderID,
+                            orderId: response.razorpay_order_id,
+                            paymentId: response.razorpay_payment_id,
+                            razorPaySignature: response.razorpay_signature
+                        };
+                        const responsepayment = await axios.post('https://backend.courierbote.com/api/corporatedashboard/razorpayvalidatepayment', requestData,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${apiToken}`,
+                                },
+                            });
+                        console.log(responsepayment);
+                        if (responsepayment.status === 200) {
+                            setLoading(false);
+                            console.log(responsepayment.data);
+                            setOrderConfirmation(true);
+                        }
 
-            },
-            "prefill": {
-                "name": pickupName,
-                "email": pickupEmail,
-                "contact": pickupPhoneNumber
-            },
-            "theme": {
-                "color": "#3399cc"
+                    },
+                    "prefill": {
+                        "name": pickupName,
+                        "email": pickupEmail,
+                        "contact": pickupPhoneNumber
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new window.Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    setButtonLoading(false);
+                    console.log(response.error)
+                    setLoading(false);
+                    setOrderFail(true)
+                    alert(response.error.code);
+                    alert(response.error.description);
+                    alert(response.error.source);
+                    alert(response.error.step);
+                    alert(response.error.reason);
+                    alert(response.error.metadata.order_id);
+                    alert(response.error.metadata.payment_id);
+                    throw (response.error);
+                });
+                rzp1.open();
+                e.preventDefault();
             }
-        };
-        var rzp1 = new window.Razorpay(options);
-        rzp1.on('payment.failed', function (response) {
-            setButtonLoading(false);
-            console.log(response.error)
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
-        });
-        rzp1.open();
-        e.preventDefault();
+        }
+        catch (error) {
 
+            setButtonLoading(false);
+            setLoading(false);
+            clearTimeout(timeoutId)
+            console.log(error)
+        }
     }
     const handleCheckboxChange = () => {
         setChecked(!isChecked);
@@ -285,37 +333,51 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
         try {
             let isTimedOut = false;
 
-            // Set a timeout to stop loading after 20 seconds
-            timeoutId = setTimeout(() => {
-                isTimedOut = true;
-                setButtonLoading(false);
-                alert('Request timed out. Please try again.');
-            }, 20000);
 
-            if (!isCheckedShipping) {
-                setError("Please read what items can be Shipped");
-                setButtonLoading(false);
-            } else if (!localPincode.includes(parseInt(pickupPincode))) {
+
+            if (!localPincode.includes(parseInt(pickupPincode))) {
                 setError("Sorry Service at this pincode is currently unavailable");
                 setButtonLoading(false);
-            } else {
+            } else if (!pickupName || !pickupAddr1 || !pickupAddr2 || !pickupPhoneNumber || !pickupEmail || !pickupCity || !pickupPincode || !pickupState || !deliveryName || !deliveryAddrL1 || !deliveryAddrL2 || !deliveryPhoneNumber || !deliveryCity || !deliveryPincode || !deliveryState || !noOfBox || !perBoxWeight || !wholeWeight || !length || !breadth || !height || !itemDescription || !selectedCategory || !itemValue.trim() || (shipmentType !== "By Air" && shipmentType !== "By surface")) {
+                setError("Please enter all the input fields.");
+                setButtonLoading(false);
+            }
+            else if (!isCheckedShipping) {
+                setError("Please read what items can be Shipped");
+                setButtonLoading(false);
+            }
+            else {
                 setButtonLoading(true);
+                // Set a timeout to stop loading after 20 seconds
+                timeoutId = setTimeout(() => {
+                    isTimedOut = true;
+                    setButtonLoading(false);
+                    alert('Request timed out. Please try again.');
+                }, 20000);
                 setError("");
                 let unifiedperBoxWeight = perBoxWeight;
                 let unifiedTotalWeight = wholeWeight;
                 let unifiedLength = length;
                 let unifiedBreadth = breadth;
                 let unifiedHeight = height;
-                if (dimensionUnit === 'm') {// dimensions are in always sent in cm
-                    unifiedLength = length * 100;
-                    unifiedBreadth = breadth * 100;
-                    unifiedHeight = height * 100;
+                if (lengthUnit === 'm') {
+                    unifiedLength = length * 100; // Convert meters to centimeters
                 }
-                console.log(length,unifiedLength)
+            
+                if (breadthUnit === 'm') {
+                    unifiedBreadth = breadth * 100; // Convert meters to centimeters
+                }
+            
+                if (heightUnit === 'm') {
+                    unifiedHeight = height * 100; // Convert meters to centimeters
+                }
+                console.log(length, unifiedLength)
                 if (shipmentType === 'By Air') {
-                    if (weightUnit === 'kg') {
-                        unifiedperBoxWeight = perBoxWeight * 1000;
-                        unifiedTotalWeight = wholeWeight * 1000;
+                    if (perBoxWeightUnit === 'kg') {
+                        unifiedperBoxWeight = perBoxWeight * 1000; // Convert kilograms to grams
+                    }
+                    if (wholeBoxWeightUnit === 'kg') {
+                        unifiedTotalWeight = wholeWeight * 1000; // Convert kilograms to grams
                     }// By air calculation is to be done in gms 
                     const requestData = {
                         pickupPincode: pickupPincode,
@@ -327,7 +389,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         breadth: unifiedBreadth,
                         height: unifiedHeight,
                     };
-                    const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byairrate', requestData, {
+                    const response = await axios.post('http://localhost:80/api/corporatedashboard/byairrate', requestData, {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
                         },
@@ -346,10 +408,13 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         }
                     }
                 } else if (shipmentType === 'By surface') {// By surface calculation is to be done in kg
-                    if (weightUnit === 'gm') {
-                        unifiedperBoxWeight = perBoxWeight / 1000;
-                        unifiedTotalWeight = wholeWeight / 1000;
-                    }// By air calculation is to be done in gms 
+                    if (perBoxWeightUnit === 'gm') {
+                        unifiedperBoxWeight = perBoxWeight / 1000; // Convert grams to kilograms
+                    }
+                    if (wholeBoxWeightUnit === 'gm') {
+                        unifiedTotalWeight = wholeWeight / 1000; // Convert grams to kilograms
+                    }
+                   // By air calculation is to be done in gms 
                     if (!isTimedOut) {
                         clearTimeout(timeoutId); // Clear the timeout if response is received before timeout
                         const requestData = {
@@ -362,7 +427,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             breadth: unifiedBreadth,
                             height: unifiedHeight,
                         };
-                        const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byroadrate', requestData, {
+                        const response = await axios.post('http://localhost:80/api/corporatedashboard/byroadrate', requestData, {
                             headers: {
                                 Authorization: `Bearer ${apiToken}`,
                             },
@@ -731,8 +796,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <select
                                             className="input corporate"
                                             id='weightUnit'
-                                            value={weightUnit}
-                                            onChange={(e) => setWeightUnit(e.target.value)}>
+                                            value={perBoxWeightUnit}
+                                            onChange={(e) => setPerBoxWeightUnit(e.target.value)}>
                                             <option>kg</option>
                                             <option>gm</option>
                                         </select>
@@ -749,8 +814,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <select
                                             className="input corporate"
                                             id='weightUnit'
-                                            value={weightUnit}
-                                            onChange={(e) => setWeightUnit(e.target.value)}>
+                                            value={wholeBoxWeightUnit}
+                                            onChange={(e) => setWholeBoxWeightUnit(e.target.value)}>
                                             <option>kg</option>
                                             <option>gm</option>
                                         </select>
@@ -772,8 +837,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <select
                                             className="input corporate"
                                             id='dimensionUnit'
-                                            value={dimensionUnit}
-                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            value={lengthUnit}
+                                            onChange={(e) => setLengthUnit(e.target.value)}>
                                             <option>m</option>
                                             <option>cm</option>
                                         </select>
@@ -790,8 +855,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <select
                                             className="input corporate"
                                             id='dimensionUnit'
-                                            value={dimensionUnit}
-                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            value={breadthUnit}
+                                            onChange={(e) => setBreadthUnit(e.target.value)}>
                                             <option>m</option>
                                             <option>cm</option>
                                         </select>
@@ -808,8 +873,8 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         <select
                                             className="input corporate"
                                             id='dimensionUnit'
-                                            value={dimensionUnit}
-                                            onChange={(e) => setDimensionUnit(e.target.value)}>
+                                            value={heightUnit}
+                                            onChange={(e) => setHeightUnit(e.target.value)}>
                                             <option>m</option>
                                             <option>cm</option>
                                         </select>
@@ -1158,11 +1223,20 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                             </div>
                             <button className="card-back" onClick=
                                 {() => { setCardName('summary') }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
-                            <button
-                                id='pickup-button'
-                                className='btn btn-primary'
-                                onClick={handleConfirm} style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
-
+                            <div className="button-class">
+                                {error && (
+                                    <div className="error-text-container">
+                                        <p className="error-text">{error}</p>
+                                    </div>
+                                )}
+                                <button
+                                    id='pickup-button'
+                                    className='btn btn-primary'
+                                    onClick={handleConfirm} style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}> {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
+                            </div>
+                            {loading && (<div className="loading-screen">
+                                <div className="loader"></div>
+                            </div>)}
                             {orderConfirmation && (
                                 <div className="sucess-popup">
 
@@ -1181,6 +1255,40 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                                 <div className="alert-popup-title">Success!!!</div>
                                                 <div className="alert-popup-message">
                                                     Your Pickup has been placed :)
+                                                </div>
+                                                <div className="alert-popup-confirm">
+                                                    <button
+                                                        id='finalok-button'
+                                                        className='btn btn-primary'
+                                                        onClick={() => { handlOk(); }}>OK</button>
+                                                </div>
+                                            </div>
+                                            {/* <button className="popup-close" onClick=
+                                            {() => { setOrderConfirmation(false); }}>
+
+                                        </button> */}
+                                        </div>
+
+                                    </div>
+
+
+                                </div>)}
+                            {orderFail && (
+                                <div className="sucess-popup">
+
+
+                                    <div className='popup-container ' >
+                                        <div className="popup-container content">
+                                            <div className="alert-popup-container">
+                                                <div className="circle-container">
+                                                    <div className="circle-border"></div>
+                                                    <div className="circle">
+                                                        <div className="error"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="alert-popup-title fail">!!!Failed</div>
+                                                <div className="alert-popup-message">
+                                                    Something Went Wrong  Please Contact Customer Care
                                                 </div>
                                                 <div className="alert-popup-confirm">
                                                     <button
