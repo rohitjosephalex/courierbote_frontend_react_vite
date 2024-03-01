@@ -3,13 +3,17 @@ import ShippingCalculator from "./Card";
 import "./Landing.css";
 import "./App.css";
 import "./index.css";
+import { Header } from "./components/header/Header";
 import courierBoteWhiteText from './assets/courierbote logo white transparent.png';
 import logistics from './assets/logistics.png';
 
+import {BestServices} from './components/bestServices/BestServices';
+import { Contact } from "./components/contact/Contact";
+import { BestRecipes } from "./components/ourBestRecipes/BestRecipes";
 function LandingPage() {
 	return (
 		<div className='landing-page'  >
-			<header></header>
+			<Header />
 
 			<main>
 
@@ -33,6 +37,9 @@ function LandingPage() {
 					<h3 className="courierbote" >CourierBote</h3>
 					<ShippingCalculator />
 				</div>
+				<BestRecipes/>
+				<BestServices/>
+				<Contact/>
 			</main>
 			<footer></footer>
 		</div>
