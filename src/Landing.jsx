@@ -10,6 +10,7 @@ import logistics from './assets/logistics.png';
 import {BestServices} from './components/bestServices/BestServices';
 import { Contact } from "./components/contact/Contact";
 import { BestRecipes } from "./components/ourBestRecipes/BestRecipes";
+import {IdeaOfCourierBote} from './components/ideaOfCourierBote/ideaOfCourierBote'
 function LandingPage() {
 	return (
 		<div className='landing-page'  >
@@ -37,6 +38,7 @@ function LandingPage() {
 					<h3 className="courierbote" >CourierBote</h3>
 					<ShippingCalculator />
 				</div>
+				<IdeaOfCourierBote/>
 				<BestRecipes/>
 				<BestServices/>
 				<Contact/>

@@ -1,0 +1,20 @@
+
+.idea{
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+    background-color: #E97135;
+    color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.idea h2{
+
+    color: #ffe1ce;
+    margin: 0;
+}
+.idea p{
+    margin: 0;
+    margin-top:60px ;
+}

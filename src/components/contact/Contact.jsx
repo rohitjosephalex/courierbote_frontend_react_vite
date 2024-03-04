@@ -8,10 +8,21 @@ export const Contact = () => {
       <div className="contatWrapper">
         <div className="leftContact">
           <div className="infosContact">
-            <h2>Join our membership to get special offer</h2>
-            <div className="btnContact">
-              <input type="text" placeholder="Enter your best email"/>
-              <button>Join</button>
+            <div>
+              <p>Dear People,</p>
+              <p>
+                First and foremost, thank you for Choosing CourierBote.
+                Our goal is to create a dependable, amiable platform that offers customers on-time services and affordable worldwide shipping.
+              </p>
+              <p>
+                Your happiness and requirements are what matter most to us.
+              </p>
+              <p>
+                With Luv
+              </p>
+              <p>
+                CourierBote
+              </p>
             </div>
           </div>
         </div>
