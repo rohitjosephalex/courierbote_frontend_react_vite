@@ -1,0 +1,44 @@
+.result-section {
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+    background-color: #E97135;
+    color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+
+.results-heading {
+    margin: 0;
+    color: #ffe1ce;
+    font-size:2.5rem;
+    font-weight: bold;
+    margin-bottom:30px;
+}
+
+.results-type {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.results {
+    flex-grow: 1;
+    margin: 10px;
+}
+
+.results p {
+    margin: 5px 0;
+}
+.results-no{
+    font-size: 2rem;
+    font-weight: 600;
+}
+.results-category{
+    font-size: 1.5rem;
+    font-weight: 400;
+}

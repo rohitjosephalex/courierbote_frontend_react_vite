@@ -7,10 +7,13 @@ import { Header } from "./components/header/Header";
 import courierBoteWhiteText from './assets/courierbote logo white transparent.png';
 import logistics from './assets/logistics.png';
 
-import {BestServices} from './components/bestServices/BestServices';
-import { Contact } from "./components/contact/Contact";
-import { BestRecipes } from "./components/ourBestRecipes/BestRecipes";
-import {IdeaOfCourierBote} from './components/ideaOfCourierBote/ideaOfCourierBote'
+import {Working} from './components/howDoesCourierboteWork/HowDoesCourierboteWork';
+import { People } from "./components/dearPeople/DearPeople";
+// import { BestRecipes } from "./components/ourBestRecipes/BestRecipes";
+import {WorkFor} from './components/whoWeWorkFor/WhoWeWorkFor';
+import {Results} from './components/results/results';
+import {Footer} from './components/footer/Footer';
+import {Review} from './components/review/Review'
 function LandingPage() {
 	return (
 		<div className='landing-page'  >
@@ -38,10 +41,14 @@ function LandingPage() {
 					<h3 className="courierbote" >CourierBote</h3>
 					<ShippingCalculator />
 				</div>
-				<IdeaOfCourierBote/>
-				<BestRecipes/>
-				<BestServices/>
-				<Contact/>
+				<Results/>\
+				<People/>
+				<WorkFor/>
+				{/* <BestRecipes/> */}
+				<Working/>
+				<Review/>
+				<Footer/>
+				
 			</main>
 			<footer></footer>
 		</div>

@@ -1,0 +1,60 @@
+.PostBlog {
+    display: flex;
+    /* flex-flow: column wrap; */
+    flex-direction: column;
+    width: 20rem;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0 1.5rem;
+    background-color: #ffff;
+    height:30rem;
+    color: black;
+}
+
+/* .PostBlog:hover {
+    transform: scale(1.05)
+} */
+
+.middleBlog {
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    /* height: 6rem; */
+}
+
+.middleBlog p {
+    color: black;
+    line-height: 2rem;
+    /* height: 5rem; */
+    width: 85%;
+    margin: 0;
+
+}
+
+.botBlog {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 10px;
+}
+
+.botBlog img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.botProfile {
+    display: flex;
+    justify-content: flex-start;
+    width: 85%;
+    height: 4rem;
+}
+
+.botProfile p {
+    margin: 1rem;
+    color: rgba(0, 0, 0, 0.37);
+}

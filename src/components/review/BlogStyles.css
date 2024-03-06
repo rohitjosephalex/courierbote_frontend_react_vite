@@ -1,0 +1,90 @@
+.blog {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    height:45rem;
+    margin-bottom: 3rem;
+    background-color: #a57163;
+    margin-bottom: 20px;
+}
+
+.topInfo {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.topInfo h2 {
+    font-size: 2.5rem;
+    color: #E97135;
+    margin: 1rem 0;
+}
+
+.topInfo p {
+    color: #ffff;
+    margin-bottom: 2rem;
+    text-align: center;
+    width: 40%;
+}
+
+.postsWrapper {
+    display: flex;
+    width: 100%;  
+    align-items: center;  
+}
+
+.postBtn {
+    display: flex;
+    align-items: center;
+    transition: all ease 1s;
+    
+}
+
+.postBtn button {
+    background-color: #E97135;
+    color: white;
+    font-size: 1.5rem;
+    animation: pulse 3s infinite;
+}
+
+.postBtn button:hover {
+    cursor: pointer;
+}
+
+  
+
+.postsWrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .postBtn {
+    display: flex;
+    align-items: center;
+  }
+  
+  .carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+
+  .left {
+    transform: rotate(180deg);
+  }
+  
+  .right {
+    transform: none;
+  }
+  .visibility{
+    overflow: hidden;
+  }
+
+@keyframes pulse {
+    0% {transform: scale(1)}
+    50% {transform: scale(1.1)}
+    100% {transform: scale(1)}
+  }
+

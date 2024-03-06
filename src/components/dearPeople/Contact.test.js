@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
-import { Contact } from './Contact';
+import { Contact } from './DearPeople';
 
 describe('Testing Contact component', () => {
     it('should show a imagem in the section', () => {

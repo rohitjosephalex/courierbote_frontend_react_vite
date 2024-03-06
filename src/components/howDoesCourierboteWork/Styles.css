@@ -1,5 +1,5 @@
 .services {
-  width: 100%;
+
 
   display: flex;
   align-items: flex-start;
@@ -24,15 +24,14 @@
   font-size: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  color: rgb(3, 3, 82);
+  color: #E97135;
   width: 60%;
 }
 
-.rigthServices p {
-  color: rgba(0, 0, 0, 0.37);
+.rigthServices p,ul,li {
+  font-size: 1rem;
+  color: rgba(3, 3, 3, 0.37);
   width: 60%;
-  
-  margin-bottom: 2rem;
 }
 
 .rigthServices button {
@@ -40,4 +39,8 @@
     color: white;
     width: 20%;
     box-shadow: 1px 8px 10px rgba(0, 0, 0, 0.205);
+}
+
+.leftServices img{
+  width: 40vw;
 }

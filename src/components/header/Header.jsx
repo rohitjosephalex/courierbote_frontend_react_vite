@@ -31,7 +31,7 @@ export const Header = () => {
   }
 
   return (
-    <header>
+    <header className="landing-header">
       <div className="wraper">
         <div className="logo">
           <h1>Healthy Food</h1>

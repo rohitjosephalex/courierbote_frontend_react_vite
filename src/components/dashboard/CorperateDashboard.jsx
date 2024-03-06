@@ -67,7 +67,7 @@ function CorporateDashboard() {
   }, []);
 
   return (
-    <div>
+    <div className='corporate-dashboard'>
       <div className='dashboard-landing'>
         <NavBar companyName={companyName} />
         <div className='pincode-search'>
