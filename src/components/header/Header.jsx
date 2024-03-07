@@ -50,9 +50,10 @@ export const Header = (props) => {
             </div>
             {isOpen && (
               <ul className="menu-items">
-                <li>Explore</li>
-                <li>Collection</li>
-                <li>Community</li>
+                <li><a href="/">Home</a></li>
+                <li> <a onClick={() => scrollToServices('scrollToHowWeWorkElementRef')}>How it Works</a></li>
+                <li><a onClick={() => scrollToServices('scrollToWorkForElementRef')} style={{ cursor: 'pointer' }}>Our Services</a></li>
+                <li> <a href="/corporate/signin">Corporate</a></li>
               </ul>
             )}
           </div>

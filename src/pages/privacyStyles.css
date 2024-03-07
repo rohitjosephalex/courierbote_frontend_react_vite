@@ -10,3 +10,12 @@
     color: black;
     padding: 1rem 5rem;
 }
+@media all and (max-width: 600px){
+    .privacy-policy{
+        padding: 1rem 1rem;
+    }
+    .tNc{
+        color: black;
+        padding: 1rem 1rem;
+    }
+}
