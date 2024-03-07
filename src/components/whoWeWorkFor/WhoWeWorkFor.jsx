@@ -5,9 +5,9 @@ import individuals from '../../../src/assets/indi.png';
 import onlineSellers from '../../../src/assets/shopingcart.png';
 import resellers from '../../../src/assets/reseller.png';
 
-export const WorkFor = () => {
+export const WorkFor = ({ scrollToElementRef }) => {
     return (
-        <div className="working-for">
+        <div className="working-for" ref={scrollToElementRef}>
             <div>
                 <h1 className=' heading'>Who We Work For</h1>
 

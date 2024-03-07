@@ -1,8 +1,10 @@
 footer {
-  height: 10vh;
+  color: black;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: Arial, sans-serif;
 }
 
 .footer {
@@ -14,14 +16,39 @@ footer {
 
 .rigthContent {
   display: flex;
-
+  flex-direction: column;
   width: 30%;
-  justify-content: space-between;
+
 }
 
 .rigthContent a {
-  color: rgba(0, 0, 0, 0.315);
+  color: black;
+  text-decoration: none;
 }
-.leftContent{
-  color: rgba(0, 0, 0, 0.315);
+
+.leftContent a {
+  color: black;
+}
+
+.numbers a {
+
+  text-decoration: none !important;
+}
+
+.numbers a:hover {
+
+  text-decoration: none;
+}
+
+.leftContent a:hover,
+.rigthContent a:hover {
+  text-decoration: none !important;
+  /* Remove underline when hovering */
+}
+
+.address p span {
+  margin-left: 10px;
+  /* Adjust the spacing as needed */
+  display: inline-block;
+  text-align: left;
 }

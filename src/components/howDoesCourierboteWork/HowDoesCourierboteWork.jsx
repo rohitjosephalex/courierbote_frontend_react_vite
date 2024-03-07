@@ -2,9 +2,9 @@ import './Styles.css'
 import './ResponsiveService.css'
 import ServPic from '../../../src/assets/10098.jpg'
 
-export const Working = () => {
+export const Working = ({scrollToElementRef}) => {
     return (
-        <section className="services">
+        <section className="services" ref={scrollToElementRef}>
             <div className="servicesWrapper">
                 <div className="leftServices">
                     <img src={ServPic} alt='txt' />

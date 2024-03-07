@@ -1,12 +1,10 @@
 .blog {
-    display: flex;
-    flex-flow: column wrap;
-    align-items: center;
-    justify-content: center;
-    height:45rem;
+
+    height: 45rem;
     margin-bottom: 3rem;
     background-color: #a57163;
     margin-bottom: 20px;
+    font-family: Arial, sans-serif;
 }
 
 .topInfo {
@@ -30,16 +28,17 @@
 }
 
 .postsWrapper {
-    display: flex;
-    width: 100%;  
-    align-items: center;  
+    padding-right: 150px;
+    padding-left: 150px;
+    width: 100%;
+
 }
 
 .postBtn {
     display: flex;
     align-items: center;
     transition: all ease 1s;
-    
+
 }
 
 .postBtn button {
@@ -52,39 +51,3 @@
 .postBtn button:hover {
     cursor: pointer;
 }
-
-  
-
-.postsWrapper {
-    display: flex;
-    align-items: center;
-  }
-  
-  .postBtn {
-    display: flex;
-    align-items: center;
-  }
-  
-  .carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-  
-
-  .left {
-    transform: rotate(180deg);
-  }
-  
-  .right {
-    transform: none;
-  }
-  .visibility{
-    overflow: hidden;
-  }
-
-@keyframes pulse {
-    0% {transform: scale(1)}
-    50% {transform: scale(1.1)}
-    100% {transform: scale(1)}
-  }
-

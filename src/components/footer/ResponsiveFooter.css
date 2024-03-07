@@ -1,7 +1,6 @@
 @media all and (max-width: 600px) {
    footer {
        height: 190px;
-       background-color: #92d362;
        align-items: flex-start;
        justify-content: center;
        align-content: center;
@@ -13,12 +12,13 @@
     width: 90%;
    }
 
-   .leftContent p {
+   .leftContent {
     font-size: .7rem;
-    color: white;
+    color: black;
    }
 
-   .rigthContent p {
+   .rigthContent p a {
     font-size: .7rem;
+    color: black;
    }
 }

@@ -1,6 +1,5 @@
 @media (max-width: 600px) {
   .servicesWrapper {
-    background: linear-gradient(130.02deg, white 0.66%, #92d362 83.32%);
     justify-content: center;
   }
 
@@ -17,16 +16,15 @@
 
   .rigthServices h2 {
     width: 95%;
+    
   }
+  .rigthServices p,ul,li {
 
+    width: 90%;
+    text-align: justify;
+  }
   .rigthServices p {
     width: 90%;
   }
 
-  .rigthServices button {
-    width: 35%;
-    height: 2.5rem;
-    color: #92d362;
-    background-color: white;
-  }
 }

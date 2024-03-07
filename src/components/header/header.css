@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #a57163;
 }
 
 .wraper {
@@ -12,13 +13,13 @@
   justify-content: space-between;
 }
 
-.logo {
+.logo{
   display: flex;
 }
 
-.logo h1 {
-  color: #92d362;
-  font-size: 2rem;
+.courierbotelogos {
+  height:4.5rem;
+  width:auto;
 }
 
 nav {

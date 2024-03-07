@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
-
+  color: black;
 }
 
 .contact {
@@ -23,7 +23,6 @@
 
 .infosContact {
   color: rgba(3, 3, 3, 0.37);
-  ;
   width: 70%;
   height: 20rem;
   display: flex;

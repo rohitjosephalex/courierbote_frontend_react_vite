@@ -3,77 +3,61 @@ import "./ResponsiveHeader.css";
 import Modal from "react-modal";
 import { useState } from "react";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import courierBoteWhiteText from '../../assets/courierbote logo white transparent.png';
 
-export const Header = () => {
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = useState(false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
+export const Header = (props) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  function afterOpenModal() {
-    subtitle.style.color = "#f00";
-  }
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const scrollToServices = (target) => {
+    // const target = "WorkFor";
+    props.scrollToElement(target);
+  };
+
+
 
   return (
     <header className="landing-header">
       <div className="wraper">
         <div className="logo">
-          <h1>Healthy Food</h1>
+          <img src={courierBoteWhiteText} alt="logo" className="courierbotelogos" />
         </div>
         <nav>
-          <ul>
+          <ul className="pc-list">
             <li>
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="/">About Us</a>
+              <a onClick={() => scrollToServices('scrollToHowWeWorkElementRef')}>How it Works</a>
             </li>
             <li>
-              <a href="/">Our Services</a>
+              <a onClick={() => scrollToServices('scrollToWorkForElementRef')} style={{ cursor: 'pointer' }}>Our Services</a>
             </li>
             <li>
-              <a href="/">Corporate</a>
+              <a href="/corporate/signin">Corporate</a>
             </li>
           </ul>
-          <div className="btn">
-            <button type="text" onClick={openModal}>REGISTER</button>
-            <Modal
-              isOpen={modalIsOpen}
-              onAfterOpen={afterOpenModal}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
-            >
-              <div className="modal">
-                <h1>Register your recipe</h1>
-                <label>Your Recipe</label>
-                <input type="text" />
-                <label>Author's name</label>
-                <input type="text" />
-                <button type="text" className='modalBtn' onClick={() => { 
-                  alert('recipe recevied');
-                  closeModal();
-                }}>REGISTER RECIPE</button>
-              </div>
-              </Modal>
+          <div className="hamburger-menu">
+            <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+              <div className="bar"></div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </div>
+            {isOpen && (
+              <ul className="menu-items">
+                <li>Explore</li>
+                <li>Collection</li>
+                <li>Community</li>
+              </ul>
+            )}
           </div>
         </nav>
+
       </div>
     </header>
   );
