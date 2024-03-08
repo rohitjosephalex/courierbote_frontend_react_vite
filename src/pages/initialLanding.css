@@ -1,0 +1,13 @@
+.initial-landing {
+    position: relative;
+    height: 100%;
+    z-index: 10;
+}
+
+.trucklogo {
+    /* position: absolute; */
+    width: 55vw;
+    top: -15rem;
+    left: 5rem;
+    bottom: 2rem;
+}

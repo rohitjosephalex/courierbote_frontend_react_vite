@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #a57163;
+  background-color: #464141;
+  height: 10vh;
 }
 
 .wraper {
@@ -18,8 +19,11 @@
 }
 
 .courierbotelogos {
-  height:4.5rem;
+  height:3.8rem;
   width:auto;
+}
+.courierbotelogo-small{
+  display: none;
 }
 
 nav {
@@ -61,8 +65,7 @@ a {
 }
 
 a:hover {
-  color: rgb(3, 3, 82);
-  border-bottom: 1px solid rgb(3, 3, 82);
+  text-decoration: none;
 }
 
 .modal{

@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { useState } from "react";
 
 import courierBoteWhiteText from '../../assets/courierbote logo white transparent.png';
+import courierBoteSmallLogo from '../../assets/favicon.png';
 
 
 export const Header = (props) => {
@@ -25,7 +26,10 @@ export const Header = (props) => {
     <header className="landing-header">
       <div className="wraper">
         <div className="logo">
+        <a href="/">
           <img src={courierBoteWhiteText} alt="logo" className="courierbotelogos" />
+          <img src={courierBoteSmallLogo} alt="logo" className="courierbotelogo-small" />
+          </a>
         </div>
         <nav>
           <ul className="pc-list">

@@ -92,7 +92,10 @@ function ShippingCalculator() {
 						);
 						console.log(response.data.data.CourierBotePrice);
 						setResult(response.data.data.CourierBotePrice);
-						setIsBookingVisible(true);
+						setIsInitialCard(false);
+						setIsPickupCard(true);
+						setBigShippingCalculator('Big');
+						setIsBookingVisible(false);
 						setButtonLoading(false);
 					}
 					catch (error) {
@@ -126,7 +129,10 @@ function ShippingCalculator() {
 						);
 						console.log(response.data.result.TotalPrice);
 						setResult(response.data.result.TotalPrice);
-						setIsBookingVisible(true);
+						setIsInitialCard(false);
+						setIsPickupCard(true);
+						setBigShippingCalculator('Big');
+						setIsBookingVisible(false);
 						setButtonLoading(false);
 					}
 					catch (error) {

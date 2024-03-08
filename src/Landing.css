@@ -10,7 +10,7 @@ body {
 
 .landing-page-start {
   position: relative;
-  height: 100vh;
+  height: 90vh;
   /* 100% of the viewport height */
   display: flex;
   align-items: center;
@@ -19,69 +19,33 @@ body {
 
 .landing-page-start::before {
   content: "";
-  background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('./assets/background postbox.jpg') center/cover no-repeat;
-  /* Use relative path to the image */
-  background-position: top -65px center;
-  /* Adjust the position as needed */
-  flex: 7;
-  /* Adjust as needed to cover 70% of the width */
+  background: url('./assets/deliveryboy.svg') center/cover no-repeat;
+  background-position: top 110% center;
+  background-size: 70%;
   height: 100%;
-}
-
-
-.landing-page-start::after {
-  content: "";
-  background: linear-gradient(to right, #D6410B, #e95f1a);
-  /* Gradient background from left to right */
-  flex: 3;
-  /* Adjust as needed to cover 30% of the width */
-  height: 100%;
-  filter: brightness(0.8);
+  width: 100%;
   z-index: -1;
-
 }
 
 
-.logisticslogo {
-  position: absolute;
-  top: 75vh;
-  width: 150px;
-  height: auto;
-  right: 5vw;
-}
+
+
+
 
 .landing-page-Text h2 {
+  font-size: 2.5rem;
   margin: 0;
   margin-top: 20px;
+  color: #e95f1a;
 }
 
 .landing-page-Text {
   position: absolute;
   top: 20vh;
-  left: 20vw;
-  font-size: 40px;
+  left: 18vw;
+  font-size: 1.3rem;
   color: aliceblue;
   padding: 0px;
-}
-
-.courierbote {
-  position: absolute;
-  top: 2.5vh;
-  left: 80vw;
-  font-size: 30px;
-  color: #FFFFFF;
-  font-weight: 100;
-  font-family: 'Overpass';
-}
-
-
-.courierbotelogo {
-  position: absolute;
-  width: 180px;
-  height: auto;
-  left: 2vw;
-  top: 87vh;
-
 }
 
 
@@ -94,72 +58,45 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 173vh;
-    width: 100vw;
+    height: 150vh;
+    width: 100%;
     /* 100% of the viewport height */
 
   }
 
   .landing-page-start::before {
     content: "";
-    background: linear-gradient(rgba(1, 3, 2, 0.6), rgba(1, 3, 2, 0.5)), url('./assets/background postbox.jpg') center/cover no-repeat;
-    /* Use relative path to the image */
-    background-position: top -65px center;
-    /* Adjust the position as needed */
-    background-position: top center;
-    flex: 1;
-    /* Adjust as needed */
-    height: 100vh;
-    position: absolute;
-    width: 100%;
-    top: 0;
+    background: url('./assets/deliveryboy.svg') center/cover no-repeat;
+     background-position: top 8vh center;
+  background-size: 70%;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
   }
 
-
-  .landing-page-start::after {
-    content: "";
-    background: linear-gradient(to right, #D6410B, #e95f1a);
-    /* Gradient background from left to right */
-    flex: 1;
-    /* Adjust as needed to cover 30% of the width */
-    height: 100%;
-
-    z-index: -1;
-
-  }
 
 
   .landing-page-Text {
-    font-size: 35px;
+    padding: 15px;
+    font-size: 1rem;
     position: absolute;
+    left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
   }
 
-  .logisticslogo {
-    display: none;
-  }
-
-
-  .courierbote {
-    position: absolute;
-    top: 79vh;
-    font-size: 20px;
-    left: 65vw;
-
-  }
-
-  .courierbotelogo {
-    position: absolute;
-    width: 120px;
-    top: 165vh;
-  }
+.landing-page-heading{
+  text-align: center;
+}
 
   .landing-page.text h2 {
-    margin: 10px;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
   }
 
 }

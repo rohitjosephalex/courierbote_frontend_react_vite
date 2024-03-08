@@ -1,12 +1,13 @@
 // import React from "react";
 import ShippingCalculator from "./Card";
+
 import "./Landing.css";
 import "./App.css";
 import "./index.css";
 import { Header } from "./components/header/Header";
 import courierBoteWhiteText from './assets/courierbote logo white transparent.png';
 import logistics from './assets/logistics.png';
-
+import InitialLanding from './pages/initialLanding'
 import { Working } from './components/howDoesCourierboteWork/HowDoesCourierboteWork';
 import { People } from "./components/dearPeople/DearPeople";
 // import { BestRecipes } from "./components/ourBestRecipes/BestRecipes";
@@ -47,23 +48,19 @@ function LandingPage({ Active }) {
 			<main>
 				{Active === 'normalLanding' && <div>
 					<div className="landing-page-start">
-
-						<span className="landing-page-Text" >
+					<span className="landing-page-Text" >
+						<div className="landing-page-heading"> 
 							<h2 >
-								Serving
+								Moving
+								Customers
 							</h2>
 							<h2 >
-								with  Care
+								with Care
 							</h2>
-							<h2 >
-								Always
-							</h2>
-							<p style={{ color: 'grey' }}>Express Transit</p>
+							</div>
+							<p style={{ color: 'grey' }}>We unite people with affordable shipping. <br />With a click, we deliver your essentials <br /> to your doorstep, wherever you are.</p>
 						</span>
-
-						< img src={courierBoteWhiteText} alt="logo" className="courierbotelogo" />
-						<img src={logistics} alt="new" className="logisticslogo" />
-						<h3 className="courierbote" >CourierBote</h3>
+						
 						<ShippingCalculator />
 					</div>
 					<Results />

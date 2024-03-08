@@ -14,8 +14,8 @@
 	box-shadow: 15px 15px 10px 5px rgba(0, 0, 0, 0.2);
 	padding: 20px;
 	margin-bottom: 20px;
-	transform: scale(1);
-	transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);;
+	/* transform: scale(1); */
+	/* transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);; */
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	-ms-border-radius: 10px;
@@ -23,7 +23,7 @@
 }
 /* Animation for card hover */
 .card:hover {
-	transform: scale(1.05);
+	/* transform: scale(1.05); */
 	/* transition: transform 0.6s; */
 }
 
@@ -82,13 +82,14 @@
 }
 
 .btn-option {
+	font-size: .9rem;
 	flex: 1;
 	font-weight: bold;
 	padding: 10px;
 	border: none;
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.5);
-	opacity: 80%;
+	opacity: 95%;
 	color: white;
 	transition: background-color 0.3s;
 
@@ -132,9 +133,13 @@
 
 .btn-option.active {
 	background-color: #e97236;
-	color: #fff;
+	color: white;
 }
 #calculate-button{
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
 	margin-top: 10px;
 }
 
@@ -205,12 +210,14 @@
 
 .btn-primary {
 	display: flex;
-	/* justify-content: space-between; */
+	align-items: center;
+	text-align: center;
+	justify-content: center;
 	margin: auto;
 	background-color: #e97236;
 	color: #fff;
 	border: none;
-	padding: 10px 20px;
+	/* padding: 5px 10px; */
 	border-radius: 3px;
 	cursor: pointer;
 	transition: background-color 0.3s;
@@ -223,11 +230,12 @@
 
 /* Animation for button hover */
 .btn-option:hover {
-	background-color: #767676;
+	background-color: #ed5a10;
 }
 
 
 .international {
+	height: 100%;
 	text-align: center;
 	/* display: block; */
 	justify-content: center;

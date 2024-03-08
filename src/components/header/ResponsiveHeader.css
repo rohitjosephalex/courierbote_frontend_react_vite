@@ -1,6 +1,13 @@
 @media all and (max-width: 600px) {
 
-
+.courierbotelogos{
+  display: none;
+}
+.courierbotelogo-small{
+  display: flex;
+  height:3rem;
+  width:auto;
+}
 .pc-list{
     display: none;
 
@@ -24,9 +31,9 @@
 
 
   .hamburger-menu {
-    font-family: montserrat;
+    font-family:Arial, Helvetica, sans-serif;
     top: 0;
-    left: 50;
+    left:10vw;
     position: relative;
     display: inline-block;
     margin-right: 0px;
@@ -63,7 +70,7 @@ a{
   }
 
   .menu-items {
-    font-family: montserrat;
+    font-family:Arial, Helvetica, sans-serifs;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 15vh;
     height: 20vh;
