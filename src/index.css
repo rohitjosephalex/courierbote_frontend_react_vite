@@ -5,11 +5,12 @@
 	top: 13vh;
 }
 
-.shipping-calculator.big {
-	position: absolute;
-	width: 60vw;
-	left:50%;
-	transform: translateX(-50%);
+.shipping-calculator-big {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	width: 60rem;
 }
 
 @media (max-width: 768px) {
@@ -19,6 +20,9 @@
 		margin-right: 20%;
 		margin-top: 8%;
 
+	}
+	.shipping-calculator-big{
+		width: 90vw;
 	}
 
 }
@@ -31,6 +35,10 @@
 		margin-top: 15%;
 
 	}
+	.shipping-calculator-big{
+		width: 90vw;
+	}
+
 
 }
 
@@ -38,13 +46,14 @@
 	.shipping-calculator {
 		top: 80vh;
 		width: 90vw;
-		left:15%;
+		left: 15%;
 		transform: translateX(-50%);
 	}
+
 	.shipping-calculator.big {
 
 		width: 90vw;
-		left:15%;
+		left: 15%;
 		transform: translateX(-50%);
 	}
 

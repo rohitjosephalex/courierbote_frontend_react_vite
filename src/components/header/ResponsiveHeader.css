@@ -72,8 +72,8 @@ a{
   .menu-items {
     font-family:Arial, Helvetica, sans-serifs;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 15vh;
-    height: 20vh;
+    width: 20vh;
+    height: 25vh;
     position: absolute;
     top: 40px;
     /* Adjust as needed */
@@ -98,7 +98,10 @@ a{
   .menu-items li:hover {
     color: black;
   }
-
+.menu-items li a{
+display: flex;
+text-align: left;
+}
   .input-groupm {
     margin-left: 50%;
     position: absolute;

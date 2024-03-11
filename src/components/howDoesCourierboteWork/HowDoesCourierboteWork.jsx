@@ -12,19 +12,19 @@ export const Working = ({scrollToElementRef}) => {
                 </div>
 
                 <div className="rigthServices">
-                    <h2>How does CourierBote work?</h2>
+                    <h2 className='rightservices-heading'>How does CourierBote work?</h2>
 
-                    <ul>
-                        <li>We promptly pick up your order, no matter where you are. We package both individuals and commercial clients.</li>
-                        <li>Schedule a pickup.</li>
-                        <li>Your package will be picked up by our team.</li>
+                    <ul className='rightservices-li'>
+                        <li className='rightservices-li'>We promptly pick up your order, no matter where you are. We package both individuals and commercial clients.</li>
+                        <li className='rightservices-li'>Schedule a pickup.</li>
+                        <li className='rightservices-li'>Your package will be picked up by our team.</li>
                     </ul>
-                    <h2>Services offered</h2>
+                    <h2 className='rightservices-heading'>Services offered</h2>
 
-                    <ul>
-                        <li>Packing and 24-hour pickup</li>
-                        <li>Regular updates from pickup to delivery</li>
-                        <li>Round-the-clock client assistance</li>
+                    <ul className='rightservice-ul'>
+                        <li className='rightservices-li'>Packing and 24-hour pickup</li>
+                        <li className='rightservices-li'>Regular updates from pickup to delivery</li>
+                        <li className='rightservices-li'>Round-the-clock client assistance</li>
                     </ul>
                 </div>
             </div>

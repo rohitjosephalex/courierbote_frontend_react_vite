@@ -20,7 +20,7 @@
   align-items: flex-start;
 }
 
-.rigthServices h2 {
+.rightservices-heading {
   font-size: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -28,10 +28,10 @@
   width: 60%;
 }
 
-.rigthServices p,ul,li {
+.rightservices-li,.rightservices-li {
   font-size: 1rem;
   color: rgba(3, 3, 3, 0.37);
-  width: 60%;
+  width:100%;
 }
 
 .rigthServices button {

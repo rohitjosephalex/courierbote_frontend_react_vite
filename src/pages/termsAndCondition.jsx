@@ -8,10 +8,12 @@ import  TermsAndCondition  from '../components/dashboard/termsAndCondition';
 export default function TermsAndConditions() {
   return (
     <div>
+      <Header/>
         <div className='tNc'>
             <h3>Terms and Conditions</h3>
         <TermsAndCondition/>
         </div>
+        <Footer/>
     </div>
   )
 }

@@ -59,13 +59,7 @@
 }
 
 
-.email-container {
-  font-family: Arial, sans-serif;
-  text-align: left;
-  margin: 0 auto;
-  padding: 20px;
-  padding-bottom: 50px;
-}
+
 
 .greeting {
   font-size: 2rem;
@@ -87,4 +81,8 @@
 .signature {
   font-weight: bold;
   font-size: 1.2rem;
+}
+.rigthContactSide img{
+  height: 80vh;
+  padding-top: 10px;
 }

@@ -1,6 +1,7 @@
 @media all and (max-width: 600px) {
     .contact {
-        height: 80vh;     
+        height: auto;
+        margin-top: -3.5rem;        
         
     }    
     .rigthContact {
@@ -22,7 +23,8 @@
         text-align: center;
         align-items: center;
     }
-.dearpeoplePic{
+
+.contactImage{
     display: none;
 }
 }

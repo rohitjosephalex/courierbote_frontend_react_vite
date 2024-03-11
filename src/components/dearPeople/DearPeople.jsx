@@ -21,8 +21,8 @@ export const People = () => {
             </div>
           </div>
         </div>
-        <div className="rigthContact">
-          <img src={ContactPic} alt="draw of two persons doing a hand shek" />
+        <div className="rigthContactSide">
+          <img src={ContactPic} alt="draw of two persons doing a hand shek" className="dearpeoplePic" />
         </div>
       </div>
     </section>

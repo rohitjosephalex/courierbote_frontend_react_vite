@@ -942,7 +942,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                         {
                                             close => (
                                                 <div className='popup-container parcel-type'>
-                                                    <div className='popup-container terms-and-condition'>
+                                                    <div className='popup-container popup-container terms-and-condition'>
                                                         <h2>What items can be shipped?</h2>
                                                         {/* Add your Terms and Conditions content here */}
                                                         <RestrictedItems />

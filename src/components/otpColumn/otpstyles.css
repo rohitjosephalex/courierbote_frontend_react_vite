@@ -54,3 +54,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+.card-otp.otp-input{
+  height: 35px;
+  width: 35px;
+}

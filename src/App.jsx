@@ -5,6 +5,8 @@ import SignUp from './components/signup/signUp';
 import CorporateDashboard from './components/dashboard/CorperateDashboard';
 import Privacy from './pages/privacy';
 import TermsAndConditions from './pages/termsAndCondition';
+import Pickup  from './pickup'
+import BookAPickup from './pages/bookAPickup';
 // Placeholder component for unknown paths
 const NotFound = () => {
   return <div>Page Not Found</div>;
@@ -22,8 +24,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<LandingPage Active='normalLanding' />} />
-          <Route path="/terms-and-condition" element={<LandingPage Active='termsAndCondition' />} />
-          <Route path="/privacy-policy" element={<LandingPage Active='privacyPolicy' />} />
+          <Route path="/terms-and-condition" element={<TermsAndConditions/>} />
+          <Route path="/privacy-policy" element={<Privacy />} />
+          <Route path="/book-a-pickup" element={<BookAPickup />} />
           <Route path="/corporate/signin" element={<SignUp Active='signin' />} />
           <Route path="/corporate/signup" element={<SignUp Active='signup' />} />
           <Route path="/corporate/dashboard" element={<PrivateRoute element={<CorporateDashboard />} />} />

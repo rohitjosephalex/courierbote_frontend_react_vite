@@ -24,6 +24,17 @@ export function OtpForm() {
     const [buttonLoading, setButtonLoading] = useState(false);
     const [resendButtonDisabled, setResendButtonDisabled] = useState(true);
     const [resendTimer, setResendTimer] = useState(30); // 30 minutes in seconds
+    const initialValues = {
+        otp: [
+          { digit: "" },
+          { digit: "" },
+          { digit: "" },
+          { digit: "" },
+          { digit: "" },
+          { digit: "" },
+        ]
+      };
+      
     useEffect(() => {
         const timerInterval = setInterval(() => {
             setResendTimer(prevTimer => {
@@ -173,7 +184,7 @@ export function OtpForm() {
                         wrong email?
                     </BoldLink>
                 </LineText>
-                <OtpContainer formik={formik} />
+                <OtpContainer formik={formik} initialValues={initialValues} />
             </FormContainer>
             <Marginer direction="vertical" margin={10} />
             <div className="button-class">

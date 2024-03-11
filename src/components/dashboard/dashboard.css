@@ -145,22 +145,22 @@
 .save-address-button {
     position: absolute;
     /* Set position to absolute */
-    bottom: -2.5rem;
+    bottom: -2.6rem;
     /* Adjust vertical position as needed */
     left: 10%;
     /* Align button horizontally to the center */
-    transform: translateX(-50%);
+    transform: translateX(-55%);
     /* Adjust horizontal position */
     margin-top: 1rem;
     /* Adjust top margin */
-    padding: 0.5rem 1rem;
+    padding: 0.5rem .8rem;
     /* Adjust padding as needed */
     background-color: #ffffff;
     /* Example button color */
     color: #e97236;
     /* Text color */
-
-    border-color: #e97236;
+    border: 2px solid #e97236;
+    /* Border color and thickness */
     border-radius: 5px;
     cursor: pointer;
 }
@@ -415,6 +415,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    color:#333;
     align-items: center;
     background: #f5f5f5;
     height: auto;
@@ -428,6 +429,7 @@
 }
 
 .popup-container.terms-and-condition {
+    color:#333;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -435,7 +437,7 @@
     align-items: center;
     background: #f5f5f5;
     height: 80vh;
-    width: 40vw;
+    width: 35vw;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -719,7 +721,8 @@ align-items: center;
 }
 
 .order-elements.heading {
-
+margin: 0;
+padding: 0;
     font-weight: 600;
 }
 .add-heading{
@@ -922,6 +925,10 @@ align-items: center;
   top: 48%;
   left: 16%;
   transform: rotateZ(-50deg);
+}
+.order-elements.values {
+    padding: 0;
+    margin: 0;
 }
 /* Mobile styles */
 @media only screen and (max-width: 768px) {

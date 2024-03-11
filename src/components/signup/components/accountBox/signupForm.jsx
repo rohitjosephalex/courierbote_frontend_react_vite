@@ -46,8 +46,8 @@ export function SignupForm(props) {
           email: email
         };
 
-        const response = await axios.post('https://backend.courierbote.com/api/corporateuser/newuserregistration', requestData);
-
+        const response = await axios.post('http://localhost/api/corporateuser/newuserregistration', requestData);
+console.log("response")
         if (response.status === 200) {
           switchToOtp();
         } else {

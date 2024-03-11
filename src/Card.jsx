@@ -4,6 +4,7 @@ import "./App.css";
 import "./pickup.css";
 import Pickup from './pickup';
 import axios from 'axios';
+import { BrowserRouter as Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 
 function ShippingCalculator() {
@@ -12,7 +13,7 @@ function ShippingCalculator() {
 	const [dropPincode, setDropPincode] = useState("");
 	const [weight, setWeight] = useState("");
 	const [weightUnit, setWeightUnit] = useState("gm");
-
+	const [error, setError] = useState("");
 	const [description, setdescription] = useState("");
 	const [isBookingVisible, setIsBookingVisible] = useState(false);
 	const [isInitialCard, setIsInitialCard] = useState(true);
@@ -25,19 +26,21 @@ function ShippingCalculator() {
 	const [selectedPosrD2dButton, setSelectedPosrD2dButton] = useState('Indian Post');
 	const [buttonLoading, setButtonLoading] = useState(false);
 
+	const navigate = useNavigate();
 	const handleButtonClick = (button) => {
 		if (button === "domestic" || button === "international") {
 			setSelectedButton(button);
 			setCourierType(button);
 			setIsBookingVisible(false);
 			setResult('');
-
+			setError('');
 		}
 		else if (button === "Indian Post" || button === "d2d") {
 			setSelectedPosrD2dButton(button);
 			setPosrOrD2d(button);
 			setIsBookingVisible(false);
 			setResult('');
+			setError('');
 		}
 	};
 
@@ -45,40 +48,40 @@ function ShippingCalculator() {
 
 
 	const handleCalculate = () => {
-		
-// console.log('button clicked')
-			// console.log('true inputs');
-			setButtonLoading(true);
-			// Perform calculation logic here
-			let newWeight = 0;
-			if (weightUnit === "kg") {
-				newWeight = weight * 1000;
-			}
-			else {
-				newWeight = weight;
 
-			}
-			if (selectedPosrD2dButton === 'Indian Post') {
-				const validateInputs = () => {
-					if (!pickupPincode || !dropPincode || !weight || !shipmentType) {
-						alert("Please fill in all required fields");
-						setButtonLoading(false);
-						return false;
-					}
-					else if( weightUnit=='gm' && weight<50){
-						alert("Min weight should be 50 grams");
-						setButtonLoading(false);
-						return false;
-						
-					}
-					else if(pickupPincode===dropPincode){
-						alert('Pickup Pincode cannot be same as Drop Pincode')
-						setButtonLoading(false);
-						return false;
-					}
-					return true;
-				};
-				if(validateInputs()===true){
+		// console.log('button clicked')
+		// console.log('true inputs');
+		setButtonLoading(true);
+		// Perform calculation logic here
+		let newWeight = 0;
+		if (weightUnit === "kg") {
+			newWeight = weight * 1000;
+		}
+		else {
+			newWeight = weight;
+
+		}
+		if (selectedPosrD2dButton === 'Indian Post') {
+			const validateInputs = () => {
+				if (!pickupPincode || !dropPincode || !weight || !shipmentType) {
+					setError("Please fill in all required fields");
+					setButtonLoading(false);
+					return false;
+				}
+				else if (weightUnit == 'gm' && weight < 50) {
+					setError("Min weight should be 50 grams");
+					setButtonLoading(false);
+					return false;
+
+				}
+				else if (pickupPincode === dropPincode) {
+					setError('Pickup Pincode cannot be same as Drop Pincode')
+					setButtonLoading(false);
+					return false;
+				}
+				return true;
+			};
+			if (validateInputs() === true) {
 				const requestData = {
 					pickupPincode: pickupPincode,
 					destiantionPincode: dropPincode,
@@ -86,38 +89,42 @@ function ShippingCalculator() {
 				};
 				const getPrice = async () => {
 					try {
-						
+
 						const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
 
 						);
 						console.log(response.data.data.CourierBotePrice);
 						setResult(response.data.data.CourierBotePrice);
+
 						setIsInitialCard(false);
 						setIsPickupCard(true);
 						setBigShippingCalculator('Big');
 						setIsBookingVisible(false);
 						setButtonLoading(false);
+						const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.data.CourierBotePrice}`;
+						navigate(url);
 					}
 					catch (error) {
+						setError("Error Fetching Data");
 						console.error('Error fetching data from Indian post:', error);
 					}
 				}
 				getPrice();
 			}
-			}
-			else if (selectedPosrD2dButton === 'd2d') {
-			
+		}
+		else if (selectedPosrD2dButton === 'd2d') {
 
-				console.log('Door to door')
-				const validateInputs = () => {
-					if (!pickupPincode || !dropPincode ) {
-						alert("Please fill in all required fields.");
-						setButtonLoading(false);
-						return false;
-					}
-					return true;
-				};
-				if(validateInputs()===true){
+
+			console.log('Door to door')
+			const validateInputs = () => {
+				if (!pickupPincode || !dropPincode) {
+					setError("Please fill in all required fields.");
+					setButtonLoading(false);
+					return false;
+				}
+				return true;
+			};
+			if (validateInputs() === true) {
 				const requestData = {
 					pickupPincode: pickupPincode,
 					destiantionPincode: dropPincode,
@@ -129,23 +136,22 @@ function ShippingCalculator() {
 						);
 						console.log(response.data.result.TotalPrice);
 						setResult(response.data.result.TotalPrice);
-						setIsInitialCard(false);
-						setIsPickupCard(true);
-						setBigShippingCalculator('Big');
-						setIsBookingVisible(false);
 						setButtonLoading(false);
+						const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.TotalPrice}`;
+						navigate(url);
 					}
 					catch (error) {
+						setError("Error Fetching Data");
 						console.error('Error fetching data from Indian post:', error);
 					}
 				}
 				getPrice();
 
 
-			// const calculatedResult = `Calculated result: ${shipmentType}, ${pickupPincode}, ${dropPincode}, ${weight}, ${newWeight}`;
-			// console.log(calculatedResult)
-			// setResult(250);
-		}
+				// const calculatedResult = `Calculated result: ${shipmentType}, ${pickupPincode}, ${dropPincode}, ${weight}, ${newWeight}`;
+				// console.log(calculatedResult)
+				// setResult(250);
+			}
 		}
 	};
 
@@ -183,11 +189,11 @@ function ShippingCalculator() {
 						{courierType === "domestic" &&
 							<div className="domestic">
 								<div className='btn-group' role='group' aria-label='Basic example'>
-									<button type='button' onClick={() => {handleButtonClick("Indian Post"); setButtonLoading(false);}} className={selectedPosrD2dButton === 'Indian Post' ? 'btn btn-new active' : 'btn btn-new'} >
-										Indian Post
+									<button type='button' onClick={() => { handleButtonClick("Indian Post"); setButtonLoading(false); }} className={selectedPosrD2dButton === 'Indian Post' ? 'btn btn-new active' : 'btn btn-new'} >
+										Residencial
 									</button>
-									<button type='button' onClick={() =>{ handleButtonClick("d2d");setButtonLoading(false);}} className={selectedPosrD2dButton === 'd2d' ? 'btn btn-new active' : 'btn btn-new'}>
-										Door To Door
+									<button type='button' onClick={() => { handleButtonClick("d2d"); setButtonLoading(false); }} className={selectedPosrD2dButton === 'd2d' ? 'btn btn-new active' : 'btn btn-new'}>
+										Pick and Drop
 									</button>
 								</div>
 								{postOrD2d === "Indian Post" && <div className="post">
@@ -213,7 +219,7 @@ function ShippingCalculator() {
 
 													className='input'
 													maxLength="6"
-													pattern="[0-9]*" 
+													pattern="[0-9]*"
 													type='text'
 													inputMode="numeric"
 													id='drop-pincode'
@@ -236,7 +242,7 @@ function ShippingCalculator() {
 														className='input'
 														type='number'
 														id='weight'
-														
+
 														placeholder='Weight'
 														value={weight}
 														onChange={(e) => setWeight(e.target.value)}
@@ -279,17 +285,22 @@ function ShippingCalculator() {
 									</div>
 
 
-
-									<button
-										id='calculate-button'
-										className='btn btn-primary'
-										disabled={buttonLoading}
-										onClick={handleCalculate}
-										style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
+									<div className="button-classs">
+										{error && (
+											<div className="error-text-container">
+												<p className="error-text">{error}</p>
+											</div>
+										)}
+										<button
+											id='calculate-button'
+											className='btn btn-primary'
+											disabled={buttonLoading}
+											onClick={handleCalculate}
+											style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
 										>
-										{!buttonLoading ? 'Calculate' : 'loading...'}
-									</button>
-
+											{!buttonLoading ? 'Calculate' : 'loading...'}
+										</button>
+									</div>
 									{isBookingVisible && (<div>
 										<div className='price' id='result'>
 											<div>Rate=₹</div>{result}
@@ -309,7 +320,7 @@ function ShippingCalculator() {
 												<input
 													className='input'
 													maxLength="6"
-													pattern="[0-9]*" 
+													pattern="[0-9]*"
 													type='text'
 													inputMode="numeric"
 													id='pickup-pincode'
@@ -323,18 +334,18 @@ function ShippingCalculator() {
 												<input
 													className='input'
 													maxLength="6"
-													pattern="[0-9]*" 
+													pattern="[0-9]*"
 													type='text'
 													inputMode="numeric"
 													id='drop-pincode'
-													placeholder='Drop Pincode'	
+													placeholder='Drop Pincode'
 													value={dropPincode}
 													onChange={(e) => setDropPincode(e.target.value)}
 												/>
 											</div>
 											<div style={{ display: 'grid' }}>
 												<label className='label'>Product Description:</label>
-												<input 
+												<input
 													className='input'
 													type='text'
 													id='drop-pincode'
@@ -345,25 +356,22 @@ function ShippingCalculator() {
 											</div>
 										</div>
 									</div>
-
+									<div className="button-classs">
+										{error && (
+											<div className="error-text-container">
+												<p className="error-text">{error}</p>
+											</div>
+										)}
 									<button
 										id='calculate-button'
 										className='btn btn-primary'
 										disabled={buttonLoading}
 										onClick={handleCalculate}
 										style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
-										>
+									>
 										{!buttonLoading ? 'Calculate' : 'loading...'}
 									</button>
-									{isBookingVisible && (<div>
-										<div className='price' id='result'>
-											<div>Rate=₹</div>{result}
-										</div>
-										<button
-											id='pickup-button'
-											className='btn btn-primary'
-											onClick={handlePickup}>Book a Pickup</button>
-									</div>)}
+									</div>
 								</div>}
 
 

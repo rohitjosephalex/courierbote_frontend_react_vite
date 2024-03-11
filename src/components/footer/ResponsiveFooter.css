@@ -4,7 +4,7 @@
        align-items: flex-start;
        justify-content: center;
        align-content: center;
-       
+       color: white;
    }
 
    .footer {
@@ -14,11 +14,13 @@
 
    .leftContent {
     font-size: .7rem;
-    color: black;
+    color: white;
    }
-
+.numbers a{
+    color: white;
+}
    .rigthContent p a {
     font-size: .7rem;
-    color: black;
+    color: white;
    }
 }

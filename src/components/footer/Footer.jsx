@@ -30,7 +30,7 @@ export const Footer = () => {
                         </div>
                     </div>
                     <div className='email'>
-                        <p><FontAwesomeIcon icon={faEnvelope} /> Email : <a href="mailto:courierbote@gmail.com">courierbote@gmail.com</a></p>
+                        <p className='numbers'><FontAwesomeIcon icon={faEnvelope} /> Email : <a href="mailto:courierbote@gmail.com">courierbote@gmail.com</a></p>
                     </div>
                 </div>
 

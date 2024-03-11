@@ -3,11 +3,14 @@ import "./ResponsiveHeader.css";
 import Modal from "react-modal";
 import { useState } from "react";
 
+import { BrowserRouter as Routes, Route, Link, useNavigate } from 'react-router-dom';
+
 import courierBoteWhiteText from '../../assets/courierbote logo white transparent.png';
 import courierBoteSmallLogo from '../../assets/favicon.png';
 
 
 export const Header = (props) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -17,6 +20,7 @@ export const Header = (props) => {
 
   const scrollToServices = (target) => {
     // const target = "WorkFor";
+    navigate(`/?scrollTo=${target}`);
     props.scrollToElement(target);
   };
 

@@ -13,7 +13,7 @@ const initialValues = {
   ]
 };
 
-export default function OtpContainer({ formik }) {
+export default function OtpContainer({ formik ,initialValues}) {
 
 
   const handleOTPChange = (

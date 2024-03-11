@@ -1,17 +1,15 @@
 /* Styles for Shipping Calculator */
 .label {
-	font-family: "Arial";
 	font-size: small;
 	color: white;
 }
 
 .card {
 	min-height: 340px;
-	max-height: 75vh;
 	overflow-y:scroll;
-	background-color:rgba(35, 35, 35, .9);
+	background-color:#464141;
 	border-radius: 10px;
-	box-shadow: 15px 15px 10px 5px rgba(0, 0, 0, 0.2);
+	/* box-shadow: 15px 15px 10px 5px rgba(0, 0, 0, 0.2); */
 	padding: 20px;
 	margin-bottom: 20px;
 	/* transform: scale(1); */
@@ -120,11 +118,13 @@
 .btn-option.domestic {
 	border-top-left-radius: 50px;
 	border-bottom-left-radius: 50px;
+	
 
 
 }
 
 .btn-option.international {
+	
 	border-top-right-radius: 50px;
 	border-bottom-right-radius: 50px;
 
@@ -162,7 +162,7 @@
 	padding: 10px;
 	margin: 5px;
 	border: none;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 .input::-webkit-inner-spin-button,
 .inputs::-webkit-outer-spin-button {
@@ -186,7 +186,7 @@
 	flex: 2;
 	padding: 10px;
 	border: 0px solid #ccc;
-	border-radius: 10px;
+	border-radius: 5px;
 	background-color: white;
 	color: gray;
 }
@@ -251,4 +251,13 @@ align-items: center;
 justify-content: center;
 padding-top: 10px;
 padding-bottom: 10px;
+}
+.button-classs {
+    margin-top: 25px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
 }
