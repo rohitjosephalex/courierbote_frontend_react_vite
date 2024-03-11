@@ -129,7 +129,7 @@ function Pickup() {
                         email: otpEmail,
                         otp: finalOtp,
                     };
-                    const response = await axios.post('https://backend.courierbote.comapi/landing/verifyotp', requestData);
+                    const response = await axios.post('https://backend.courierbote.com/api/landing/verifyotp', requestData);
                     if (response.data.message === 'otp verified' && response.data.status === 200) {
                         setPickupDetails(false);
                         setPickupInfo(deliverypart);
@@ -301,7 +301,7 @@ function Pickup() {
 
         try {
             setButtonLoading(true)
-            const response = await axios.post('https://backend.courierbote.comapi/landing/otpSent', requestData,
+            const response = await axios.post('https://backend.courierbote.com/api/landing/otpSent', requestData,
 
             );
             console.log(response.data);
