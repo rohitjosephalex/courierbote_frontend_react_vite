@@ -269,7 +269,7 @@ navigate('/')
                 };
                 const getFinalPrice = async () => {
                     try {
-                        const response = await axios.post('http://localhost/api/landing/doortodoorrate', requestData,);
+                        const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,);
                         console.log(response)
                         setPickupCharge(response.data.result.PickupPrice);
                         setTotalPrice(response.data.result.TotalPrice);
@@ -316,7 +316,7 @@ navigate('/')
 
         try {
             setButtonLoading(true)
-            const response = await axios.post('http://localhost/api/landing/otpSent', requestData,
+            const response = await axios.post('https://backend.courierbote.com/api/landing/otpSent', requestData,
 
             );
             console.log(response.data);
@@ -399,7 +399,7 @@ navigate('/')
             if (paymentType === 'cod') {
                 const confirmOrder = async () => {
                     try {
-                        const response = await axios.post('http://localhost/api/landing/coporderconfirmation', requestData,
+                        const response = await axios.post('https://backend.courierbote.com/api/landing/coporderconfirmation', requestData,
 
                         );
                         setButtonLoading(false);
@@ -431,7 +431,7 @@ navigate('/')
             else if (paymentType === 'razorPay') {
                 const confirmOrder = async () => {
                     try {
-                        const response = await axios.post('http://localhost/api/landing/razorpayorderconfirmation', requestData,
+                        const response = await axios.post('https://backend.courierbote.com/api/landing/razorpayorderconfirmation', requestData,
 
                         );
                         setButtonLoading(false);
@@ -462,7 +462,7 @@ navigate('/')
                                         paymentId: response.razorpay_payment_id,
                                         razorPaySignature: response.razorpay_signature
                                     };
-                                    const responsepayment = await axios.post('http://localhost/api/landing/razorpayvalidatepayment', requestData,);
+                                    const responsepayment = await axios.post('https://backend.courierbote.com/api/landing/razorpayvalidatepayment', requestData,);
                                     console.log(responsepayment);
                                     if (responsepayment.status === 200) {
                                         setLoading(false);
