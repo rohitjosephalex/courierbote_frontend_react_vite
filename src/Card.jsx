@@ -25,6 +25,7 @@ function ShippingCalculator() {
 	const [selectedButton, setSelectedButton] = useState('domestic');
 	const [selectedPosrD2dButton, setSelectedPosrD2dButton] = useState('Indian Post');
 	const [buttonLoading, setButtonLoading] = useState(false);
+	const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
 
 	const navigate = useNavigate();
 	const handleButtonClick = (button) => {
@@ -68,6 +69,11 @@ function ShippingCalculator() {
 					setButtonLoading(false);
 					return false;
 				}
+				else if (!localPincode.includes(parseInt(pickupPincode))) {
+					setError("Service unavailable at selected pincode.");
+					setButtonLoading(false);
+					return false;
+				}
 				else if (weightUnit == 'gm' && weight < 50) {
 					setError("Min weight should be 50 grams");
 					setButtonLoading(false);
@@ -105,6 +111,7 @@ function ShippingCalculator() {
 						navigate(url);
 					}
 					catch (error) {
+						setButtonLoading(false)
 						setError("Error Fetching Data");
 						console.error('Error fetching data from Indian post:', error);
 					}
@@ -122,6 +129,11 @@ function ShippingCalculator() {
 					setButtonLoading(false);
 					return false;
 				}
+				else if (!localPincode.includes(parseInt(pickupPincode)) || !localPincode.includes(parseInt(dropPincode))) {
+					setError("Service unavailable at selected pincode.");
+					setButtonLoading(false);
+					return false;
+				}
 				return true;
 			};
 			if (validateInputs() === true) {
@@ -131,16 +143,29 @@ function ShippingCalculator() {
 				};
 				const getPrice = async () => {
 					try {
-						const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,
+						const response = await axios.post('http://localhost/api/landing/doortodoorrate', requestData,
 
 						);
-						console.log(response.data.result.TotalPrice);
-						setResult(response.data.result.TotalPrice);
-						setButtonLoading(false);
-						const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.TotalPrice}`;
-						navigate(url);
+						if (response.status === 200) {
+							console.log(response.data.result.TotalPrice);
+							setResult(response.data.result.TotalPrice);
+							setButtonLoading(false);
+							const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.TotalPrice}`;
+							navigate(url);
+						}
+						else if (response.status === 201){
+							setButtonLoading(false)
+							setError("Pick and Drop is only available between 6:00am and 11:59pm");
+				
+						}
+
 					}
 					catch (error) {
+						if (error.status === 401) {
+							setButtonLoading(false)
+							setError("Pick and Drop is only available between 6:00am and 11:59pm");
+						}
+						setButtonLoading(false)
 						setError("Error Fetching Data");
 						console.error('Error fetching data from Indian post:', error);
 					}
@@ -362,15 +387,15 @@ function ShippingCalculator() {
 												<p className="error-text">{error}</p>
 											</div>
 										)}
-									<button
-										id='calculate-button'
-										className='btn btn-primary'
-										disabled={buttonLoading}
-										onClick={handleCalculate}
-										style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
-									>
-										{!buttonLoading ? 'Calculate' : 'loading...'}
-									</button>
+										<button
+											id='calculate-button'
+											className='btn btn-primary'
+											disabled={buttonLoading}
+											onClick={handleCalculate}
+											style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}
+										>
+											{!buttonLoading ? 'Calculate' : 'loading...'}
+										</button>
 									</div>
 								</div>}
 

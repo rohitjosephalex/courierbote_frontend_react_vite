@@ -1187,18 +1187,18 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                                     </div>
                                 </div>
                                 <div className="order-elements billing">
-                                    <div className="billing-box">
+                                    <div className="billing-box light">
                                         <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
-                                        <div className="billing-details">
-                                            <div className="charge">
+                                        <div className="billing-details light">
+                                            <div className="charge light">
                                                 <p className="charge name">Courier Charge</p>
                                                 <p className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierAmount)}</p>
                                             </div>
-                                            <div className="charge">
+                                            <div className="charge light">
                                                 <p className="charge name">Service Charge + GST</p>
                                                 <p className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(serviceGstCharge)}</p>
                                             </div>
-                                            <div className="charge ">
+                                            <div className="charge light">
                                                 <p id="total" className="charge name">Total Charge</p>
                                                 <p id="total" className="charge value">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(totalAmount)}</p>
                                             </div>

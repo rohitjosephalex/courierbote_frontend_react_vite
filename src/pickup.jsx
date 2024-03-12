@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useSearchParams } from 'react-router-dom';
 
+import { BrowserRouter as Routes, Route, Link, useNavigate } from 'react-router-dom';
+
 import Popup from 'reactjs-popup';
 import "./pickup.css";
 import "./App.css";
@@ -17,6 +19,8 @@ import OtpContainer from "./components/otpColumn/otpcolumn";
 import { useFormik } from "formik";
 
 function Pickup() {
+    const navigate = useNavigate();
+
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const pickupPin = params.get('pickupPin');
@@ -77,6 +81,10 @@ function Pickup() {
     const [orderConfirmation, setOrderConfirmation] = useState(false);
     const [paymentType, setPaymentType] = useState("");
     const [buttonLoading, setButtonLoading] = useState(false);
+
+    const [courierBoteOrderId, setCourierBoteOrderId] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [orderFail, setOrderFail] = useState(false);
 
     const [lengthUnit, setLengthUnit] = useState('');
     const [widthUnit, setWidthUnit] = useState('');
@@ -180,11 +188,7 @@ function Pickup() {
         }
     };
     const handleOk = () => {
-
-
-
-        initialCard();
-
+navigate('/')
 
     }
 
@@ -200,16 +204,20 @@ function Pickup() {
 
     const handleCalculate = () => {
         console.log(weightUnit, weight)
-        setButtonLoading(true);
+        // setButtonLoading(true);
         if (!localPincode.includes(parseInt(pickupPincode))) {
             setError("Sorry Service at this pincode is currently unavailable");
             setButtonLoading(false);
         }
-        else if (!pickupName || !pickupAddr1 || !pickupAddr2 || !pickupPhoneNumber || !pickupEmail || !pickupCity || !pickupPincode || !pickupState || !deliveryName || !deliveryAddrL1 || !deliveryAddrL2 || !deliveryPhoneNumber || !deliveryCity || !deliveryPincode || !deliveryState || !billingName || !billingAddr || !billingPhoneNumber || !length || !width || !height || !weight || !itemDescription || !selectedCategory || !itemValue.trim()) {
+        else if (deliverypart === 'Indian Post' && (!pickupName || !pickupAddr1 || !pickupAddr2 || !pickupPhoneNumber || !pickupEmail || !pickupCity || !pickupPincode || !pickupState || !deliveryName || !deliveryAddrL1 || !deliveryAddrL2 || !deliveryPhoneNumber || !deliveryCity || !deliveryPincode || !deliveryState || !billingName || !billingAddr || !billingPhoneNumber || !length || !width || !height || !weight || !itemDescription || !selectedCategory || !itemValue.trim())) {
             setError("Please enter all the input fields.");
             setButtonLoading(false);
         }
-        else if (weightUnit == "gm" && weight < 50) {
+        else if (deliverypart === 'd2d' && (!pickupName || !pickupAddr1 || !pickupAddr2 || !pickupPhoneNumber || !pickupEmail || !pickupCity || !pickupPincode || !pickupState || !deliveryName || !deliveryAddrL1 || !deliveryAddrL2 || !deliveryPhoneNumber || !deliveryCity || !deliveryPincode || !deliveryState || !billingName || !billingAddr || !billingPhoneNumber || !itemDescription || !selectedCategory || !itemValue.trim())) {
+            setError("Please enter all the input fields.");
+            setButtonLoading(false);
+        }
+        else if (deliverypart === 'Indian Post' && (weightUnit == "gm" && weight < 50)) {
             setError("Min Weight should be 50gm");
             setButtonLoading(false);
         }
@@ -225,6 +233,7 @@ function Pickup() {
             }
 
             if (deliverypart === 'Indian Post') {
+                setButtonLoading(true);
                 const requestData = {
                     pickupPincode: pickupPincode,
                     destiantionPincode: deliveryPincode,
@@ -253,13 +262,15 @@ function Pickup() {
                 getFinalPrice();
             }
             else if (deliverypart === 'd2d') {
+                setButtonLoading(true);
                 const requestData = {
                     pickupPincode: pickupPincode,
                     destiantionPincode: deliveryPincode,
                 };
                 const getFinalPrice = async () => {
                     try {
-                        const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,);
+                        const response = await axios.post('http://localhost/api/landing/doortodoorrate', requestData,);
+                        console.log(response)
                         setPickupCharge(response.data.result.PickupPrice);
                         setTotalPrice(response.data.result.TotalPrice);
                         setPickupAddress(`${pickupName}\n ${pickupAddr1}\n ${pickupAddr2}\n ${pickupCity}\n ${pickupPincode}\n ${pickupState}`);
@@ -269,6 +280,10 @@ function Pickup() {
                         // console.log('result', result);
                     }
                     catch (error) {
+                        if(error.status==401){
+                            setError("Pick and Drop is only available between 6:00am and 11:59pm")
+                        }
+                        setError('Error fetching data contact admin')
                         console.error('Error fetching data from Indian post:', error);
                     }
                 }
@@ -301,7 +316,7 @@ function Pickup() {
 
         try {
             setButtonLoading(true)
-            const response = await axios.post('https://backend.courierbote.com/api/landing/otpSent', requestData,
+            const response = await axios.post('http://localhost/api/landing/otpSent', requestData,
 
             );
             console.log(response.data);
@@ -333,11 +348,12 @@ function Pickup() {
     }
 
     const handleConfirm = () => {
-        if (!paymentType  ) {
+        if (!paymentType) {
             setError("Please Select Payment Type")
         }
         else {
             setError('');
+            setButtonLoading(true);
             let unifiedLength = length;
             let unifiedBreadth = width;
             let unifiedHeight = height;
@@ -376,38 +392,135 @@ function Pickup() {
                 weight: `${newWeight}`,
                 lbh: `${unifiedLength}x${unifiedBreadth}x${unifiedHeight}`,
                 paymentMode: `${paymentType}`,
-                paymentAmount: `Pickup Charge: ${pickupCharge} Packing Charge: ${packingCharge} Courier Charge: ${courierBotePrice} Total Charge: ${totalPrice}`,
+                courierBoteOrderID: courierBoteOrderId,
+                paymentAmount: { 'PickupCharge': pickupCharge, 'PackingCharge': packingCharge, 'CourierCharge': courierBotePrice, 'TotalCharge': totalPrice },
 
             }
-            const confirmOrder = async () => {
-                try {
-                    const response = await axios.post('https://backend.courierbote.com/api/landing/orderconfirmation', requestData,
+            if (paymentType === 'cod') {
+                const confirmOrder = async () => {
+                    try {
+                        const response = await axios.post('http://localhost/api/landing/coporderconfirmation', requestData,
 
-                    );
-                    console.log("##verify_data", response.status);
-                    if (response.data.data === 'mail_sent' && response.status === 200) {
-                        setOrderConfirmation(true);
-                        console.log('confirmed')
+                        );
+                        setButtonLoading(false);
+                        console.log("##verify_data", response.status);
+                        if (response.data.data === 'mail_sent' && response.status === 200) {
+                            
+                            setOrderConfirmation(true);
+                            console.log('confirmed')
+                        }
+
+                        // else {
+                        //     alert('otp verification issue')
+                        // }
+
+
                     }
-
-                    // else {
-                    //     alert('otp verification issue')
-                    // }
-
-
+                    catch (error) {
+                        if (error.response.data.statusCode === 400) {
+                            alert('Error confirming order pls contact customer care if money has been debited')
+                        }
+                        else {
+                            console.error('Error confirming order:', error);
+                            alert('error confirming order')
+                        }
+                    }
                 }
-                catch (error) {
-                    if (error.response.data.statusCode === 400) {
-                        alert('Error confirming order pls contact customer care if money has been debited')
-                    }
-                    else {
-                        console.error('Error confirming order:', error);
-                        alert('error confirming order')
-                    }
-                }
+                confirmOrder()
             }
-            confirmOrder()
+            else if (paymentType === 'razorPay') {
+                const confirmOrder = async () => {
+                    try {
+                        const response = await axios.post('http://localhost/api/landing/razorpayorderconfirmation', requestData,
 
+                        );
+                        setButtonLoading(false);
+                        console.log("##verify_data", response.status);
+                        if (response.status === 200) {
+                            const courierBoteOrderID = response.data.receipt;
+                            console.log('confirmed', response.data)
+                            setCourierBoteOrderId(response.data.receipt);
+                            const amount = response.data.amount;
+                            var options = {
+                                "key": "rzp_test_8Tzc3XN5iQ4jrB", // Enter the Key ID generated from the Dashboard
+                                "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                                "currency": "INR",
+                                "name": "Courierbote",
+                                "description": "Transaction for delivery",
+                                "image": "https://i.imgur.com/9L39rc3.png",
+                                "order_id": response.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                "handler": async function (response) {
+                                    console.log("response.razorpay_payment_id");
+                                    // console.log(response.razorpay_order_id);
+                                    // console.log(response.razorpay_signature);
+                                    setButtonLoading(false);
+                                    setLoading(true)
+                                    const requestData = {
+
+                                        courierBoteOrderID: courierBoteOrderID,
+                                        orderId: response.razorpay_order_id,
+                                        paymentId: response.razorpay_payment_id,
+                                        razorPaySignature: response.razorpay_signature
+                                    };
+                                    const responsepayment = await axios.post('http://localhost/api/landing/razorpayvalidatepayment', requestData,);
+                                    console.log(responsepayment);
+                                    if (responsepayment.status === 200) {
+                                        setLoading(false);
+                                        console.log(responsepayment.data);
+                                        setOrderConfirmation(true);
+                                        setCourierBoteOrderId("");
+                                        setButtonLoading(false);
+                                    }
+
+                                },
+                                "prefill": {
+                                    "name": pickupName,
+                                    "email": pickupEmail,
+                                    "contact": pickupPhoneNumber
+                                },
+                                "theme": {
+                                    "color": "#3399cc"
+                                }
+                            };
+                            var rzp1 = new window.Razorpay(options);
+                            rzp1.on('payment.failed', function (response) {
+                                setButtonLoading(false);
+                                console.log(response.error)
+                                setLoading(false);
+                                alert(response.error.code);
+                                alert(response.error.description);
+                                alert(response.error.source);
+                                alert(response.error.step);
+                                alert(response.error.reason);
+                                alert(response.error.metadata.order_id);
+                                alert(response.error.metadata.payment_id);
+                                throw (response.error);
+                            });
+                            rzp1.open();
+                            e.preventDefault();
+
+                        }
+
+                        // else {
+                        //     alert('otp verification issue')
+                        // }
+
+
+                    }
+                    catch (error) {
+                        if (error.response.data.statusCode === 400) {
+                            setError('Error confirming order pls contact customer care if money has been debited');
+                            setButtonLoading(false);
+                        }
+                        else {
+                            console.error('Error confirming order:', error);
+                            setError('error confirming order');
+                            setButtonLoading(false);
+                        }
+                    }
+                }
+                confirmOrder()
+            }
         }
     }
 
@@ -847,6 +960,7 @@ function Pickup() {
                                             value='Document'
                                             checked={isPackingNeeded}
                                             onChange={(e) => setIsPackingNeeded(e.target.checked)}
+                                            title="CourierBote packs your order for you for convinent shipping"
                                         />
                                         Is packing needed
                                     </label>
@@ -1116,16 +1230,7 @@ function Pickup() {
                                     </div>
                                     <div className="about-item">
                                         <h4>About the item</h4>
-                                        <label className='checkbox'>
-                                            <input
-                                                type='checkbox'
-                                                name='shipment-type'
-                                                value='Document'
-                                                checked={isPackingNeeded}
-                                                onChange={(e) => setIsPackingNeeded(e.target.checked)}
-                                            />
-                                            Is packing needed
-                                        </label>
+                                       
                                         <div className="productdetails-noheading">
 
                                             <input
@@ -1231,7 +1336,7 @@ function Pickup() {
                                             <p className="order-elements values">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(itemValue)}</p>
                                         </div>
                                     </div>
-                                    <div className="order-elements size">
+                                    {deliverypart === "Indian Post" && (<div className="order-elements size">
                                         <div className="order-elements">
                                             <p className="order-elements heading">Weight:</p>
                                             <p className="order-elements values">{weight}</p>
@@ -1240,7 +1345,7 @@ function Pickup() {
                                             <p className="order-elements heading">LBH:</p>
                                             <p className="order-elements values">{length}*{width}*{height}</p>
                                         </div>
-                                    </div>
+                                    </div>)}
                                     <div className="order-elements billing">
                                         {
                                             deliverypart === "Indian Post" && (<div className="billing-box dark">
@@ -1265,18 +1370,18 @@ function Pickup() {
                                                 </div>
                                             </div>)}
                                         {
-                                            deliverypart === "d2d" && (<div className="billing-box">
+                                            deliverypart === "d2d" && (<div className="billing-box dark">
                                                 <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
-                                                <div className="billing-details">
-                                                    <div className="charge">
+                                                <div className="billing-details dark">
+                                                    <div className="charge dark">
                                                         <p className="charge name">Pickup Charge</p>
                                                         <p>{pickupCharge}</p>
                                                     </div>
-                                                    <div className="charge">
+                                                    <div className="charge dark">
                                                         <p className="charge name">Delivery Charge</p>
                                                         <p>{totalPrice - pickupCharge}</p>
                                                     </div>
-                                                    <div className="charge ">
+                                                    <div className="charge dark ">
                                                         <p id="total" className="charge name">Total Charge</p>
                                                         <p id="total">{totalPrice}</p>
                                                     </div>
@@ -1293,6 +1398,7 @@ function Pickup() {
                                                 value='Document'
                                                 checked={paymentType === "razorPay"}
                                                 onChange={() => setPaymentType("razorPay")}
+                                                title="Razor Pay option lets you pay online while you place your pickup"
                                             />
                                             Razor Pay
                                         </label>
@@ -1304,13 +1410,14 @@ function Pickup() {
                                                 value='Parcel'
                                                 checked={paymentType === "cod"}
                                                 onChange={() => setPaymentType("cod")}
+                                                title="Cash on Pickup option lets you pay when our delivery agent comes to pickup your pickup"
                                             />
                                             COP
                                         </label>
                                     </div>
                                 </div>
                                 <button className="card-back" onClick=
-                                    {() => { setPickupInfo(deliverypart); setOrderConfirmation(false); setError("") }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
+                                    {() => { setPickupInfo(deliverypart); setOrderConfirmation(false); setError(""); setButtonLoading(false); }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
                                 <div className="button-classs">
                                     {error && (
                                         <div className="error-text-container proceed">
@@ -1318,29 +1425,35 @@ function Pickup() {
 
                                         </div>
                                     )}
-                                    <button
-                                        id='pickup-button'
-                                        className='btn btn-primary'
-                                        onClick={() => handleConfirm()}>Confirm and Pay</button>
+                              
+                                        <button
+                                            id='pickup-button'
+                                            className='btn btn-primary'
+                                            onClick={() => handleConfirm()} 
+                                            style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>
+                                                {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
+                                    
                                 </div>
-
+                                {loading && (<div className="loading-screen">
+                                <div className="loader"></div>
+                            </div>)}
                                 {orderConfirmation && (
                                     <div className="sucess-popup">
 
 
-                                        <div className='popup-container ' >
-                                            <div className="popup-container content">
-                                                <div className="alert-popup-container">
-                                                    <div className="success-checkmark">
+                                        <div className='popup-container dark ' >
+                                            <div className="popup-container sucess-content">
+                                                <div className="alert-popup-container dark">
+                                                    <div className="success-checkmark dark">
                                                         <div className="check-icon">
                                                             <span className="icon-line line-tip"></span>
                                                             <span className="icon-line line-long"></span>
                                                             <div className="icon-circle"></div>
-                                                            <div className="icon-fix"></div>
+                                                            <div className="icon-fix dark"></div>
                                                         </div>
                                                     </div>
                                                     <div className="alert-popup-title">Success!!!</div>
-                                                    <div className="alert-popup-message">
+                                                    <div className="alert-popup-message dark">
                                                         Your Pickup has been placed :)
                                                     </div>
                                                     <div className="alert-popup-confirm">
@@ -1350,16 +1463,51 @@ function Pickup() {
                                                             onClick={() => { handleOk(); }}>OK</button>
                                                     </div>
                                                 </div>
-                                                <button className="popup-close" onClick=
+                                                {/* <button className="popup-close" onClick=
                                                     {() => { setOrderConfirmation(false); }}>
 
-                                                </button>
+                                                </button> */}
                                             </div>
 
                                         </div>
 
 
                                     </div>)}
+                                    {orderFail && (
+                                <div className="sucess-popup">
+
+
+                                    <div className='popup-container dark ' >
+                                        <div className="popup-container sucess-content">
+                                            <div className="alert-popup-container dark">
+                                                <div className="circle-container dark">
+                                                    <div className="circle-border"></div>
+                                                    <div className="circle">
+                                                        <div className="error"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="alert-popup-title fail">!!!Failed</div>
+                                                <div className="alert-popup-message">
+                                                    Something Went Wrong  Please Contact Customer Care
+                                                </div>
+                                                <div className="alert-popup-confirm">
+                                                    <button
+                                                        id='finalok-button'
+                                                        className='btn btn-primary'
+                                                        onClick={() => { setOrderFail(false);
+                                                           }}>OK</button>
+                                                </div>
+                                            </div>
+                                            {/* <button className="popup-close" onClick=
+                                            {() => { setOrderConfirmation(false); }}>
+
+                                        </button> */}
+                                        </div>
+
+                                    </div>
+
+
+                                </div>)}
                             </div>
 
                         </div>)
