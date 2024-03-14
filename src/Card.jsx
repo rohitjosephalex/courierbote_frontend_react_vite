@@ -143,7 +143,7 @@ function ShippingCalculator() {
 				};
 				const getPrice = async () => {
 					try {
-						const response = await axios.post('http://localhost/api/landing/doortodoorrate', requestData,
+						const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,
 
 						);
 						if (response.status === 200) {
