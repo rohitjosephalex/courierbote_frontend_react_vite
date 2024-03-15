@@ -99,15 +99,15 @@ function ShippingCalculator() {
 						const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostrate', requestData,
 
 						);
-						console.log(response.data.data.CourierBotePrice);
-						setResult(response.data.data.CourierBotePrice);
+						console.log(response.data.data.Price);
+						setResult(response.data.data.Price);
 
 						setIsInitialCard(false);
 						setIsPickupCard(true);
 						setBigShippingCalculator('Big');
 						setIsBookingVisible(false);
 						setButtonLoading(false);
-						const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.data.CourierBotePrice}`;
+						const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.data.Price}`;
 						navigate(url);
 					}
 					catch (error) {

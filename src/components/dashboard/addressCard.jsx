@@ -399,7 +399,7 @@ function AddressCard({ setProceedToAddress, name, add1, add2, phoneNumber, email
                         breadth: unifiedBreadth,
                         height: unifiedHeight,
                     };
-                    const response = await axios.post('https://backend.courierbote.com/api/corporatedashboard/byairrate', requestData, {
+                    const response = await axios.post('http://localhost/api/corporatedashboard/byairrate', requestData, {
                         headers: {
                             Authorization: `Bearer ${apiToken}`,
                         },

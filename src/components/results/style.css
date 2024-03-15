@@ -1,7 +1,7 @@
 .result-section {
     display: flex;
     flex-direction: column;
-    height: 25vh;
+    min-height: 25vh;
     background-color: #E97135;
     color: #ffffff;
     align-items: center;

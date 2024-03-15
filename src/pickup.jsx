@@ -1434,9 +1434,9 @@ navigate('/')
                                                 {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
                                     
                                 </div>
-                                {loading && (<div className="loading-screen">
+                                {/* {loading && (<div className="loading-screen">
                                 <div className="loader"></div>
-                            </div>)}
+                            </div>)} */}
                                 {orderConfirmation && (
                                     <div className="sucess-popup">
 
@@ -1463,10 +1463,10 @@ navigate('/')
                                                             onClick={() => { handleOk(); }}>OK</button>
                                                     </div>
                                                 </div>
-                                                {/* <button className="popup-close" onClick=
+                                                <button className="popup-close" onClick=
                                                     {() => { setOrderConfirmation(false); }}>
 
-                                                </button> */}
+                                                </button>
                                             </div>
 
                                         </div>

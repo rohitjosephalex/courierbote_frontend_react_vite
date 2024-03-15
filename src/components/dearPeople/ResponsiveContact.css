@@ -26,3 +26,8 @@
     display: none;
 }
 }
+@media all and (max-width: 980px) {
+    .dearpeoplePic{
+        width: 60vw;
+    }
+}

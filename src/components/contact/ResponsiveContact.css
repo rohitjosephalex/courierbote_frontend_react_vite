@@ -9,7 +9,7 @@
     }    
 
     .btnContact input {
-        width: 190px;
+        width: 150px;
         
     }
 
@@ -22,6 +22,10 @@
         width: 85%;
         text-align: center;
         align-items: center;
+    }
+    .btnContact{
+        display: flex;
+        flex-direction: row;
     }
 
 .contactImage{
