@@ -203,7 +203,7 @@ navigate('/')
 
 
     const handleCalculate = () => {
-        console.log(weightUnit, weight)
+        // console.log(weightUnit, weight)
         // setButtonLoading(true);
         if (!localPincode.includes(parseInt(pickupPincode))) {
             setError("Sorry Service at this pincode is currently unavailable");
@@ -243,10 +243,11 @@ navigate('/')
                 const getFinalPrice = async () => {
                     try {
                         const response = await axios.post('https://backend.courierbote.com/api/landing/indianpostfinalrate', requestData,);
-                        console.log(response.data)
-                        setCourierBotePrice(response.data.data.courierBote_price);
+                        // console.log(response.data)
+                        // console.log(response.data.data.postal_GST_price-response.data.data.postal_price)
+                        setCourierBotePrice(response.data.data.postal_price);
                         setPackingCharge(response.data.data.packing_charge);
-                        setPickupCharge(response.data.data.pickup_charge);
+                        setPickupCharge(response.data.data.pickup_charge+(response.data.data.postal_GST_price-response.data.data.postal_price));
                         setTotalPrice(response.data.data.totalPrice);
                         setPickupAddress(`${pickupName}\n ${pickupAddr1}\n ${pickupAddr2}\n ${pickupCity}\n ${pickupPincode}\n ${pickupState}`);
                         setDeliveryAddress(`${deliveryName}\n${deliveryAddrL1}\n${deliveryAddrL2}\n${deliveryCity}\n${deliveryPincode}\n${deliveryState}`);
@@ -1351,21 +1352,22 @@ navigate('/')
                                             deliverypart === "Indian Post" && (<div className="billing-box dark">
                                                 <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
                                                 <div className="billing-details dark">
-                                                    <div className="charge dark">
-                                                        <p className="charge name">Pickup Charge</p>
-                                                        <p>{pickupCharge}</p>
-                                                    </div>
+                                                  
                                                     <div className="charge dark">
                                                         <p className="charge name">Packing Charge</p>
-                                                        <p>{packingCharge}</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(packingCharge)}</p>
                                                     </div>
                                                     <div className="charge dark">
                                                         <p className="charge name">Courier Charge</p>
-                                                        <p>{courierBotePrice}</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierBotePrice)}</p>
+                                                    </div>
+                                                    <div className="charge dark">
+                                                        <p className="charge name">Service Charge+GST</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(pickupCharge)}</p>
                                                     </div>
                                                     <div className="charge dark ">
                                                         <p id="total" className="charge name">Total Charge</p>
-                                                        <p id="total">{totalPrice}</p>
+                                                        <p id="total">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(totalPrice)}</p>
                                                     </div>
                                                 </div>
                                             </div>)}
@@ -1375,15 +1377,15 @@ navigate('/')
                                                 <div className="billing-details dark">
                                                     <div className="charge dark">
                                                         <p className="charge name">Pickup Charge</p>
-                                                        <p>{pickupCharge}</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(pickupCharge)}</p>
                                                     </div>
                                                     <div className="charge dark">
                                                         <p className="charge name">Delivery Charge</p>
-                                                        <p>{totalPrice - pickupCharge}</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format( totalPrice - pickupCharge)}</p>
                                                     </div>
                                                     <div className="charge dark ">
                                                         <p id="total" className="charge name">Total Charge</p>
-                                                        <p id="total">{totalPrice}</p>
+                                                        <p id="total">{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(totalPrice)}</p>
                                                     </div>
                                                 </div>
                                             </div>)}
