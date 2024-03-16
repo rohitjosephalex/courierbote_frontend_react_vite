@@ -404,7 +404,7 @@ navigate('/')
                         );
                         setButtonLoading(false);
                         console.log("##verify_data", response.status);
-                        if (response.data.data === 'mail_sent' && response.status === 200) {
+                        if (response.status === 200) {
                             
                             setOrderConfirmation(true);
                             console.log('confirmed')
@@ -453,7 +453,7 @@ navigate('/')
                                     console.log("response.razorpay_payment_id");
                                     // console.log(response.razorpay_order_id);
                                     // console.log(response.razorpay_signature);
-                                    setButtonLoading(false);
+                                    setButtonLoading(false);    
                                     setLoading(true)
                                     const requestData = {
 
@@ -1416,7 +1416,7 @@ navigate('/')
                                         </label>
                                     </div>
                                 </div>
-                                <button className="card-back" onClick=
+                                <button className="card-backs" onClick=
                                     {() => { setPickupInfo(deliverypart); setOrderConfirmation(false); setError(""); setButtonLoading(false); }}> <FontAwesomeIcon icon={faArrowLeft} className="search-icon" /></button>
                                 <div className="button-classs">
                                     {error && (
@@ -1434,9 +1434,9 @@ navigate('/')
                                                 {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
                                     
                                 </div>
-                                {/* {loading && (<div className="loading-screen">
+                                {loading && (<div className="loading-screen">
                                 <div className="loader"></div>
-                            </div>)} */}
+                            </div>)}
                                 {orderConfirmation && (
                                     <div className="sucess-popup">
 
@@ -1463,10 +1463,10 @@ navigate('/')
                                                             onClick={() => { handleOk(); }}>OK</button>
                                                     </div>
                                                 </div>
-                                                <button className="popup-close" onClick=
+                                                {/* <button className="popup-close" onClick=
                                                     {() => { setOrderConfirmation(false); }}>
 
-                                                </button>
+                                                </button> */}
                                             </div>
 
                                         </div>

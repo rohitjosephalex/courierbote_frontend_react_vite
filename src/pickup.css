@@ -290,11 +290,11 @@ label {
 
 }
 
-.card-back {
+.card-backs {
 	position: absolute;
 
 	top: 5px;
-	left: 5px;
+	left: -107px;
 	/* width: 30px; */
 	/* height: 30px; */
 	background: transparent;
@@ -649,5 +649,9 @@ label {
 		display: flex;
 		flex-direction: row;
 		width: 65vw;
+	}
+	.card-backs {
+		top:1px;
+		left:-28px
 	}
 }
