@@ -650,9 +650,9 @@ function Pickup() {
                                             }
                                             {otpSent === "sent" && <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-                                                <p style={{ fontSize: '15px' }}>OTP has been sent to {otpSentNumber} </p>
+                                                <p style={{ fontSize: 'small', textAlign: 'center' } }>OTP has been sent to {otpEmail} </p>
                                                 <div>
-                                                    <button className="btn btn-new" onClick={() => handleWrongNumbeer()}>Entered a wrong Email?
+                                                    <button style={{ fontSize: 'small', textAlign: 'center' } }className="btn btn-new" onClick={() => handleWrongNumbeer()}>Entered a wrong Email?
                                                     </button>
                                                 </div>
 
