@@ -85,6 +85,8 @@ function Pickup() {
     const [courierBoteOrderId, setCourierBoteOrderId] = useState("");
     const [loading, setLoading] = useState(false);
     const [orderFail, setOrderFail] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
 
     const [lengthUnit, setLengthUnit] = useState('');
     const [widthUnit, setWidthUnit] = useState('');
@@ -113,6 +115,16 @@ function Pickup() {
     };
     const localPincode = [641001, 641002, 641003, 641004, 641005, 641006, 641007, 641008, 641009, 641010, 641011, 641012, 641013, 641014, 641015, 641016, 641017, 641018, 641021, 641022, 641023, 641024, 641025, 641026, 641027, 641028, 641029, 641030, 641031, 641033, 641034, 641035, 641036, 641037, 641038, 641041, 641042, 641043, 641044, 641045, 641046, 641048, 641049, 641103, 641105, 641108, 642128]
 
+    const handleCheck = (e) => {
+        setIsPackingNeeded(e.target.checked);
+        if (e.target.checked) {
+            setShowPopup(true);
+        }
+    };
+
+    const closePopup = () => {
+        setShowPopup(false);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -131,7 +143,7 @@ function Pickup() {
                 }
 
                 else if (finalOtp) {
-                    console.log(finalOtp)
+                    // console.log(finalOtp)
                     setButtonLoading(true);
                     const requestData = {
                         email: otpEmail,
@@ -139,6 +151,7 @@ function Pickup() {
                     };
                     const response = await axios.post('https://backend.courierbote.com/api/landing/verifyotp', requestData);
                     if (response.data.message === 'otp verified' && response.data.status === 200) {
+                        setError('');
                         setPickupDetails(false);
                         setPickupInfo(deliverypart);
                         setButtonLoading(false);
@@ -188,7 +201,7 @@ function Pickup() {
         }
     };
     const handleOk = () => {
-navigate('/')
+        navigate('/')
 
     }
 
@@ -247,9 +260,9 @@ navigate('/')
                         // console.log(response.data.data.postal_GST_price-response.data.data.postal_price)
                         setCourierBotePrice(response.data.data.postal_price);
                         setPackingCharge(response.data.data.packing_charge);
-                        setPickupCharge(response.data.data.pickup_charge+(response.data.data.postal_GST_price-response.data.data.postal_price));
+                        setPickupCharge(response.data.data.pickup_charge + (response.data.data.postal_GST_price - response.data.data.postal_price));
                         setTotalPrice(response.data.data.totalPrice);
-                        setPickupAddress(`${pickupName}\n ${pickupAddr1}\n ${pickupAddr2}\n ${pickupCity}\n ${pickupPincode}\n ${pickupState}`);
+                        setPickupAddress(`${pickupName}\n${pickupAddr1}\n${pickupAddr2}\n${pickupCity}\n${pickupPincode}\n${pickupState}`);
                         setDeliveryAddress(`${deliveryName}\n${deliveryAddrL1}\n${deliveryAddrL2}\n${deliveryCity}\n${deliveryPincode}\n${deliveryState}`);
                         setPickupInfo('summary')
                         setButtonLoading(false);
@@ -271,17 +284,18 @@ navigate('/')
                 const getFinalPrice = async () => {
                     try {
                         const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,);
-                        console.log(response)
+                        // console.log(response)
                         setPickupCharge(response.data.result.PickupPrice);
+                        setCourierBotePrice(response.data.result.TotalPrice - response.data.result.PickupPrice);
                         setTotalPrice(response.data.result.TotalPrice);
-                        setPickupAddress(`${pickupName}\n ${pickupAddr1}\n ${pickupAddr2}\n ${pickupCity}\n ${pickupPincode}\n ${pickupState}`);
+                        setPickupAddress(`${pickupName}\n${pickupAddr1}\n${pickupAddr2}\n${pickupCity}\n${pickupPincode}\n${pickupState}`);
                         setDeliveryAddress(`${deliveryName}\n${deliveryAddrL1}\n${deliveryAddrL2}\n${deliveryCity}\n${deliveryPincode}\n${deliveryState}`);
                         setPickupInfo('summary')
                         setButtonLoading(false);
                         // console.log('result', result);
                     }
                     catch (error) {
-                        if(error.status==401){
+                        if (error.status == 401) {
                             setError("Pick and Drop is only available between 6:00am and 11:59pm")
                         }
                         setError('Error fetching data contact admin')
@@ -320,7 +334,7 @@ navigate('/')
             const response = await axios.post('https://backend.courierbote.com/api/landing/otpSent', requestData,
 
             );
-            console.log(response.data);
+            // console.log(response.data);
             if (response.data.data === 'mail_sent' && response.data.status === 200) {
                 setButtonLoading(false)
                 setOtpSentNumber(response.data.otpEmail);
@@ -387,7 +401,7 @@ navigate('/')
                 pickUpEmail: `${pickupEmail}`,
                 pickUpDate: ``,
                 billingAddress: `${billingName}\n${billingAddr}\n${billingPhoneNumber}`,
-                deliveryDetails: `  ${deliveryAddress}`,
+                deliveryDetails: `${deliveryAddress}`,
                 deliveryPhoneNumber: `${deliveryPhoneNumber}`,
                 packingNeeded: `${isPackingNeeded}`,
                 weight: `${newWeight}`,
@@ -404,9 +418,9 @@ navigate('/')
 
                         );
                         setButtonLoading(false);
-                        console.log("##verify_data", response.status);
+                        // console.log("##verify_data", response.status);
                         if (response.status === 200) {
-                            
+
                             setOrderConfirmation(true);
                             console.log('confirmed')
                         }
@@ -436,10 +450,10 @@ navigate('/')
 
                         );
                         setButtonLoading(false);
-                        console.log("##verify_data", response.status);
+                        // console.log("##verify_data", response.status);
                         if (response.status === 200) {
                             const courierBoteOrderID = response.data.receipt;
-                            console.log('confirmed', response.data)
+                            // console.log('confirmed', response.data)
                             setCourierBoteOrderId(response.data.receipt);
                             const amount = response.data.amount;
                             var options = {
@@ -454,7 +468,7 @@ navigate('/')
                                     console.log("response.razorpay_payment_id");
                                     // console.log(response.razorpay_order_id);
                                     // console.log(response.razorpay_signature);
-                                    setButtonLoading(false);    
+                                    setButtonLoading(false);
                                     setLoading(true)
                                     const requestData = {
 
@@ -464,7 +478,7 @@ navigate('/')
                                         razorPaySignature: response.razorpay_signature
                                     };
                                     const responsepayment = await axios.post('https://backend.courierbote.com/api/landing/razorpayvalidatepayment', requestData,);
-                                    console.log(responsepayment);
+                                    // console.log(responsepayment);
                                     if (responsepayment.status === 200) {
                                         setLoading(false);
                                         console.log(responsepayment.data);
@@ -960,9 +974,37 @@ navigate('/')
                                             name='shipment-type'
                                             value='Document'
                                             checked={isPackingNeeded}
-                                            onChange={(e) => setIsPackingNeeded(e.target.checked)}
-                                            title="CourierBote packs your order for you for convinent shipping"
+                                            onChange={handleCheck}
                                         />
+                                        <Popup
+                                            open={showPopup}
+                                            closeOnDocumentClick={false}
+                                            onClose={closePopup}
+                                        >
+                                            <div className='popup-container parcel-type'>
+                                                <div className='popup-container parcel-type-contents'>
+                                                    <div>
+                                                        <div className="question">
+                                                            What is 'Packing By CourierBote'?
+                                                        </div>
+                                                        <p>
+                                                            The CourierBote team assists in packing your unpacked order securely, ensuring it is ready for safe shipment.
+                                                        </p>
+                                                        <div className="question">
+                                                            How much will it cost?
+                                                        </div>
+                                                        <p>
+                                                            For an estimate of the packing cost, CourierBote will contact you shortly after the pickup order is placed. You have the option to proceed with packing or cancel it if the prices exceed your budget.
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <button className="btn btn-primary" onClick={closePopup}>
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Popup>
                                         Is packing needed
                                     </label>
                                     <div className="productdetails-noheading">
@@ -1231,7 +1273,7 @@ navigate('/')
                                     </div>
                                     <div className="about-item">
                                         <h4>About the item</h4>
-                                       
+
                                         <div className="productdetails-noheading">
 
                                             <input
@@ -1340,7 +1382,7 @@ navigate('/')
                                     {deliverypart === "Indian Post" && (<div className="order-elements size">
                                         <div className="order-elements">
                                             <p className="order-elements heading">Weight:</p>
-                                            <p className="order-elements values">{weight}</p>
+                                            <p className="order-elements values">{weight} {weightUnit}</p>
                                         </div>
                                         <div className="order-elements">
                                             <p className="order-elements heading">LBH:</p>
@@ -1352,11 +1394,11 @@ navigate('/')
                                             deliverypart === "Indian Post" && (<div className="billing-box dark">
                                                 <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
                                                 <div className="billing-details dark">
-                                                  
-                                                    <div className="charge dark">
+
+                                                    {/* <div className="charge dark">
                                                         <p className="charge name">Packing Charge</p>
                                                         <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(packingCharge)}</p>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="charge dark">
                                                         <p className="charge name">Courier Charge</p>
                                                         <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierBotePrice)}</p>
@@ -1381,7 +1423,7 @@ navigate('/')
                                                     </div>
                                                     <div className="charge dark">
                                                         <p className="charge name">Delivery Charge</p>
-                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format( totalPrice - pickupCharge)}</p>
+                                                        <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierBotePrice)}</p>
                                                     </div>
                                                     <div className="charge dark ">
                                                         <p id="total" className="charge name">Total Charge</p>
@@ -1427,18 +1469,18 @@ navigate('/')
 
                                         </div>
                                     )}
-                              
-                                        <button
-                                            id='pickup-button'
-                                            className='btn btn-primary'
-                                            onClick={() => handleConfirm()} 
-                                            style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>
-                                                {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
-                                    
+
+                                    <button
+                                        id='pickup-button'
+                                        className='btn btn-primary'
+                                        onClick={() => handleConfirm()}
+                                        style={{ pointerEvents: buttonLoading ? 'none' : 'auto' }}>
+                                        {!buttonLoading ? 'Confirm and Pay' : 'loading...'}</button>
+
                                 </div>
                                 {loading && (<div className="loading-screen">
-                                <div className="loader"></div>
-                            </div>)}
+                                    <div className="loader"></div>
+                                </div>)}
                                 {orderConfirmation && (
                                     <div className="sucess-popup">
 
@@ -1475,41 +1517,42 @@ navigate('/')
 
 
                                     </div>)}
-                                    {orderFail && (
-                                <div className="sucess-popup">
+                                {orderFail && (
+                                    <div className="sucess-popup">
 
 
-                                    <div className='popup-container dark ' >
-                                        <div className="popup-container sucess-content">
-                                            <div className="alert-popup-container dark">
-                                                <div className="circle-container dark">
-                                                    <div className="circle-border"></div>
-                                                    <div className="circle">
-                                                        <div className="error"></div>
+                                        <div className='popup-container dark ' >
+                                            <div className="popup-container sucess-content">
+                                                <div className="alert-popup-container dark">
+                                                    <div className="circle-container dark">
+                                                        <div className="circle-border"></div>
+                                                        <div className="circle">
+                                                            <div className="error"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="alert-popup-title fail">!!!Failed</div>
+                                                    <div className="alert-popup-message">
+                                                        Something Went Wrong  Please Contact Customer Care
+                                                    </div>
+                                                    <div className="alert-popup-confirm">
+                                                        <button
+                                                            id='finalok-button'
+                                                            className='btn btn-primary'
+                                                            onClick={() => {
+                                                                setOrderFail(false);
+                                                            }}>OK</button>
                                                     </div>
                                                 </div>
-                                                <div className="alert-popup-title fail">!!!Failed</div>
-                                                <div className="alert-popup-message">
-                                                    Something Went Wrong  Please Contact Customer Care
-                                                </div>
-                                                <div className="alert-popup-confirm">
-                                                    <button
-                                                        id='finalok-button'
-                                                        className='btn btn-primary'
-                                                        onClick={() => { setOrderFail(false);
-                                                           }}>OK</button>
-                                                </div>
-                                            </div>
-                                            {/* <button className="popup-close" onClick=
+                                                {/* <button className="popup-close" onClick=
                                             {() => { setOrderConfirmation(false); }}>
 
                                         </button> */}
+                                            </div>
+
                                         </div>
 
-                                    </div>
 
-
-                                </div>)}
+                                    </div>)}
                             </div>
 
                         </div>)

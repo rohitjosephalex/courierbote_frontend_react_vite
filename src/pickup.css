@@ -224,6 +224,27 @@ label {
 .shipping-calculator-big.card.popup-container.content{
 	background: #141414;
 }
+.popup-container.parcel-type-contents{
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color:#fffaf9;
+    align-items: center;
+    background: #222222;
+    height: auto;
+    width: 35vw;
+    overflow-y: auto;
+    max-height: 90vh;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    font-size: small;
+}
+.popup-container.parcel-type-contents p {
+	font-size: small;
+    text-align: justify;
+}
 .popup-close {
 	position: absolute;
 
@@ -653,5 +674,8 @@ label {
 	.card-backs {
 		top:1px;
 		left:-28px
+	}
+	.popup-container.parcel-type-contents{
+		width: 85vw;
 	}
 }
