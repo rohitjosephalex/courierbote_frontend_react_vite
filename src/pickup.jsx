@@ -225,7 +225,7 @@ navigate('/')
             setError('');
             let newWeight = 0;
             if (weightUnit === "kg") {
-                newWeight = weight * 1000;
+                newWeight = Math.ceil(weight) * 1000;
             }
             else {
                 newWeight = weight;
@@ -676,8 +676,8 @@ navigate('/')
                     </div></div>)}
                 {pickupInfo === "Indian Post" && (<div className="pickup info">
                     <div className='pickupbooking'>
-                        <img className="logo indian-post" src={indianPost} alt="Indian post logo" />
-                        <h4 className="heading indian-post">Indian Post</h4>
+                        {/* <img className="logo indian-post" src={indianPost} alt="Indian post logo" /> */}
+                        <h4 className="heading indian-post">Residential</h4>
 
                         <div className='inputfields'>
                             <div className="inputfields address">
@@ -1030,7 +1030,7 @@ navigate('/')
                     // DIV to add the door to door option
                     pickupInfo === "d2d" && (<div className="pickup info">
                         <div className='pickupbooking'>
-                            <img className="logo courierBote" src={courierBoteWhiteText} alt="CourierBote logo" />
+                            {/* <img className="logo courierBote" src={courierBoteWhiteText} alt="CourierBote logo" /> */}
                             <h4 className="heading indian-post">Door To Door</h4>
 
                             <div className='inputfields'>

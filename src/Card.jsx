@@ -56,7 +56,7 @@ function ShippingCalculator() {
 		// Perform calculation logic here
 		let newWeight = 0;
 		if (weightUnit === "kg") {
-			newWeight = weight * 1000;
+			newWeight = Math.ceil(weight) * 1000;
 		}
 		else {
 			newWeight = weight;
@@ -153,10 +153,10 @@ function ShippingCalculator() {
 							const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.TotalPrice}`;
 							navigate(url);
 						}
-						else if (response.status === 201){
+						else if (response.status === 201) {
 							setButtonLoading(false)
 							setError("Pick and Drop is only available between 6:00am and 11:59pm");
-				
+
 						}
 
 					}
@@ -215,7 +215,7 @@ function ShippingCalculator() {
 							<div className="domestic">
 								<div className='btn-group' role='group' aria-label='Basic example'>
 									<button type='button' onClick={() => { handleButtonClick("Indian Post"); setButtonLoading(false); }} className={selectedPosrD2dButton === 'Indian Post' ? 'btn btn-new active' : 'btn btn-new'} >
-										Residencial
+										Residential
 									</button>
 									<button type='button' onClick={() => { handleButtonClick("d2d"); setButtonLoading(false); }} className={selectedPosrD2dButton === 'd2d' ? 'btn btn-new active' : 'btn btn-new'}>
 										Pick and Drop
