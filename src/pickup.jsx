@@ -284,9 +284,9 @@ function Pickup() {
                 const getFinalPrice = async () => {
                     try {
                         const response = await axios.post('https://backend.courierbote.com/api/landing/doortodoorrate', requestData,);
-                        // console.log(response)
-                        setPickupCharge(response.data.result.PickupPrice);
-                        setCourierBotePrice(response.data.result.TotalPrice - response.data.result.PickupPrice);
+                        console.log(response.data.result);
+                        setPickupCharge(response.data.result.price);
+                        setCourierBotePrice(response.data.result.gstPrice);
                         setTotalPrice(response.data.result.TotalPrice);
                         setPickupAddress(`${pickupName}\n${pickupAddr1}\n${pickupAddr2}\n${pickupCity}\n${pickupPincode}\n${pickupState}`);
                         setDeliveryAddress(`${deliveryName}\n${deliveryAddrL1}\n${deliveryAddrL2}\n${deliveryCity}\n${deliveryPincode}\n${deliveryState}`);
@@ -558,7 +558,7 @@ function Pickup() {
                             </div>
                         </div>
                     </div>
-                    <div className="pickup-details-Please-Note">
+                    {deliverypart === 'Indian Post' && <div className="pickup-details-Please-Note">
                         <h4>Please Note:</h4>
                         <ul>
                             <li className="Please-note">
@@ -568,7 +568,19 @@ function Pickup() {
                                 Pick-up service is available 24/7, but deliveries are not scheduled for Sundays and designated holidays.
                             </li>
                         </ul>
-                    </div>
+                    </div>}
+                    {deliverypart === 'd2d' && <div className="pickup-details-Please-Note">
+                        <h4 className="question">What is 'Pickup and Drop' ?</h4>
+                        <ul className="answer">
+                            <li className="Please-note-answer">
+
+                                Pickup and Drop, a feature provided by CouriBote, offers a convenient service for swiftly transporting items between two locations within a designated radius in Coimbatore.
+                            </li>
+                            <li className="Please-note-answer">
+                            This service is particularly useful in scenarios such as when you've forgotten an item at home while being at your office, enabling seamless movement of items from your home to your office in a short timeframe, Pickup and Drop service is available all days excluding Sundays and designated holidays.
+                            </li>
+                        </ul>
+                    </div>}
                     <div className="pickup-details route">
 
                         <div className="summary-heading">
@@ -650,9 +662,9 @@ function Pickup() {
                                             }
                                             {otpSent === "sent" && <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-                                                <p style={{ fontSize: 'small', textAlign: 'center' } }>OTP has been sent to {otpEmail} </p>
+                                                <p style={{ fontSize: 'small', textAlign: 'center' }}>OTP has been sent to {otpEmail} </p>
                                                 <div>
-                                                    <button style={{ fontSize: 'small', textAlign: 'center' } }className="btn btn-new" onClick={() => handleWrongNumbeer()}>Entered a wrong Email?
+                                                    <button style={{ fontSize: 'small', textAlign: 'center' }} className="btn btn-new" onClick={() => handleWrongNumbeer()}>Entered a wrong Email?
                                                     </button>
                                                 </div>
 
@@ -1418,11 +1430,11 @@ function Pickup() {
                                                 <h4 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>Billing Details</h4>
                                                 <div className="billing-details dark">
                                                     <div className="charge dark">
-                                                        <p className="charge name">Pickup Charge</p>
+                                                        <p className="charge name">Pickup & Drop Charge</p>
                                                         <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(pickupCharge)}</p>
                                                     </div>
                                                     <div className="charge dark">
-                                                        <p className="charge name">Delivery Charge</p>
+                                                        <p className="charge name">GST & Service Charge</p>
                                                         <p>{Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(courierBotePrice)}</p>
                                                     </div>
                                                     <div className="charge dark ">

@@ -85,6 +85,11 @@
 }
 
 
+.Please-note-answer{
+	align-items: center;
+	justify-content: center;
+	text-align: justify;
+}
 label {
 	font-family: "Arial";
 	font-size: small;

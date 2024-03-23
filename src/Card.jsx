@@ -147,10 +147,10 @@ function ShippingCalculator() {
 
 						);
 						if (response.status === 200) {
-							console.log(response.data.result.TotalPrice);
-							setResult(response.data.result.TotalPrice);
+							console.log(response.data.result);
+							setResult(response.data.result.price);
 							setButtonLoading(false);
-							const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.TotalPrice}`;
+							const url = `/book-a-pickup?pickupPin=${pickupPincode}&deliveryPin=${dropPincode}&deliverypart=${postOrD2d}&rate=${response.data.result.price}`;
 							navigate(url);
 						}
 						else if (response.status === 201) {
